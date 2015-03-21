@@ -1,0 +1,74 @@
+canvas {
+	@extend %noselect;
+}
+
+.loadImage {
+	#canvasContainer {
+        display:none;
+	}
+}
+
+
+#canvasContainer{
+	@extend %noselect;
+	margin-left:0;
+	background:$colorBackground3;
+	//padding:10px;
+	text-align:center;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: $tabWidth;
+	right: 0;
+	display: block;
+	@include transition(transform 250ms ease-out);
+
+	&.open {
+		@include translateX($tabContentWidth);
+	}
+
+	canvas {
+	    position: absolute;
+	    top: 0;
+	    left: 1%;
+	    display:block;
+	    margin:0;
+	}
+
+	.selectlayer {
+		cursor: crosshair;
+	}
+
+
+	.overlay--disabled {
+		z-index: 50;
+		width:100%;
+		height:100%;
+		background-color: rgba(0,0,0, .8);  
+		position: absolute;
+		display:none;
+		top: 0;
+		left: 0;
+	}
+
+	.overlay--transparent {
+		z-index: 50;
+		width:100%;
+		height:100%;
+		background-color: rgba(0,0,0,0); 
+		position: absolute;
+		display:block;
+		top: 0;
+		left: 0;		 
+	}
+
+	.canvas-layer {
+		position: absolute;
+		top:0;
+		left: 1%;
+		display:block;
+		margin:0;
+	}
+}
+
+ 

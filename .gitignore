@@ -41,3 +41,29 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+#config files with pwds and stuff
+sftp-config.json
+
+#cache files
+.sass-cache
+.sass-cache/*
+
+#Custom for this project
+icons
+icons/*
+olduploads
+olduploads/*
+tmpfiles
+tmpfiles/*
+uploads/*
+test*.html
+temp*.html
+*sublime*
+demo
+demo/*
+plugins
+plugins/*
+Design Files
+Design Files/*

@@ -1,0 +1,46 @@
+.context-menu{
+	border:0; //2px solid $colorBorder;
+	z-index:1000;
+	position: absolute;
+	display: block;
+	background-color:$color3;
+	color: $color2;
+	padding: .15em 0;
+	margin: 0;
+	list-style-type: none;
+	list-style: none;    
+	@include box-shadow(2px 2px 2px 0px rgba(238,238,238,0.5));
+
+	&.hide {
+		display: none;
+	}
+
+	li{
+		list-style: none; 
+		&.spacer{
+			background-color: tint($colorBackground, 30);
+			height: 2px;
+		}
+		a {
+			display:block;
+			border: 0; 
+			border-bottom:1px solid darken($color3, .8);
+			color: #000;
+			text-decoration: none; 
+			padding:.5em 5em .5em 1.5em;
+			font-weight: normal;
+			text-align: left;
+			&:hover { 
+				//text-decoration: shade($color3, 50); 
+				background-color:$color2; //tint($colorBackground, 40);
+				color: $color3;
+			}
+		}
+		&:last-of-type {
+			a{
+				border-bottom: none;
+			}
+		}
+	}
+
+}

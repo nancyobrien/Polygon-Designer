@@ -1,0 +1,71 @@
+#statusBar {
+	@extend %noselect;
+	z-index: 1005;
+	position: fixed;
+	height: 3rem;
+	width: 100%;
+	bottom: 0;
+	padding: 0;
+	background: #ccc;
+
+	 .collapse-trigger {
+	 	font-family: 'icomoon';
+	 	text-align: center;
+	 	display: inline-block;
+	 	width: auto;
+	 	float: left;
+	 	color: $color3; 
+	 	padding: 1rem .5rem;
+	 	background-color: darken($color2, 10%);
+	 	border-right: 1px solid darken($color2, 20%);
+	 	&:before {
+			content: "\f100";
+		}
+	 	&:hover {
+	 		background-color: darken($color2, 15%);
+	 		cursor: pointer;
+	 	}
+	 }
+	 .status-content {
+	 	width: 100%;
+	 }
+	 &.closed {
+	 	width: 10px;
+	 	.collapse-trigger {
+	 		&:before {
+				content: "\f101";
+			}
+	 	}
+
+	 } 
+	 -webkit-transition: width .5s; /* Safari */
+     transition: width .5s;
+	.status-section {
+		display: inline-block; 
+		padding: 1rem;
+		border-right: 1px dotted #eee;
+
+		&.status-header {
+			text-align: center;
+			background: $color2;
+			color: $color3;
+		}
+
+		&.toolbar-button {
+			a {text-decoration: none;}
+		}
+
+		&.download-button {
+			border: none;
+			padding: 0;
+			text-align: center;
+			a {
+				display: inline-block;
+				
+				width: 100px;
+				padding: 1rem;
+				border-right: 1px dotted #eee;
+			}
+		}
+	}
+}

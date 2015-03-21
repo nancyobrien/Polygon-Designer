@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Content : System.Web.UI.Page
+{
+    public String pageIDParam {
+        get {
+            if (Page.RouteData.Values["pageID"] != null) {
+                return (Page.RouteData.Values["pageID"].ToString());
+            } else {
+                return "0";
+            }
+        }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Site thisSite = new Site();
+        string pageTitle = "Content unavailable";
+        string pageContent = "Content unavailable";
+
+        string pageIDArg = pageIDParam;
+
+        int pageID = 0;
+        Int32.TryParse(pageIDParam, out pageID);
+
+        if (pageID > 0) {
+            Page thisPage = new Page(pageID);
+            pageContent = thisPage.GetContent();
+            pageTitle = thisPage.Title;
+        }
+
+        this.Title = thisSite.Title;
+        this.TitleText.Text = thisSite.Title;
+        this.FooterText.Text = thisSite.Footer;
+        this.CSSPath.Href = thisSite.CSSPath;
+        this.PageTitle.Text = pageTitle;
+        this.PageContent.Text = pageContent;
+    }
+}

@@ -1,0 +1,226 @@
+.loadImage {
+	.display-pane {
+		@include translateX(-2 * $tabContentWidth);
+		display: none;
+	}
+}
+
+
+.display-pane {
+	display: block;
+	position: absolute;
+	top:0;
+	bottom:0;
+	z-index:1000;
+	@include transition(transform 250ms ease-out);
+	left: 0;
+	@include translateX(-1 * $tabContentWidth);
+
+	&.open {
+		//right: 0;
+		@include translateX(0);
+		.display-toggle{
+			//top: 0;
+			border: none;
+			&.selected {
+				background-color: $color2;
+				color: $color3;
+				border: 1px solid $color2;
+				border-left: none;
+			}
+		}
+	}
+ 
+	.display-controls {
+		float: left;
+		width: 0;
+		margin-top:2em;
+		margin-left: $tabContentWidth;
+		position: absolute;
+		.display-toggle{
+			@extend %noselect;
+			font-family: 'icomoon';
+			width: $tabWidth;
+			height:$tabHeight;
+			position: relative;
+			top: 0;
+			left:0;
+			@include tab-radius(5px); 
+			line-height:1.3em;
+			border: 1px solid $colorBackground;
+			border-left: none;
+			background-color: rgba(238, 238, 238, .5);
+			font-size: 1.5em;
+			padding: 5px 10px;
+			cursor: pointer;
+			
+			&:hover {
+				background-color: rgba(238, 238, 238, .8);
+				&.selected {
+					background-color: $color2;
+					color: $color3;
+					border: 1px solid $color2;
+					border-left: none;
+				}
+			}
+
+		}
+	}
+
+	.display-content {
+		width:$tabContentWidth;
+	}
+	.display-block {
+		@extend %noselect;
+		//top: 0;
+		//bottom: 0;
+		width:$tabContentWidth;
+		height: auto;
+		border-left: 5px solid $color2;
+		background-color: $colorBackground2;//rgba(238, 238, 238, .8);
+		text-align: left;
+		position: relative;	
+		display: block;
+		&.open {
+			display:block;
+		}
+
+		&.display-static { 
+			display:block;
+			bottom:0;
+			top: auto;
+			border-top:5px solid $color2;
+			background-color: $colorBackground2;
+			z-index: 10;
+			@include transition(transform 250ms ease-out);
+			@include translateY(0);
+			.display-section {
+				color: $color3;
+				&.display-header {
+					font-size: 1.2em;
+
+					 .display-trigger {
+					 	font-family: 'icomoon';
+					 	text-align: center;
+					 	display: inline-block;
+					 	width: auto;
+					 	float: right;
+					 	color: $color3;
+					 	padding: .1em .3em;
+					 	@include border-radius(.25em);
+					 	background-color: darken($color2, 10%);
+					 	&:before {
+							content: "\f103";
+						}
+					 	&:hover {
+					 		background-color: darken($color2, 15%);
+					 		cursor: pointer;
+					 	}
+					 }
+				}
+			}
+
+			&.closed {
+				@include translateY(81%);
+				.display-section {
+					&.display-header {
+						.display-trigger {
+						 	&:before {
+								content: "\f102";
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		.display-section {
+			color: $color3;
+			display: block;
+			border-bottom: 1px dotted $colorBackground;
+			padding: 10px;
+
+			#opacityPercent {margin-left: 5px;}
+
+			&.display-header {
+				background-color: $color2;
+				color: $color3;
+				text-align: center;
+				font-size: 1.2em;
+				padding:5px 10px;
+
+			}
+
+			&.toolbar-button {
+				padding:0;
+				text-align: left;
+				a {
+					font-weight: normal;
+					padding: 10px;
+					text-decoration: none;
+					color: $color3;
+					display: inline-block;
+					width: 100%;
+					.tool-icon {
+						margin-right: 5px;
+					}
+
+					&.selected {
+						background-color: $colorBackground4;
+						color: $color2;
+						cursor: default;
+						//@include box-shadow(inset 0px 0px 2px 2px rgba(239,239,239,.6));
+						.tool-icon {
+							color: $color2;
+						}
+						&:hover {
+							
+								color: $color2;
+							
+							background-color: $colorBackground4;
+						}
+					}
+				}
+				&:hover {
+					a {
+						color: $color2;
+					}
+					background-color: $colorBackground5;
+				}
+				&.nohover:hover {
+					background-color: transparent;
+				}
+			}
+
+			.editable-input {
+				margin:auto 5px;
+				padding: 2px;
+				&:focus {
+					outline: 1px dotted $color2;
+				}
+			}
+
+			.label + .inline-button {
+				margin-left: 5px;
+			}
+
+			.icon-button {
+				text-decoration: none;
+				color: $colorBorder;
+				&:hover {
+					color: $color3;
+				}
+			}
+
+			.check-control {
+				&.squaredThree  {
+					display: inline-block;
+					margin: 0 5px;
+				}
+			}
+		}
+
+
+	} 
+} 

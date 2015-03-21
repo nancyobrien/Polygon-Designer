@@ -1,0 +1,83 @@
+.hide {
+	display:none !important;
+}
+.processing {
+	cursor: wait !important;
+}
+
+a {
+	outline: none;
+	color:$color5;
+	&:focus, &:active{
+		outline: none;
+	}
+	font-weight:bold;
+	font-family: 'Archivo Narrow', sans-serif;
+	&:hover {
+		color: shade($color5, 15);
+	}
+
+	img {
+		border:0;
+	}
+}
+
+.button {
+	margin: .25em 0;
+	padding:1em 3em;
+	background-color: $color2;
+	font-size:1.1em;
+	color:white;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border:5px solid tint($color2, 5);
+	&:hover{
+				color: tint($color2, 95);
+		background-color:shade($color2, 15);
+		border:5px solid shade($color2, 10);
+	}
+	
+		&.button--cancel{
+			 background-color: $colorBackground2;
+			 border:5px solid tint($colorBackground2, 5);  
+			 color: shade(white, 5);
+			 &:hover{
+				color: white;
+				background-color:shade($colorBackground2, 5);
+				border:5px solid shade($colorBackground2, 2);
+			 } 
+		}
+}
+
+.show-hide {
+	&:after {
+		content: "Hide";
+
+	} 
+	&.gradient {
+		&:after {
+			content: "Use Solid Fill";
+		}
+	}
+	&.solidgradient{
+		&:after {
+			content: "Remove Solid Gradient";
+		}	
+	}
+	&.show {
+		&:after {
+			content: "Show";
+		}
+		&.gradient {
+			&:after {
+				content: "Use Gradient Fill";
+			}
+		}
+		&.solidgradient {
+			&:after {
+				content: "Use Solid Gradient";
+			}
+		}
+	}
+}

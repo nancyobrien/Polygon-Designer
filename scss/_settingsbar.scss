@@ -1,0 +1,21 @@
+.topbar{
+	position: absolute;
+	top:0;
+	left: $toolbarWidth;
+	right: 0;
+	height:$settingbarHeight;
+	background: $colorBorder;
+	padding: 1em 1em;
+	z-index:999;
+	.settings-group {
+		.bartitle {
+			line-height:1em;
+		}	
+		.input-text{
+			background: white;
+			padding: 0 .25em;
+			display:inline-block;
+		}	
+	}
+
+} 

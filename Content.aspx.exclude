@@ -1,0 +1,44 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Content.aspx.cs" Inherits="Content" %>
+
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="no-js ltie9"><![endif]-->
+<!--[if gt IE 8]><!--><html  lang="en" class="no-js"><!--<![endif]-->
+
+<head id="Head1" runat="server">
+  <!--#include virtual="/includes/page-header.html"-->
+  <link rel="stylesheet" href="/css/content-pages.css ">
+    <link runat="server" id="CSSPath" rel="stylesheet" />
+
+  <title>Towers Watson RFP</title>
+
+</head>
+
+
+<body>
+
+  <div class="header">
+    <a href="/"><asp:Literal ID="TitleText" runat="server"></asp:Literal></a>
+  </div>
+  <div class="grid">
+  
+    <div class="page-title">
+        <a href="/" class="button-back">Home</a>
+            <h1><asp:Literal ID="PageTitle" runat="server"></asp:Literal></h1>
+    </div>
+    
+    <div class="page-content"><asp:Literal ID="PageContent" runat="server"></asp:Literal></div>
+    
+  </div>
+
+
+  <div class="footer">
+  <asp:Literal ID="FooterText" runat="server"></asp:Literal>
+  </div>
+
+
+    <!--#include virtual="/includes/scripts.html"-->
+
+
+
+</body>
+</html>

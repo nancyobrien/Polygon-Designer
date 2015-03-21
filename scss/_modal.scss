@@ -1,0 +1,271 @@
+.stroked {
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+
+.modal-background{
+    position:fixed;
+    background: rgba(0,0,0,.5);
+    top:0;
+    bottom:0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    text-align: center;
+    display: none;
+
+    &.modal-clear {
+    	background: transparent;
+    }
+    &.modal-dark {
+    	background: rgba(0,0,0,.8);
+    }
+
+	.modal {
+	    background: white;
+
+	    width: 60%;
+	    border: 5px solid $color2;
+	    margin:0 auto;
+	    margin-top: 10%;
+	    position: relative;
+	    z-index: 1010;
+	    max-height: 70%;
+
+
+	    &.wait {
+	    	.modal-close-button {display: none;}
+			.content {
+				position: relative;
+				&:after {
+					content: attr(data-waitmessage);
+					height: 100%;
+					background-color: $colorBackground6;
+					top: 0;
+					position: absolute;
+					width: 100%;
+					font-size: 250%;
+					color: $color4;
+
+					@extend %flexcenter;
+				}			
+			}
+	    }
+
+
+	    &.modal--small {
+	    	width: 25rem;
+
+	    }
+
+	    &#deleteVersionModal {
+	    	width: 30rem;
+	    	@extend %noselect;
+	    }
+
+	    &#pointPropsModal, &#strokePropsModal { 
+	    	width: 700px;
+			@extend %noselect;
+	    }
+
+	    &#saveProjectModal {
+	    	width: 500px;
+	    	input {
+	    		font-size: 150%;
+	    		line-height: 1;
+	    		margin-top: 2em;
+	    		margin-bottom: .5em;
+	    		padding: 0.5em;
+	    		width: 450px;
+	    		border: 1px solid $colorBackground2;
+	    		color: $colorBackground2;
+	    	}
+	    	input[type=checkbox] {
+	    		margin: 0;
+	    	}
+
+	    	input + input {
+	    		margin-top: 0;
+	    	}
+	    	textarea {
+	    		padding: 0.5em;
+	    		width: 450px;
+	    		height: 50px;
+	    		font-style: italic;
+	    		border: 1px solid $colorBackground2;
+	    		color: $colorBackground2;
+	    	}
+
+
+	    	.inline-check {
+	    		text-align: left;
+	    		margin: .5rem 1.5rem;
+	    		.label {
+	    			font-size: 150%;
+					padding-right: 1rem;
+	    		}
+	    		.check-control {
+	    			display: inline-block;
+	    		}	    		
+	    	}
+	    }
+
+		 .modal-close-button {
+		    width: 30px;
+		    height: 30px;
+		    font-size: 18px;
+		    line-height: 24px;
+		    color: $colorBackground4;
+		    background:transparent;
+		    cursor: pointer;
+		    position: absolute;
+		    right: 0;
+		    top: 0;
+		    
+		    &:hover{
+		    	color: white;
+		    }
+
+		    span {
+		    	line-height: 24px;
+		    }
+		}
+		 .title {
+		    font-size: 18px;
+		    color: $color3;
+		    background:$color2;
+		    font-weight: bold;
+		    padding: 0.5em;
+		    text-align: left;
+		}
+
+		.message {
+			font-size: 25px;
+			padding: 2rem .5rem;
+		}
+		.modal-controls {
+			padding: 0.5em;
+			text-align: left;
+			.modal-ctrl-section {
+				display:block;
+				clear: both;
+				padding: 10px;
+				display: inline-table;
+
+				&.modal-left { 
+					float:left;
+				}
+				&.modal-right {
+					float:right;
+				}			
+				&.modal-half {
+					width: 49%;
+					margin: 0;
+
+				}
+				&.modal-sixtyfive {
+					width: 65%;
+					margin: 0;
+				}
+
+				.modal-control { 
+					width: 100%;
+					margin-bottom: 1.5em;
+					.pointShapes {
+						margin-top: 1em;
+					}
+
+					&.inline-check {
+						.check-control {
+							display: inline-block;
+							float: none;
+							
+							&.squaredThree {
+								margin: 0;
+								margin-left: 5px;
+							}
+						}
+					}
+
+					.check-control {
+						display: inline-block;
+						float: left;
+
+						&.roundedOne {
+							label {
+								&:after {
+									background: $color2;
+									@include back-grad(top, $color5, $color2);
+								}
+							}
+						}
+					}
+
+					.check-control-group {
+						display: inline-block;
+						width: 30%;
+						margin-right:4%;
+						padding: 13px 10px 20px 10px;
+						border: 1px solid $color2;
+						&.last {
+							margin-right: 0;
+						}
+						
+						.select-label {
+							font-size: 24px;
+							height: 28px;
+							width: 28px;
+							display: inline-block;
+							margin-left: 10px;
+							vertical-align: middle;
+							cursor: pointer;
+
+							&.custom-point-color {
+								color: $color2;
+							}
+
+							&.select-triangle {
+								font-size: 100px;
+								line-height: 35px;
+								text-indent: -30px;
+							}
+
+							&.select-circle {
+								font-size: 46px;
+								line-height: 33px;
+								text-indent: 2px;
+							}
+
+							&.select-square {
+								font-size: 53px;
+								line-height: 32px;
+								text-indent: -4px;
+							}
+						}
+					}
+				}
+			}
+
+		}
+		.buttons {
+			padding: 0.5em;
+			clear: both;
+		}
+		.verts {
+		    width:  90%;
+		    color: black;
+		    background: #eee;
+		    padding: 2em;
+		    margin: 1em auto 3em;
+		    position: relative;
+		    text-align: left;
+		    overflow: auto;
+		    max-height: 400px;
+		}
+
+		textarea{
+			width: 90%;
+			height: 300px;
+		}
+	}
+}

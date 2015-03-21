@@ -1,0 +1,465 @@
+
+
+.check-control {
+	@extend %noselect;
+	input[type=checkbox],input[type=radio] {
+		visibility: hidden;
+		margin: 3px 3px 3px 4px;
+	}	
+
+
+	&.slideOne {
+		position: relative;
+		@include rectangle(50px, 10px);
+		background: #333;
+		margin: 20px auto;
+
+		@include border-radius(50px);
+		@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2));
+
+		label {
+			display: block;
+			@include rectangle(16px);
+
+			@include border-radius(50px);
+
+			@include transition(all .4s ease);
+
+			cursor: pointer;
+			position: absolute;
+			@include position(-3px);
+
+			@include box-shadow(0px 2px 5px 0px rgba(0,0,0,0.3), 0);
+			background: #fcfff4;
+
+			@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+		}
+
+		input[type=checkbox]:checked + label {
+			left: 37px;
+		}
+	}
+
+	&.slideTwo {
+		position: relative;
+		@include rectangle(80px, 30px);
+		background: #333;
+		margin: 20px auto;
+
+		@include border-radius(50px);
+
+		@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2));
+
+		input[type=checkbox]:checked + label {
+			left: 54px;
+
+			&:after {
+				background: #00bf00;
+			}
+		}
+
+		&:after {
+			background: #111;
+			content: '';
+			position: absolute;
+			@include position(14px);
+			@include rectangle(52px,2px );
+
+			@include border-radius(50px);
+
+			@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2));
+		}
+		label {
+			display: block;
+			@include rectangle(22px);
+			cursor: pointer;
+			position: absolute;
+			@include position(4px);
+			z-index: 1;
+
+			background: #fcfff4;
+
+			@include border-radius(50px);
+
+			@include transition(all .4s ease);
+
+			@include box-shadow(0px 2px 5px 0px rgba(0,0,0,0.3), 0);
+
+			@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+
+			&:after {
+				content: '';
+				position: absolute;
+				@include rectangle(10px);
+				background: #333;
+				@include position(6px);
+
+				@include border-radius(50px);
+
+
+				@include box-shadow(inset 0px 1px 1px rgba(0,0,0,1), 0px 1px 0px rgba(255,255,255,0.9));
+			}
+		}
+	}
+
+	&.slideThree {
+		@include rectangle(80px, 26px);
+		background: #333;
+		margin: 20px auto;
+		position: relative;
+
+		@include border-radius(50px);
+
+		@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2));
+
+		&:after {
+			content: 'OFF';
+			font: 12px/26px Arial, sans-serif;
+			color: #000;
+			position: absolute;
+			right: 10px;
+			z-index: 0;
+			font-weight: bold;
+			text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+		}
+
+		&:before {
+			content: 'ON';
+			font: 12px/26px Arial, sans-serif;
+			color: #00bf00;
+			position: absolute;
+			left: 10px;
+			z-index: 0;
+			font-weight: bold;
+		}
+
+		label {
+			display: block;
+			@include rectangle(34px, 20px);
+			cursor: pointer;
+			position: absolute;
+			@include position(3px);
+			z-index: 1;
+
+			@include border-radius(50px);
+
+			@include transition(all .4s ease);
+
+
+			@include box-shadow(0px 2px 5px 0px rgba(0,0,0,0.3), 0);
+			background: #fcfff4;
+
+			@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+		}
+
+		input[type=checkbox]:checked + label {
+			left: 43px;
+		}
+	}
+
+
+
+	&.roundedOne {
+		@include rectangle(28px);
+		background: #fcfff4;
+
+		@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+		
+		//margin: 20px auto;
+
+		@include border-radius(50px);
+
+		@include box-shadow(inset 0px 1px 1px white, 0px 1px 0px rgba(0,0,0,0.5));
+
+		position: relative;
+		label {
+			cursor: pointer;
+			position: absolute;
+			@include rectangle(20px);
+
+			@include border-radius(50px);
+			@include position(4px);
+
+			@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1));
+
+			@include back-grad(top, #222, #45484d);
+			
+
+			&:after {
+				@include Opacity(0);
+				content: '';
+				position: absolute;
+				@include rectangle(16px);
+				background: #00bf00;
+				@include position(2px);
+
+				@include back-grad(top, #00bf00, #009400);
+
+				@include border-radius(50px);
+
+				@include box-shadow(inset 0px 1px 1px white, 0px 1px 0px rgba(0,0,0,0.5));
+			}
+
+			&:hover::after {
+				@include Opacity(0.3);
+			}
+		}
+
+		input[type=checkbox]:checked + label:after, input[type=radio]:checked + label:after {
+			@include Opacity(1);
+		}
+	}
+
+	&.roundedTwo {
+		position: relative;
+		@include rectangle(28px);
+		background: #fcfff4;
+		margin: 20px auto;
+
+		@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+		
+
+		@include border-radius(50px);
+
+		@include box-shadow(inset 0px 1px 1px white, 0px 1px 0px rgba(0,0,0,0.5));
+		 label {
+			cursor: pointer;
+			position: absolute;
+			@include rectangle(20px);
+			@include position(4px);
+
+			@include border-radius(50px);
+
+			@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1));
+
+			@include back-grad(top, #222, #45484d);
+			
+			&:after {
+				@include Opacity(0);
+				content: '';
+				position: absolute;
+				@include rectangle(9px, 5px);
+				background: transparent;
+				@include position(5px, 4px);
+				border: 3px solid #fcfff4;
+				border-top: none;
+				border-right: none;
+
+				@include rotate(-45deg);
+
+			}
+			&:hover::after {
+				@include Opacity(0.3);
+			}
+		}
+		input[type=checkbox]:checked + label:after {
+			@include Opacity(1);
+		}
+	}
+
+	&.squaredOne {
+		@include rectangle(28px);
+		background: #fcfff4;
+
+		@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+		
+		margin: 20px auto;
+		@include box-shadow(inset 0px 1px 1px white, 0px 1px 0px rgba(0,0,0,0.5));
+		position: relative;
+		label {
+			cursor: pointer;
+			position: absolute;
+			@include rectangle(20px);
+			@include position(4px);
+
+			@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1));
+
+			@include back-grad(top, #222, #45484d);
+			
+
+			&:after {
+				@include Opacity(0);
+				content: '';
+				position: absolute;
+				@include rectangle(16px);
+				background: #00bf00;
+
+				@include back-grad(top, #00bf00, #009400);
+
+				@include position(2px);
+
+				@include box-shadow(inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5));
+
+			}
+			&:hover::after {
+				@include Opacity(0.3);
+			}
+		}
+
+		input[type=checkbox]:checked + label:after {
+			@include Opacity(1);
+		}
+	}
+
+	&.squaredTwo {
+		@include rectangle(28px);
+		background: #fcfff4;
+		position: relative;
+		@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+		
+		margin: 20px auto;
+
+		@include box-shadow(inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5));
+
+		label {
+			cursor: pointer;
+			position: absolute;
+			@include rectangle(20px);
+			@include position(4px); 
+
+			@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1));
+
+			@include back-grad(top, #222, #45484d);
+			
+			&:after {
+				@include Opacity(0);
+				content: '';
+				position: absolute;
+				@include rectangle(9px, 5px);
+				background: transparent;
+				@include position(4px);
+				border: 3px solid #fcfff4;
+				border-top: none;
+				border-right: none;
+
+				@include rotate(-45deg);
+			}
+
+			&:hover::after {
+				@include Opacity(0.3);
+			}
+		}
+
+		input[type=checkbox]:checked + label:after {
+			@include Opacity(1);
+		}
+	}
+
+	&.squaredThree {
+		width: 20px;	
+		margin: 20px auto;
+		position: relative;
+
+		label {
+			cursor: pointer;
+			position: absolute;
+			@include rectangle(20px);
+			top: 0;
+			border-radius: 4px;
+
+			@include box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,.4));
+
+			@include back-grad(top, #222, #45484d);
+			
+			&:after {
+				@include Opacity(0);
+				content: '';
+				position: absolute;
+				@include rectangle(9px, 5px);
+				background: transparent;
+				@include position(4px);
+				border: 3px solid #fcfff4;
+				border-top: none;
+				border-right: none;
+
+				@include rotate(-45deg);
+			}
+
+			&:hover::after {
+				@include Opacity(0.3);
+			}
+		}
+		input[type=checkbox]:checked + label:after {
+			@include Opacity(1);
+		}
+	}
+
+	&.squaredFour {
+		width: 20px;	
+		margin: 20px auto;
+		position: relative;
+
+		label {
+			cursor: pointer;
+			position: absolute;
+			top: 0;
+			@include rectangle(20px);
+			border-radius: 4px;
+			background: #fcfff4;
+
+			@include box-shadow(inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5));
+
+			@include back-grad(top, #fcfff4, #dfe5d7, #b3bead, 40%);
+			
+			&:after {
+				@include Opacity(0);
+				content: '';
+				position: absolute;
+				@include rectangle(9px, 5px);
+				background: transparent;
+				@include position(4px);
+				border: 3px solid #333;
+				border-top: none;
+				border-right: none;
+
+				@include rotate(-45deg);
+			}
+			&:hover::after {
+				@include Opacity(0.5);
+			}
+		}
+
+		input[type=checkbox]:checked + label:after {
+			@include Opacity(1);
+		}
+	}
+}
+
+
+input[type='range'] {
+	width: 100%;
+	-webkit-appearance: none;
+	border-radius: 5px;
+	box-shadow: inset 0 0 5px #333;
+	background-color: #eee;
+	height: 10px;
+	vertical-align: middle;
+	&:focus {
+		outline: none;
+	}
+}
+input[type='range']::-moz-range-track {
+	-moz-appearance: none;
+	border-radius: 5px;
+	box-shadow: inset 0 0 5px #333;
+	background-color: #eee;
+	height: 10px;
+}
+input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none !important;
+	border-radius: 20px;
+	background-color: rgba(220, 44, 46, 0.9);
+	box-shadow:inset 0 0 10px rgba(220, 44, 46, 0.7);
+	border: 1px solid #DC2C2E;
+	height: 20px;
+	width: 20px;
+}
+input[type='range']::-moz-range-thumb {
+	-moz-appearance: none;
+	border-radius: 20px;
+	background-color: rgba(220, 44, 46, 0.9);
+	box-shadow:inset 0 0 10px rgba(220, 44, 46, 0.7);
+	border: 1px solid #DC2C2E;
+	height: 20px;
+	width: 20px; 
+} 
