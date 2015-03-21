@@ -45,6 +45,7 @@ Temporary Items
 
 #config files with pwds and stuff
 sftp-config.json
+Web.config 
 
 #cache files
 .sass-cache
@@ -67,5 +68,4 @@ plugins
 plugins/*
 Design Files
 Design Files/*
-Web.config 
 Web.config
