@@ -230,6 +230,27 @@ function initInterface() {
 		showLoadScreen();
 	})*/
 
+
+	$('#showErrorReport').click(function (e) {
+		e.preventDefault();
+
+		$('#bugLabel').val('');
+		$('#bugSummary').val('');
+		showModal('#errorReportModal');
+	})
+
+	$('#sendErrorReport').click(function (e) {
+		e.preventDefault();
+		var bugReport = {};
+		bugReport.bugLabel = $('#bugLabel').val();
+		bugReport.bugSummary = $('#bugSummary').val();
+
+		if (bugReport.message != '') {
+			fileManager.sendBugReport(bugReport);
+		}
+		
+	})
+
 	$('#saveServer').click(function (e) {
 		e.preventDefault();
 
@@ -277,6 +298,9 @@ function initInterface() {
 		}
 
 		mainController.setPointTransparency($('#pointOpacityInit').val())
+		mainController.setPointStrokeTransparency($('#pointStrokeOpacityInit').val())
+
+		mainController.setPointStrokeWidth($('#pointStrokeSizeInit').val())
 		mainController.updateVertexSize($('#pointSizeInit').val())
 		mainController.setPointShape($('#pointShapeInit').val())
 		mainController.updatePointColor($('#pointColorInit').val())
@@ -289,10 +313,16 @@ function initInterface() {
 	$('#showPointModal').click(function (e) {
 		e.preventDefault();
 		$('#pointOpacityInit').val(mainController.pointOpacity);
+		$('#pointStrokeOpacityInit').val(mainController.pointStrokeOpacity);
+
 		$('#pointSizeInit').val(mainController.getPointSize());
+		$('#pointStrokeSizeInit').val(mainController.pointStrokeWidth);
 		$('#pointShapeInit').val(mainController.pointShape);
 		$('#pointColorInit').val(mainController.pointColor);
 		$("#pointOpacitySlider").val(mainController.pointOpacity * 100);
+		$("#pointStrokeOpacitySlider").val(mainController.pointStrokeOpacity * 100);
+		$("#pointStrokeWidthSlider").val(mainController.pointStrokeWidth);
+
 		$("#pointSizeSlider").val(mainController.getPointSize());
 		$('#pointStrokeSyncInit').val(mainController.syncPointStrokeSizes);
 		$('#pointStrokeSizeInit').val(mainController.strokeWidth);
@@ -403,6 +433,18 @@ function initInterface() {
 			mainController.setPointTransparency(sliderVal / 100);
 			updateStats();
 		});
+		$("#pointStrokeOpacitySlider").on("input change", function() { 
+			var sliderVal = Math.ceil($(this).val());
+			mainController.setPointStrokeTransparency(sliderVal / 100);
+			updateStats();
+		});
+		$("#pointStrokeWidthSlider").on("input change", function() { 
+			var sliderVal = $(this).val();
+			mainController.setPointStrokeWidth(sliderVal);
+			updateStats();
+		});
+
+
 		$("#strokeOpacitySlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
 			mainController.setStrokeTransparency(sliderVal / 100);
@@ -410,7 +452,9 @@ function initInterface() {
 		});
 
 		$("#pointOpacitySlider").val(mainController.pointOpacity * 100);
+		$("#pointStrokeOpacitySlider").val(mainController.pointStrokeOpacity * 100);
 		$("#pointSizeSlider").val(mainController.getPointSize());
+		$("#pointStrokeWidthSlider").val(mainController.pointStrokeWidth);
 
 		$("#stroketOpacitySlider").val(mainController.strokeOpacity * 100);
 		$("#strokeSizeSlider").val(mainController.strokeWidth);
@@ -600,9 +644,11 @@ function updateStats() {
 	setValue($('.stat-num-points'), mainController.vertices.length);
 	setValue($('.stat-opacity'), Math.ceil(mainController.canvasTransparency * 100) + '%');
 	setValue($('.stat-point-opacity'), Math.ceil(mainController.pointOpacity * 100) + '%');
+	setValue($('.stat-pointstroke-opacity'), Math.ceil(mainController.pointStrokeOpacity * 100) + '%');
 
 
 	setValue($('.stat-ptsize'), mainController.getPointSize() );
+	setValue($('.stat-ptstrokesize'), mainController.pointStrokeWidth);
 	setValue($('.stat-toolmode'), mainController.toolMode)
 
 	setValue($('.stat-stroke-opacity'), Math.ceil(mainController.strokeOpacity * 100) + '%');
@@ -905,6 +951,11 @@ function showMenu(menuType, menuPosition) {
 	menuElement.css('left',  menuPosition.x);
 }
 
+function infoMessage(title, message) {
+	if (title) {$('#infoMessage').find('.title').html(title);}
+	$('#infoMessage').find('.message').html(message);
+	showModal('#infoMessage');
+}
 function errorMessage(errMsg) {
 	$('#errorMessage').find('.message').html(errMsg);
 	showModal('#errorMessage');
@@ -985,6 +1036,7 @@ function uploadImage(projectInfo) {
  	fileManager.uploadImage(projectInfo);
 
 }
+
 
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);

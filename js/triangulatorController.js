@@ -269,9 +269,9 @@ function triangle(v0, v1, v2) {
 			if (this.transparent) {
 				midGrad = this.clearGradient();
 			} else {
-				var adjustLvl = Math.random() * 45 + 5;
+				var adjustLvl = Math.random() * 45 + 5;	//light
 				if (((refPoint.red + refPoint.green + refPoint.blue)/3) < 200) {
-					adjustLvl = Math.random() * -55 - 5;
+					adjustLvl = Math.random() * -75 - 5;  //dark
 				}
 				midGrad = LightenDarkenColor(refPoint.red , refPoint.green , refPoint.blue, adjustLvl); 
 				midGrads.push({'x': midVert.x, 'y': midVert.y, 'gradColor': midGrad});
@@ -281,17 +281,12 @@ function triangle(v0, v1, v2) {
 	}
 
 	this.getGradient = function(ctx) {
-
-		if (((this.v0.red + '' + this.v0.green + '' + this.v0.blue) == (this.v1.red + '' + this.v1.green + '' + this.v1.blue)) && ((this.v0.red + '' + this.v0.green + '' + this.v0.blue) == (this.v2.red + '' + this.v2.green + '' + this.v2.blue))) {
+		if (((this.v0.colorString()) == (this.v1.colorString())) && ((this.v0.colorString()) == (this.v2.colorString()))) {
 			var tmpColor = this.v0;
 			if (!this.midVertex) {
 				this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
 			}
-				/*var adjustLvl = Math.random() * 15 + 5;
-				if (((this.v0.red + this.v0.green + this.v0.blue)/3) < 200) {
-					adjustLvl = Math.random() * -55 - 5;
-				}
-				this.midVertex.gradientColor = LightenDarkenColor(this.v0.red , this.v0.green , this.v0.blue, adjustLvl); 		*/
+
 			this.midVertex.gradientColor = this.getSolidGradientColor(this.midVertex, this.v0);			
 
 			if (mainController.useSolidGradient) {
@@ -302,14 +297,11 @@ function triangle(v0, v1, v2) {
 			this.midVertex.green = tmpColor.green;			
 			this.midVertex.blue = tmpColor.blue;			
 
-
 		} else {
 			if (!this.midVertex) {
 				this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
 				this.midVertex.avColor();			
 			}
-
-
 		}
 
 		var rgbStart = 'rgb(' + ~~ ((this.midVertex.red + this.v0.red) / 2) + ',' + ~~ ((this.midVertex.green + this.v0.green) / 2) + ',' + ~~ ((this.midVertex.blue + this.v0.blue) / 2) + ')';

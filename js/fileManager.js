@@ -4,6 +4,7 @@ function fileMngr() {
 	this.getVersionPath = "/GetVersion.ashx";
 	this.deletePath = "/DeleteVersion.ashx";
 	this.favoritePath = "/FavsVersion.ashx";
+	this.emailPath = "/SendEmail.ashx";
 
 	this.demoImage = "/images/Costa Rican Frog.jpg";
 	this.projectListTemplate = $('#project-list-template').text();
@@ -38,6 +39,32 @@ function fileMngr() {
 		});
 		this.raiseEvent("projectsLoaded", "Projects Loaded");
 	}
+
+
+	this.sendBugReport = function(bugReport) {
+		var fm = this;
+
+		var data = new FormData();
+		data.append("label", bugReport.bugLabel);
+		data.append("message", bugReport.bugSummary);
+
+		showModalWaitMessage();
+
+		$.ajax({
+			type: "POST",
+			url: fm.emailPath,
+			contentType: false,
+			processData: false,
+			data: data,
+			success: function (result) {
+				infoMessage('Email Sent', 'Thank you for the feedback.  Your email has been sent.');
+			},
+			error: function () {
+			  errorMessage("There was error uploading files!");
+			}
+		});		
+	}
+
 
 	this.addVersionsToProject = function(thisProject, versions) {
 		var fm = this;
@@ -207,6 +234,8 @@ function fileMngr() {
 						if (result.syncPointStrokeSizes !== undefined) {selectedVersion.syncPointStrokeSizes = result.syncPointStrokeSizes; }
 						if (result.snapSide !== undefined) {selectedVersion.snapSide = result.snapSide; }
 						if (result.pointOpacity !== undefined) {selectedVersion.pointOpacity = result.pointOpacity; }
+						if (result.pointStrokeOpacity !== undefined) {selectedVersion.pointStrokeOpacity = result.pointStrokeOpacity; }
+						if (result.pointStrokeWidth !== undefined) {selectedVersion.pointStrokeWidth = result.pointStrokeWidth; }
 						if (result.pointShape !== undefined) {selectedVersion.pointShape = result.pointShape; }
 						if (result.pointColor !== undefined) {selectedVersion.pointColor = result.pointColor; }
 						if (result.pointStrokeColor !== undefined) {selectedVersion.pointStrokeColor = result.pointStrokeColor; }

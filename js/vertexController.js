@@ -11,8 +11,22 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
     this.isColored = false;
     this.isMoving = false;
 
+    this.getClone = function() {
+    	var cloneVert = new vertex(~~ (this.x), ~~ (this.y), this.isEdge, this.isGrid, this.isSpiral);
+    	cloneVert.red = this.red;
+    	cloneVert.blue = this.blue;
+    	cloneVert.green = this.green;
+    	cloneVert.r = this.r;
+    	cloneVert.isColored = this.isColored;
+    	return cloneVert;
+    }
+
     this.id = function() {
     	return this.x + "-" + this.y;
+    }
+
+    this.colorString = function() {
+    	return this.red + '-' + this.green + '-' + this.blue;
     }
 
     this.toString = function() {
@@ -49,17 +63,14 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
     	this.isEdge = false;
     	this.isColored = false;
     	if (ctx) {
-    		//window.console && console.log('move the dot')
     		this.DrawNum(ctx);
     	}
     }
 
     this.erase = function(ctx) {
     	ctx.beginPath();
-    	//ctx.clearRect(this.x-this.r - 5, this.y-this.r - 5, this.r * 3.2, this.r * 3.2);
     	ctx.clearRect(this.x-this.r - mainController.pointStrokeWidth, this.y-this.r - mainController.pointStrokeWidth, this.r * 2 + mainController.pointStrokeWidth * 2, this.r * 2 + mainController.pointStrokeWidth * 2);
     	ctx.closePath();
-    	//this.DrawNum(ctx, true);
     }
 
     this.drawCoord = function(ctx) {
@@ -108,7 +119,7 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 
 	    ctx.fill();
 	    ctx.strokeStyle = "rgba(" + rgbStroke.r + "," + rgbStroke.g + "," + rgbStroke.b + ','+ mainController.pointStrokeOpacity +')';
-	    //ctx.lineWidth = mainController.pointStrokeWidth;
+	    ctx.lineWidth = mainController.pointStrokeWidth;
 		//ctx.strokeStyle = "rgba(255,255,255,0.5)";
 		ctx.stroke();    
 	    ctx.closePath();
@@ -119,28 +130,35 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 	    //ctx.fillText(this.red+';'+this.green+';'+this.blue, this.x, this.y);
 	    ctx.fillText(this.x+';'+this.y, this.x, this.y);*/
 	}
-//<circle id="redcircle" cx="50" cy="50" r="50" fill="red" />
+
 	this.drawSVG = function(svg, id){
-		//<circle id="point0" opacity="0.4" fill="#FF00FF" stroke="#FF00FF" stroke-opacity="0.7" cx="233" cy="213" r="8.5"/>
+		//<circle id="point1" fill="#FF00FF" fill-opacity="0.65" stroke="#FF00FF" stroke-width="5" stroke-opacity="0.5" enable-background="new    " cx="725" cy="805" r="8.5"/>
 
 		var ns = 'http://www.w3.org/2000/svg';
+		var pointShape = 'circle';
+		if (mainController.pointShape == 'square') {pointShape = 'rect';}
 
-		var rgb = hexToRGB(mainController.pointColor);
-		var rgbStroke = hexToRGB(mainController.pointStrokeColor);
-		var fillStyle = 'rgba(' + rgb.r + "," + rgb.g + "," + rgb.b + ','+ mainController.pointOpacity +')';
-		var strokeStyle = "rgba(" + rgbStroke.r + "," + rgbStroke.g + "," + rgbStroke.b + ','+ mainController.pointStrokeOpacity +')';
-
-		var circ = document.createElementNS(ns, 'circle');
+		var circ = document.createElementNS(ns, pointShape);
 		circ.setAttribute('id', 'point' + id);
-		circ.setAttribute('cx', this.x);
-		circ.setAttribute('cy', this.y);
-		circ.setAttribute('r', this.r);
+		if (pointShape == 'rect') {
+			//<rect x="716.5" y="823" fill="#0C8040" stroke="#FF00FF" stroke-width="5" width="74" height="59"/>
+			circ.setAttribute('x', this.x - this.r);
+			circ.setAttribute('y', this.y - this.r);
+			circ.setAttribute('width', this.r * 2);
+			circ.setAttribute('height', this.r * 2);
+
+		} else {
+			circ.setAttribute('cx', this.x);
+			circ.setAttribute('cy', this.y);
+			circ.setAttribute('r', this.r);
+		}
+
 		circ.setAttribute('fill', mainController.pointColor);
+		circ.setAttribute('fill-opacity', mainController.pointOpacity);
 		circ.setAttribute('stroke', mainController.pointStrokeColor);
 		circ.setAttribute('stroke-width', mainController.pointStrokeWidth);
-		circ.setAttribute('opacity', mainController.pointOpacity);
 		circ.setAttribute('stroke-opacity', mainController.pointStrokeOpacity);
-		//circ.setAttribute('style', 'fill: ' + fillStyle + '; stroke: ' + strokeStyle + '; stroke-width:  ' + mainController.pointStrokeWidth + ';');
+
 		svg.appendChild(circ);
 	}
 
@@ -173,7 +191,7 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 		    startX = ~~startX;
 		    startY = ~~startY;
 
-		    var tempColor = mainController.getImageData(startX, startY, mainController.snapSide, mainController.snapSide);
+		    var tempColor = mainController.getImageData(startX, startY);
 
 		    for (var i = 0; i < mainController.snapSide * mainController.snapSide; i++) {
 		    	var fourI = 4*i;
@@ -191,7 +209,6 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 	    return 'rgb(' + this.red + ',' + this.green + ',' + this.blue + ')';
 
 	}
-	//this.init();
 
 }
 

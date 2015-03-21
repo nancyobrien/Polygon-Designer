@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,12 +32,6 @@
 	<div class="display-pane open">
 
 		<div class="display-controls">
-			<!-- <div class="tools display-toggle icon-wrench"  data-ctrlsection="tools"></div>
-			<div class="tools display-toggle icon-cogs"  data-ctrlsection="settings"></div>
-			<div class="tools display-toggle icon-share2"  data-ctrlsection="add"></div>
-			<div class="tools display-toggle icon-bin2"  data-ctrlsection="delete"></div>
-			<div class="stats display-toggle icon-cloud"  data-ctrlsection="upload"></div>
-			<div class="stats display-toggle icon-question"  data-ctrlsection="help"></div> -->
 			<div id="tool-addPoint2" title="Add point mode" class="tools display-toggle select-tool icon-cursor"  data-toolmode="Add Points"  data-activelayer="#clickLayer"></div>
 			<div id="tool-selectPoint2" title="Select points mode" class="tools display-toggle select-tool icon-marquee"  data-toolmode="Select Points"  data-activelayer="#selectLayer"></div>
 			<div id="tool-zoomIn" title="Zoom in" class="tools display-toggle zoom-tool icon-zoom-in"   ></div>
@@ -45,45 +39,6 @@
 
 		</div>
 		<div class="display-content">
-			<!-- <div class="help display-block">
-				<div class="display-section display-header">Controls</div> 
-				<div class="display-section">
-					<span class="label">Undo:</span> <span class="">Ctrl-Z</span> 
-				</div>
-				<div class="display-section">
-					<span class="label">Redo:</span> <span class="">Ctrl-Y</span> 
-				</div>
-				<div class="display-section">
-					<span class="label">Copy Vertices:</span> <span class="">Ctrl-C</span> 
-				</div>
-				<div class="display-section">
-					<span class="label">Delete vertex:</span> <span class="">Right-(click)</span> 
-				</div>
-			</div> -->
-			<!-- <div class="tools display-block">
-				<div class="display-section display-header">Tools</div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Add point mode" id="tool-addPoint" class="selected select-tool" data-toolmode="Add Points" data-activelayer="#clickLayer">
-						<span class="tool-icon icon-cursor"></span> <span class="label">Add points</span> 
-					</a> 
-				</div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Select points mode"   id="tool-selectPoint" class="select-tool" data-toolmode="Select Points" data-activelayer="#selectLayer">
-						<span class="tool-icon icon-marquee"></span> <span class="label">Select points</span> 
-					</a>
-				</div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Zoom in"   id="tool-zoomIn">
-						<span class="tool-icon icon-zoom-in"></span> <span class="label">Zoom in</span> 
-					</a>
-				</div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Zoom out"   id="tool-zoomOut">
-						<span class="tool-icon icon-zoom-out"></span> <span class="label">Zoom out</span> 
-					</a>
-				</div>
-
-			</div> -->
 			<div class="settings display-block">
 				<div class="display-section display-header">Settings</div>
 				<div class="display-section">
@@ -158,18 +113,6 @@
 				<div class="display-section toolbar-button">
 					<a href="#" title="Save to Server" id="saveServer"><span class="tool-icon icon-cloud-upload"></span> <span class="label">Save to Server</span></a>
 				</div>
-
-				<!-- <div class="display-section toolbar-button">
-					<a href="#" title="Export to SVG" id="svgSaver"><span class="tool-icon icon-cloud-download"></span> <span class="label">Export Image</span></a>
-				</div>
-
-				<div class="display-section toolbar-button js-clear-onchange" id="SVGDownloadx">
-					
-				</div>
-
-				<div class="display-section toolbar-button js-clear-onchange" id="PNGDownloadx">
-					
-				</div> -->
 
 			</div>
 
@@ -262,6 +205,11 @@
 			<div class="status-section download-button toolbar-button js-clear-onchange" id="PNGDownload">
 				
 			</div>
+
+			<div class="status-section toolbar-button">
+				<a href="#" title="Report a bug" id="showErrorReport"><span class="icon-bug"></span> <span class="label">Report Bugs</span> </a>
+			</div>
+
 		</div>
 
 	</div>
@@ -314,7 +262,9 @@
 	<div class="modal-background modal-clear">
 		<div class="modal" id="pointPropsModal">
 			<input type="hidden" id="pointOpacityInit" value="0" />
+			<input type="hidden" id="pointStrokeOpacityInit" value="0" />
 			<input type="hidden" id="pointSizeInit" value="0" />
+			<input type="hidden" id="pointStrokeSizeInit" value="0" />
 			<input type="hidden" id="pointShapeInit" value="0" />
 			<input type="hidden" id="pointColorInit" value="0" />
 			<input type="hidden" id="pointStrokeSyncInit" value="0" />
@@ -333,13 +283,22 @@
 						</div>
 					</div>
 					<div class="modal-control">
-						<span class="label">Opacity:</span> <output class="ctrl-display stat-point-opacity" ></output>
+						<span class="label">Point Fill Opacity:</span> <output class="ctrl-display stat-point-opacity" ></output>
 						<input type="range" min="0" max="100" value="100" step="1" id="pointOpacitySlider"/>
+						
+					</div>
+					<div class="modal-control">
+						<span class="label">Point Stroke Opacity:</span> <output class="ctrl-display stat-pointstroke-opacity" ></output>
+						<input type="range" min="0" max="100" value="100" step="1" id="pointStrokeOpacitySlider"/>
 						
 					</div>
 					<div class="modal-control">
 						<span class="label">Point size:</span> <output class="ctrl-display stat-ptsize" ></output>
 						<input type="range" min=".5" max="10" value="1.5" step=".5" id="pointSizeSlider"/>
+					</div>
+					<div class="modal-control">
+						<span class="label">Point stroke size:</span> <output class="ctrl-display stat-ptstrokesize" ></output>
+						<input type="range" min="0" max="5" value="1" step=".5" id="pointStrokeWidthSlider"/>
 					</div>
 					<div class="modal-control inline-check">
 						<span class="label">Sync Point and Stroke Size:</span> 
@@ -351,13 +310,13 @@
 					<div class="modal-control">
 						<span class="label">Point Shape:</span>
 						<div class="pointShapes">
-							<div class="check-control-group">
+							<!-- <div class="check-control-group">
 								<div class="check-control roundedOne">
 									<input type="radio" value="triangle" id="point-select-triangle" name="point-shape-select"  class="point-shape-select"/>
 									<label for="point-select-triangle"></label>
 								</div>
 								<label for="point-select-triangle"><span class="select-label icon-arrow-up select-triangle custom-point-color"></span></label>
-							</div>
+							</div> -->
 							<div class="check-control-group">
 								<div class="check-control roundedOne">
 									<input type="radio" value="circle" id="point-select-circle" name="point-shape-select" class="point-shape-select" />
@@ -460,6 +419,18 @@
 	</div> 
 
 	<div class="modal-background modal-close">
+		<div class="modal" id="errorReportModal">
+			<div class="modal-close modal-close-button">X</div>
+			<div class="title">Report Bug</div>
+			<div class="content" data-waitmessage="Sending">
+				<input id="bugLabel" class="input--text allowPaste" type="text" placeholder="Bug Label (short description please)" />
+				<textarea id="bugSummary" placeholder="Please provide a detailed description of what happened"></textarea>
+				<div class="buttons"><a href="#" id="sendErrorReport" class="button">Send Bug Report</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
+			</div>
+		</div>
+	</div> 
+
+	<div class="modal-background modal-close">
 		<div class="modal modal--small" id="showProcessing">
 			<div class="title">Processing</div>
 			<div class="message">Processing Request</div>
@@ -501,6 +472,15 @@
 		<div class="modal" id="errorMessage">
 			<div class="modal-close modal-close-button">X</div>
 			<div class="title">Error</div>
+			<div class="message"></div>
+			<div class="buttons"><a href="#" class="modal-close button button--cancel">Close</a></div>
+		</div>
+	</div> 
+
+	<div class="modal-background modal-close">
+		<div class="modal" id="infoMessage">
+			<div class="modal-close modal-close-button">X</div>
+			<div class="title">Message</div>
 			<div class="message"></div>
 			<div class="buttons"><a href="#" class="modal-close button button--cancel">Close</a></div>
 		</div>

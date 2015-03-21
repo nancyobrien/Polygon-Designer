@@ -108,10 +108,12 @@ function mainCtrl(srcImg) {
 				if (mCtrl.dataStack.length > 0) {
 					mCtrl.lastUndo = mCtrl.cloneVertices();
 					mCtrl.vertices = mCtrl.dataStack.pop();
+					mCtrl.needToDrawTriangles = true;
+					mCtrl.redrawTriangles = true;
 					mCtrl.draw();
 				} 
+				mCtrl.needToDrawTriangles = true;
 				mCtrl.reDraw();
-				//hideSaveButton();
 			} else if ((e.which == 89 || e.keyCode == 89) && e.ctrlKey) {
 				// Ctrl + Y
 				// Redo last undo
@@ -119,8 +121,11 @@ function mainCtrl(srcImg) {
 					mCtrl.dataStack.push(mCtrl.lastUndo)
 					mCtrl.vertices = mCtrl.lastUndo;
 					mCtrl.lastUndo = false;
+					mCtrl.needToDrawTriangles = true;
+					mCtrl.redrawTriangles = true;
 					mCtrl.draw();
 				}
+				mCtrl.needToDrawTriangles = true;
 				 mCtrl.reDraw();
 			}
 		}
@@ -365,21 +370,27 @@ function mainCtrl(srcImg) {
 		$(this.vertCanvas).css('opacity', transparency);
 		$(this.strokeCanvas).css('opacity', transparency);
 		$(this.tempCanvas).css('opacity', transparency);
-
 	}
 
 	this.setStrokeTransparency = function(transparency) {
 		this.strokeOpacity = transparency;
-		//$(this.strokeCanvas).css('opacity', this.strokeOpacity);
 		this.drawStrokes();
 	}
 
 	this.setPointTransparency = function(transparency) {
 		this.pointOpacity = transparency;
-		//$(this.vertCanvas).css('opacity', this.pointOpacity);
 		this.reDraw(true);
 	}
 
+	this.setPointStrokeTransparency = function(transparency) {
+		this.pointStrokeOpacity = transparency;
+		this.reDraw(true);
+	}
+
+	this.setPointStrokeWidth = function(ptStrokeWidth) {
+		this.pointStrokeWidth = ptStrokeWidth;
+		this.reDraw(true);
+	}
 
 
 	this.setPointShape = function(shape) {
@@ -711,6 +722,8 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.syncPointStrokeSizes !== undefined) {this.syncPointStrokeSizes = project.activeVersion.syncPointStrokeSizes; }
 				if (project.activeVersion.snapSide !== undefined) {this.snapSide = project.activeVersion.snapSide; }
 				if (project.activeVersion.pointOpacity !== undefined) {this.pointOpacity = project.activeVersion.pointOpacity; }
+				if (project.activeVersion.pointStrokeOpacity !== undefined) {this.pointStrokeOpacity = project.activeVersion.pointStrokeOpacity; }
+				if (project.activeVersion.pointStrokeWidth !== undefined) {this.pointStrokeWidth = project.activeVersion.pointStrokeWidth; }
 				if (project.activeVersion.pointShape !== undefined) {this.pointShape = project.activeVersion.pointShape; }
 				if (project.activeVersion.pointColor !== undefined) {this.pointColor = project.activeVersion.pointColor; }
 				if (project.activeVersion.pointStrokeColor !== undefined) {this.pointStrokeColor = project.activeVersion.pointStrokeColor; }
@@ -788,39 +801,18 @@ function mainCtrl(srcImg) {
 	this.cloneVertices = function() {
 		var tempVerts = [];
 		for (var i = 0; i < this.vertices.length; i++){
-			tempVerts.push(new vertex(~~ (this.vertices[i].x), ~~ (this.vertices[i].y), this.vertices[i].isEdge, this.vertices[i].isGrid))
+			//tempVerts.push(new vertex(~~ (this.vertices[i].x), ~~ (this.vertices[i].y), this.vertices[i].isEdge, this.vertices[i].isGrid, this.vertices[i].isSpiral))
+			tempVerts.push(this.vertices[i].getClone());
 		}
 		return tempVerts;
 	}
 
 	this.getImageData = function(xVal, yVal) {
-		if (this.imageData[xVal] == undefined) {
-			this.imageData[xVal] = [];
-		} 
-		if (this.imageData[xVal][yVal] == undefined ) {
-			this.imageData[xVal][yVal] = this.imgCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
+		if (this.imageData[xVal+'-'+yVal] == undefined ) {
+			this.imageData[xVal+'-'+yVal] = this.imgCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
 		}
 
-		return this.imageData[xVal][yVal];
-	}
-
-	this.getGradient = function(triangle) {
-		//var xVal = ~~ ((triangle.v0.x + triangle.v1.x + triangle.v2.x) / 3);
-		//var yVal = ~~ ((triangle.v0.y + triangle.v1.y + triangle.v2.y) / 3);
-
-		/*if (this.gradients[xVal] == undefined) {
-			this.gradients[xVal] = [];
-		}*/ 
-		//if (this.gradients[xVal][yVal] == undefined ) {
-			var tmpVertex = new vertex(triangle.midPoint.x, triangle.midPoint.y);
-			tmpVertex.avColor();
-			var lingrad = ctx.createLinearGradient(triangle.v0.x, triangle.v0.y, Math.max(triangle.v1.x, triangle.v2.x), Math.max(triangle.v1.y, triangle.v2.y));
-			lingrad.addColorStop(0, 'rgb(' + ~~ ((tmpVertex.red + triangle.v0.red) / 2) + ',' + ~~ ((tmpVertex.green + triangle.v0.green) / 2) + ',' + ~~ ((tmpVertex.blue + triangle.v0.blue) / 2) + ')');
-			lingrad.addColorStop(1, 'rgb(' + ~~ ((tmpVertex.red + triangle.v1.red + triangle.v2.red) / 3) + ',' + ~~ ((tmpVertex.green + triangle.v1.green + triangle.v2.green) / 3) + ',' + ~~ ((tmpVertex.blue + triangle.v1.blue + triangle.v2.blue) / 3) + ')');
-			//this.gradients[xVal][yVal] = lingrad;
-		//}
-
-		return lingrad;
+		return this.imageData[xVal+'-'+yVal];
 	}
 
 	this.getColor = function(triangle) {
@@ -924,18 +916,11 @@ function mainCtrl(srcImg) {
 		this.drawStrokes();
 	}
 
-
-
 	this.updatePointColor = function(pointColor) {
 		this.pointColor = pointColor;
 		this.pointStrokeColor = pointColor;
 		this.reDraw(true);
 	}
-
-	/*this.updateStrokeColor = function(strokeColor) {
-		this.strokeColor = strokeColor;
-		this.reDraw(true);
-	}*/
 
 	this.getPointSize = function() {
 		return Math.ceil(this.snapSide * 10 /4)/10;
@@ -963,24 +948,6 @@ function mainCtrl(srcImg) {
 		this.draw(vertsOnly, true);
 	}
 
-	/*this.findBounds = function(vertList, expandEdges) {
-		var expansionFactor = .1;
-		var minX = -99, minY = -99, maxX = 99999, maxY = 99999;
-		for (var i = 0; i< vertList.length; i++) {
-			minX = Math.min(vertList[i].x, minX);
-			minY = Math.min(vertList[i].y, minY);
-			maxX = Math.max(vertList[i].x, maxX);
-			maxY = Math.max(vertList[i].y, maxY);
-		}
-		if (expandEdges) {
-			minX = (1-expansionFactor) * minX;
-			minY = (1-expansionFactor) * minY;
-			maxX = (1+expansionFactor) * maxX;
-			maxY = (1+expansionFactor) * maxY;
-
-		}
-		return {"minX": minX, "minY": minY, "maxX":maxX, "maxY": maxY};
-	}*/
 
 	this.showProcessing = function() {
 		$('body').addClass('processing');
@@ -1129,6 +1096,8 @@ function mainCtrl(srcImg) {
 
 		responseString += '"snapSide":' + this.snapSide + ",";
 		responseString += '"pointOpacity":' + this.pointOpacity + ",";
+		responseString += '"pointStrokeOpacity":' + this.pointStrokeOpacity + ",";
+		responseString += '"pointStrokeWidth":' + this.pointStrokeWidth + ",";
 		responseString += '"pointShape":"' + this.pointShape + '",';
 		responseString += '"pointColor":"' + this.pointColor + '",';
 		responseString += '"pointStrokeColor":"' + this.pointStrokeColor + '",';
