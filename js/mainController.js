@@ -433,7 +433,6 @@ function mainCtrl(srcImg) {
 		relPos.x = (e.pageX - this.offsetX - this.canvasOffset());
 		relPos.y = (e.pageY - this.offsetY);
 		return relPos;
-
 	}
 
 
@@ -445,12 +444,7 @@ function mainCtrl(srcImg) {
 			v = new vertex(Vx, Vy);
 			v.avColor();
 			v.draw(this.vertCtx);
-			this.vertices.push(v);
-
-			/*if (!supressDraw) {
-				this.raiseEvent("verticesChanged", "Vertices Changed");
-				//this.initiateDraw();
-			}*/			
+			this.vertices.push(v);	
 		} else {
 			v = this.verticesDetect(Vx,Vy);
 		}
@@ -515,8 +509,6 @@ function mainCtrl(srcImg) {
 		this.reDraw();			
 	}
 
-
-
 	this.setSyncPointStrokeSizes = function(syncSetting, newSize ) {
 		this.syncPointStrokeSizes = syncSetting;
 		if (this.syncPointStrokeSizes && newSize) {
@@ -575,7 +567,6 @@ function mainCtrl(srcImg) {
 	}
 
 	this.addGridVertices = function(edgeCnt) {
-		//this.clearGridVertices();
 		if (edgeCnt) {
 			this.vertsGrid.hor = edgeCnt; 
 			this.vertsGrid.vert = edgeCnt;
@@ -730,7 +721,6 @@ function mainCtrl(srcImg) {
 
 
 			}
-			//this.restoreFromJson(project.VertJson);
 			this.raiseEvent("projectLoaded", "Project Loaded");
 
 			loadImage(project.ImagePath, project.VertJson);
@@ -751,7 +741,6 @@ function mainCtrl(srcImg) {
 		this.raiseEvent("verticesChanged", "Vertices Changed");
 		this.raiseEvent("jsonRestored", "JSON Restored");
 		this.draw();
-		//this.reDraw();
 	}
 
 	this.clearEdgeVertices = function(){
@@ -1009,10 +998,12 @@ function mainCtrl(srcImg) {
 
 
 
-	this.clearTriangleFill = function(x, y) {
+	this.toggleTriangleFill = function(x, y) {
 		for (var i in this.triangles) {
 			if (this.triangles[i].isPointInTriangle(x,y)) {
-				this.triangles[i].clearGradient();
+				this.triangles[i].toggleGradient();
+				this.needToDrawTriangles = true;
+				this.redrawTriangles = true;
 				this.reDraw();
 				return true;
 			}
@@ -1025,7 +1016,7 @@ function mainCtrl(srcImg) {
 
 	this.isInTriangle = function(x, y) {
 		for (var i in this.triangles) {
-			if (this.triangles[i].isPointInTriangle(x,y)) {return true;}
+			if (this.triangles[i].isPointInTriangle(x,y)) {return this.triangles[i];}
 		}
 
 		return false;

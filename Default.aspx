@@ -157,7 +157,7 @@
 						<a href="#" class="toggleFill"><span class="show-hide stat-fill-state"></span> Fill</a>
 					</li>
 					<li>
-						<a href="#" class="clearTriangleFill">Clear Triangle Fill</a>
+						<a href="#" class="toggleTriangleFill">Clear Triangle Fill</a>
 					</li>
 				</ul>
 			</div>
@@ -469,7 +469,28 @@
 
 
 	<div class="modal-background modal-close">
-		<div class="modal" id="errorMessage">
+		<div class="modal" id="archiveProjectModal">
+			<div class="modal-close modal-close-button">X</div>
+			<div class="title">Archive Project</div>
+			<div class="content" data-waitmessage="Archiving">
+				<div class="message">Are you sure you want to archive this project?<br>You can't undo this action.</div>
+				<div class="buttons"><a href="#" id="archiveProject" class="button">Archive Project</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
+			</div>
+		</div>
+	</div> 
+
+	<div class="modal-background modal-close">
+		<div class="modal modal--small" id="projectArchiveSuccess">
+			<div class="modal-close modal-close-button">X</div>
+			<div class="title">Project Archived</div>
+			<div class="message">Project successfully archived.</div>
+			<div class="buttons"><a href="#" class="modal-close button button--cancel">Close</a></div>
+		</div>
+	</div>
+
+
+	<div class="modal-background modal-close">
+		<div class="modal messageModal" id="errorMessage">
 			<div class="modal-close modal-close-button">X</div>
 			<div class="title">Error</div>
 			<div class="message"></div>
@@ -478,7 +499,7 @@
 	</div> 
 
 	<div class="modal-background modal-close">
-		<div class="modal" id="infoMessage">
+		<div class="modal messageModal" id="infoMessage">
 			<div class="modal-close modal-close-button">X</div>
 			<div class="title">Message</div>
 			<div class="message"></div>
@@ -492,7 +513,7 @@
 	<script type="text/template" id="project-list-template">
 		<div class="image-select {isMultiple}">
 			<span class="image-select-icon js-select-image" data-projectid="{ProjectID}"><img src="{Thumbnail}"><a class="select-item" href="#"></a> <a class="favorite icon-star2 select-ctrl js-load-version-favorite" href="/p/{ProjectID}"></a><a class="folder icon-folder-open select-ctrl" href="#"></a></span>
-			<span class="image-select-title">{ProjectName}</span>
+			<span class="image-select-title">{ProjectName} <a class="delButton" href="#">Archive</a></span>
 			<!--<span class="image-select-subtitle">{ProjectNameSub}</span>-->
 		</div>
 	</script>

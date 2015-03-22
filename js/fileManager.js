@@ -3,6 +3,7 @@ function fileMngr() {
 	this.getPath = "/GetProjects.ashx";
 	this.getVersionPath = "/GetVersion.ashx";
 	this.deletePath = "/DeleteVersion.ashx";
+	this.archivePath = "/ArchiveProject.ashx";
 	this.favoritePath = "/FavsVersion.ashx";
 	this.emailPath = "/SendEmail.ashx";
 
@@ -145,7 +146,7 @@ function fileMngr() {
 				fm.addVersionsToProject(thisProject, data.Versions);
 
 
-				showModal('#projectDeleteSuccess');
+				showModal('#versionDeleteSuccess');
 				fm.raiseEvent("versionsUpdated", "Versions Updated");
 
 			},
@@ -155,6 +156,33 @@ function fileMngr() {
 		});		
 	}
 
+
+	this.archiveProject = function(projectID) {
+		var fm = this;
+
+		var data = new FormData();
+		data.append("projectID", projectID);
+
+		showModalWaitMessage();
+
+		$.ajax({
+			type: "POST",
+			url: fm.archivePath,
+			contentType: false,
+			processData: false,
+			data: data,
+			success: function (result) {
+				fm.processProjectData(result)
+
+
+				showModal('#projectArchiveSuccess');
+				//fm.raiseEvent("versionsUpdated", "Versions Updated");
+			},
+			error: function () {
+			  errorMessage("There was error archiving the project!");
+			}
+		});		
+	}
 
 	this.favoriteVersion = function(projectID, versionID) {
 		var fm = this;

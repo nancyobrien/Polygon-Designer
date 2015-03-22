@@ -19,7 +19,7 @@ public class SendEmail : IHttpHandler {
 
             string subject = Stepframe.Common.GetRequestVar("label");
             if (subject == String.Empty) { subject = "Bug Report"; }
-            subject += " - " + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            subject += " - " + DateTime.Now.ToString("MM/dd/yyyy");
 
             string message = Stepframe.Common.GetRequestVar("message");
             string botCatcher = Stepframe.Common.GetRequestVar("tripper");

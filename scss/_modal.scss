@@ -58,7 +58,11 @@
 
 	    }
 
-	    &#deleteVersionModal {
+	    &.messageModal {
+	    	width: 40rem;
+	    }
+
+	    &#deleteVersionModal, &#archiveProjectModal {
 	    	width: 30rem;
 	    	@extend %noselect;
 	    }

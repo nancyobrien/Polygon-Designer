@@ -493,6 +493,11 @@ function initInterface() {
 			fileManager.deleteVersion($('#deleteVersion').data('projectid'), $('#deleteVersion').data('versionid'));
 		})
 
+		$('#archiveProject').click(function(e) {
+			e.preventDefault();
+			fileManager.archiveProject($('#archiveProject').data('projectid'));
+		})
+
 	})
 }
 
@@ -704,11 +709,20 @@ function setValue(ctrl, value) {
 }
 
 function loadProjects() {
+	$('#library-container').find('.image-select').remove();
 	$.each(fileManager.projects, function( key, value ) {
 		$('#library-container').prepend(this.HTML);
 
 	});
 
+
+
+	$('.libraryContainer').on("click", '.delButton', function(e) { 
+		e.preventDefault();
+		$('#archiveProject').data('projectid', $(this).closest('.image-select').find('.js-select-image').data('projectid'));
+
+		showModal("#archiveProjectModal");
+	})
 
 	$('.libraryContainer').on("click", '.js-load-version-favorite', function(e) { 
 		e.preventDefault();
@@ -873,10 +887,10 @@ $(document).ready(function() {
 		//resizeCanvas(-.1);
 	})
 
-	$('.clearTriangleFill').click(function(e) {
+	$('.toggleTriangleFill').click(function(e) {
 		e.preventDefault();
 		var mousePos = mainController.getRelativeMousePosition(e);
-		mainController.clearTriangleFill($('.clearTriangleFill').data('triangleX'), $('.clearTriangleFill').data('triangleY'));
+		mainController.toggleTriangleFill($('.toggleTriangleFill').data('triangleX'), $('.toggleTriangleFill').data('triangleY'));
 	})
 
 	/*$("#upload").click(function () {
@@ -914,12 +928,17 @@ $(document).ready(function() {
 			} else {
 				menuType = "#zoomMenu"
 				inTriangle = mainController.isInTriangle(~~ (mousePos.x), ~~ (mousePos.y));
-				if (inTriangle) {
-					$('.clearTriangleFill').data('triangleX',  ~~ (mousePos.x));
-					$('.clearTriangleFill').data('triangleY', ~~ (mousePos.y));
+				if (inTriangle !== false) {
+					$('.toggleTriangleFill').data('triangleX',  ~~ (mousePos.x));
+					$('.toggleTriangleFill').data('triangleY', ~~ (mousePos.y));
+					if (inTriangle.transparent) {
+						$('.toggleTriangleFill').html('Restore Triangle Fill');
+					} else {
+						$('.toggleTriangleFill').html('Clear Triangle Fill');
+					}
 				}
 			}
-			$('.clearTriangleFill').toggle(inTriangle);
+			$('.toggleTriangleFill').toggle((inTriangle !== false));
 			showMenu(menuType, mousePos);
 			e.preventDefault();
 		});

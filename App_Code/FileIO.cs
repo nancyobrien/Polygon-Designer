@@ -15,6 +15,12 @@ public class FileIO {
     //private static string versionStructure = "{\"versions\": [{\"name\": \"xx\", \"date\": \"xxx\"}]}";
     //private static string versionRecord = "{\"name\": \"{%versionName%}\", \"date\": \"{%versionDate%}\"}";
     public static String UploadPath = "~/uploads/";
+    public static String ArchivePath = "~/uploads/archive/";
+    public static string ArchiveMapPath {
+        get {
+            return Stepframe.Common.context.Server.MapPath(ArchivePath);
+        }
+    }
     public FileIO() {
         //
         // TODO: Add constructor logic here
@@ -31,7 +37,9 @@ public class FileIO {
         List<Project> projects = new List<Project>();
         string[] dirs = System.IO.Directory.GetDirectories(Common.context.Server.MapPath(UploadPath));
         foreach (string dir in dirs) {
-            projects.Add(GetProject(dir));
+            if (dir.ToLower() != ArchiveMapPath.ToLower().TrimEnd('\\')) {
+                projects.Add(GetProject(dir));
+            }
         }
         return projects;
     }
@@ -166,6 +174,14 @@ public class FileIO {
 
         public void CreateProjectFile() {
             this.WriteProjectData();
+        }
+
+        public void ArchiveProject() {
+            string archiveMapPath = Stepframe.Common.context.Server.MapPath(ArchivePath);
+            if (!Directory.Exists(archiveMapPath)) {
+                Directory.CreateDirectory(archiveMapPath);
+            }
+            Directory.Move(this.MapPath, archiveMapPath.TrimEnd('/') + "/" + this.ProjectID);
         }
 
         public void DeleteVersion(string versionID) {

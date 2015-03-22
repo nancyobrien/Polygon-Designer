@@ -1,4 +1,5 @@
 	var midGrads = [];
+	var transparentMids = {};
 
 	//------------------------------------------------------------
 	// Triangulate
@@ -229,31 +230,13 @@ function triangle(v0, v1, v2) {
 		}
 	}
 
-	this.clearGradient = function() {
-		this.transparent = true;
-		if (!this.midVertex) {
-			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-			this.midVertex.avColor();
+	this.toggleGradient = function() {
+		if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
+			this.transparent = false;
+		} else {
+			this.transparent = true;
 		}
-		this.midVertex.transparent = true;
-		//		var midGrad = this.midVertex.avColor();
-
-		var midGrad = {'red': this.midVertex.red, 'blue': this.midVertex.blue, 'green': this.midVertex.green};
-		for (var i = 0; i < midGrads.length; i++) {
-			if ((midGrads[i].x == this.midVertex.x) && (midGrads[i].y == this.midVertex.y)) {
-				midGrads[i].gradColor = midGrad;
-				break;
-			}
-		}
-		if (!midGrad) {
-			midGrads.push({'x': this.midVertex.x, 'y': this.midVertex.y, 'gradColor': midGrad});
-		}
-
-		this.midVertex.gradientColor = midGrad;
-		this.midVertex.red = midGrad.red;			
-		this.midVertex.green = midGrad.green;			
-		this.midVertex.blue = midGrad.blue;
-		return midGrad;
+		transparentMids[this.midPoint.x + '-' + this.midPoint.y] = this.transparent;
 	}
 
 	this.getSolidGradientColor = function(midVert, refPoint) {
@@ -281,6 +264,11 @@ function triangle(v0, v1, v2) {
 	}
 
 	this.getGradient = function(ctx) {
+		if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
+			this.transparent = true;
+			return false;
+		}
+		this.transparent = false;
 		if (((this.v0.colorString()) == (this.v1.colorString())) && ((this.v0.colorString()) == (this.v2.colorString()))) {
 			var tmpColor = this.v0;
 			if (!this.midVertex) {
@@ -323,6 +311,12 @@ function triangle(v0, v1, v2) {
 	}
 
 	this.getColor = function () {
+		if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
+			this.transparent = true;
+			return false;
+		}
+		this.transparent = false;
+
 		if (!this.midVertex) {
 			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
 			this.midVertex.avColor();			
@@ -415,7 +409,7 @@ function triangle(v0, v1, v2) {
 			fillStyle = this.getColor(); 
 		}
 
-
+ 		if(this.transparent) {fillStyle='';}
 
 		svg.appendChild(defs);
 
@@ -529,7 +523,7 @@ function triangle(v0, v1, v2) {
 		ctx.beginPath();
 
 		if (!excludeFill) {
-			if (mainController.useGradient && !this.transparent) {
+			if (mainController.useGradient) {
 				ctx.fillStyle = this.getGradient(mainController.fillCtx); 
 			} else {
 				ctx.fillStyle = this.getColor(); 
@@ -540,7 +534,7 @@ function triangle(v0, v1, v2) {
 		ctx.lineTo(this.v1.x, this.v1.y);
 		ctx.lineTo(this.v2.x, this.v2.y);
 		ctx.lineTo(this.v0.x, this.v0.y);
-		if (!excludeFill) {ctx.fill();}
+		if (!excludeFill && !this.transparent) {ctx.fill();}
 		ctx.closePath();
 
 		/* circumcircle*/

@@ -173,6 +173,22 @@
 						background-color: $colorBackground6;
 						padding: .35em;
 						margin-bottom: .25em;
+
+						.delButton {
+							font-weight: normal;
+							float: right;
+							background: $color2;
+							color: $color4;
+							padding: .1rem .5rem;
+							font-size: 80%;
+							@include border-radius(3px);
+							text-decoration: none;
+							&:hover {
+								color: $color3;
+								background: $color5;
+
+							}
+						}
 					}
 					.image-select-subtitle {
 						display: block;
@@ -246,6 +262,9 @@
 								font-size: 1.3em;
 								margin-bottom: 0;
 								padding-bottom: 0;
+								.delButton {
+									display: none;
+								}
 							}
 							.image-select-subtitle {
 								color: $colorBackground6;
