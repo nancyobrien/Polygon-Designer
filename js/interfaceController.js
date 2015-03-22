@@ -113,6 +113,11 @@ function initInterface() {
 		updateStats();
 	})
 
+	$('.clearSelectedFill').click(function(e) {
+		mainController.clearSelectTriangles();
+		updateStats();
+	})
+
 
 	$('#stroke-point-sync').change(function(e) {
 		mainController.setSyncPointStrokeSizes($(this).is(":checked"), mainController.strokeWidth);
@@ -423,6 +428,7 @@ function initInterface() {
 		$('#transparencyPercent').html(mainController.canvasTransparency * 100 + '%')
 		$('#opacityPercent').val(mainController.canvasTransparency * 100 + '%')
 
+
 		$("#opacitySlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
 			mainController.setTransparency(sliderVal / 100);
@@ -647,6 +653,11 @@ function closeModal(modal) {
 function updateStats() {
 	setValue($('.stat-point-stroke-sync'), mainController.syncPointStrokeSizes);
 	setValue($('.stat-num-points'), mainController.vertices.length);
+//			$("#opacitySlider").val(mainController.globalOpacity);
+
+
+
+	setValue($('.stat-globalOpacity'), Math.ceil(mainController.globalOpacity * 100));
 	setValue($('.stat-opacity'), Math.ceil(mainController.canvasTransparency * 100) + '%');
 	setValue($('.stat-point-opacity'), Math.ceil(mainController.pointOpacity * 100) + '%');
 	setValue($('.stat-pointstroke-opacity'), Math.ceil(mainController.pointStrokeOpacity * 100) + '%');
@@ -810,6 +821,7 @@ function loadProjectData() {
 
 function canvasChanged() {
 	$('.js-clear-onchange').empty();
+	mainController.clearSelection();
 }
 
 $(document).ready(function() {
@@ -984,11 +996,16 @@ function showModalWaitMessage(){
 	$('.modal-background').filter(":visible").find('.modal').addClass('wait');
 }
 
-function showModal(modalName){
+function showModal(modalName, autoFade){
 	closeModal();
 	$('.modal').removeClass('wait');
 
 	$(modalName).closest('.modal-background').show();
+
+	if (autoFade) {
+		if(!isNumber(autoFade)) {autoFade = 3000;}
+		setTimeout(function() {closeModal();}, autoFade);
+	}
 }
 
 function isContextMenuOpen() {

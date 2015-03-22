@@ -64,7 +64,7 @@
 				</div>
 				<div class="display-section">
 					<span class="label">Opacity:</span><output class="ctrl-display stat-opacity" id="opacityPercent"></output>
-					<input type="range" min="0" max="100" value="100" step="1" id="opacitySlider"/>
+					<input type="range" min="0" max="100" value="100" step="1" class="stat-globalOpacity" id="opacitySlider"/>
 					
 				</div>
 
@@ -165,7 +165,10 @@
 			<div class="context-menu context-menu--select hide" id="selectMenu">
 				<ul>
 					<li>
-						<a href="#" class="deleteSelected">Delete selected points</a>
+						<a href="#" class="deleteSelected">Delete Selected Points</a>
+					</li>
+					<li>
+						<a href="#" class="clearSelectedFill">Clear Selected Triangle Fill</a>
 					</li>
 				</ul>
 			</div>

@@ -158,6 +158,7 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 		circ.setAttribute('stroke', mainController.pointStrokeColor);
 		circ.setAttribute('stroke-width', mainController.pointStrokeWidth);
 		circ.setAttribute('stroke-opacity', mainController.pointStrokeOpacity);
+		circ.setAttribute('opacity', mainController.globalOpacity);
 
 		svg.appendChild(circ);
 	}

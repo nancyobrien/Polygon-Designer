@@ -47,6 +47,7 @@ function mainCtrl(srcImg) {
 	this.pointStrokeWidth = 1;
 	this.pointShape = 'circle';
 	this.syncPointStrokeSizes = false;
+	this.globalOpacity = 1;
 
 	this.canvasWidth = 300;
 	this.canvasHeight = 300;
@@ -365,6 +366,7 @@ function mainCtrl(srcImg) {
 	}
 
 	this.setTransparency = function(transparency) {
+		this.globalOpacity = transparency;
 		this.canvasTransparency = transparency;
 		$(this.canvas).css('opacity', transparency);
 		$(this.vertCanvas).css('opacity', transparency);
@@ -648,6 +650,32 @@ function mainCtrl(srcImg) {
 		return isSelected;
 	}
 
+	this.clearSelectTriangles = function() {
+		if (this.selectionBox) {
+			var selCnt = 0;
+
+			for (var i = this.triangles.length-1; i>=0; i--) {
+				//Step backward or the splicing gets evil.
+				var topLeft = {'x': this.triangles[i].minx, 'y': this.triangles[i].miny};
+				var topRight = {'x': this.triangles[i].maxx, 'y': this.triangles[i].miny};
+				var bottomLeft = {'x': this.triangles[i].minx, 'y': this.triangles[i].maxy};
+				var bottomRight = {'x': this.triangles[i].maxx, 'y': this.triangles[i].maxy};
+				if (this.isInSelectionArea(topLeft) && this.isInSelectionArea(topRight) && this.isInSelectionArea(bottomLeft) &&this.isInSelectionArea(bottomRight)) {
+					selCnt++;
+					this.triangles[i].toggleGradient(true);
+				}
+			}
+			if (selCnt > 0) {
+				//this.raiseEvent("verticesChanged", "Vertices Changed");
+				this.initiateDraw();
+			} else {
+				this.clearSelection();
+			}
+		} else {
+			alert("nothing selected")
+		}
+	}
+
 	this.deleteSelectedVertices = function() {
 		if (this.selectionBox) {
 			var delCnt = 0;
@@ -699,6 +727,7 @@ function mainCtrl(srcImg) {
 			this.projectID = project.ProjectID;
 			this.projectData = project;
 			if (project.activeVersion) {
+				this.globalOpacity = 1;
 				this.showVertices = project.activeVersion.showVertices;
 				this.useGradient = project.activeVersion.useGradient;
 				this.showFill = project.activeVersion.showFill;
@@ -718,8 +747,9 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.pointShape !== undefined) {this.pointShape = project.activeVersion.pointShape; }
 				if (project.activeVersion.pointColor !== undefined) {this.pointColor = project.activeVersion.pointColor; }
 				if (project.activeVersion.pointStrokeColor !== undefined) {this.pointStrokeColor = project.activeVersion.pointStrokeColor; }
+				if (project.activeVersion.globalOpacity !== undefined) {this.globalOpacity = project.activeVersion.globalOpacity; }
 
-
+				this.setTransparency(this.globalOpacity);
 			}
 			this.raiseEvent("projectLoaded", "Project Loaded");
 
@@ -1092,6 +1122,7 @@ function mainCtrl(srcImg) {
 		responseString += '"pointShape":"' + this.pointShape + '",';
 		responseString += '"pointColor":"' + this.pointColor + '",';
 		responseString += '"pointStrokeColor":"' + this.pointStrokeColor + '",';
+		responseString += '"globalOpacity":"' + this.globalOpacity + '",';
 
 
 		if (midGrads.length > 0) {

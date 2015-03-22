@@ -117,7 +117,7 @@ function fileMngr() {
 					mainController.projectData = data;
 					setPath(data.ProjectID, data.Versions[data.Versions.length - 1].Date)
 				}
-				showModal('#projectSaveSuccess');
+				showModal('#projectSaveSuccess', 5000);
 			},
 			error: function () {
 			  errorMessage("There was error uploading files!");
@@ -146,7 +146,7 @@ function fileMngr() {
 				fm.addVersionsToProject(thisProject, data.Versions);
 
 
-				showModal('#versionDeleteSuccess');
+				showModal('#versionDeleteSuccess', 1000);
 				fm.raiseEvent("versionsUpdated", "Versions Updated");
 
 			},
@@ -175,7 +175,7 @@ function fileMngr() {
 				fm.processProjectData(result)
 
 
-				showModal('#projectArchiveSuccess');
+				showModal('#projectArchiveSuccess', 1000);
 				//fm.raiseEvent("versionsUpdated", "Versions Updated");
 			},
 			error: function () {
@@ -256,6 +256,7 @@ function fileMngr() {
 						selectedVersion.showStroke = result.showStroke;
 						selectedVersion.useSolidGradient = (result.useSolidGradient === undefined) ? true : result.useSolidGradient;
 
+						if (result.globalOpacity !== undefined) {selectedVersion.globalOpacity = result.globalOpacity; }
 						if (result.strokeWidth !== undefined) {selectedVersion.strokeWidth = result.strokeWidth; }
 						if (result.strokeOpacity !== undefined) {selectedVersion.strokeOpacity = result.strokeOpacity; }
 						if (result.strokeColor !== undefined) {selectedVersion.strokeColor = result.strokeColor; }

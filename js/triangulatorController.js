@@ -230,12 +230,14 @@ function triangle(v0, v1, v2) {
 		}
 	}
 
-	this.toggleGradient = function() {
-		if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
+	this.toggleGradient = function(gradFlag) {
+		if (gradFlag === undefined) {gradFlag = !this.transparent;}
+		/*if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
 			this.transparent = false;
 		} else {
 			this.transparent = true;
-		}
+		}*/
+		this.transparent = gradFlag;
 		transparentMids[this.midPoint.x + '-' + this.midPoint.y] = this.transparent;
 	}
 
@@ -354,6 +356,7 @@ function triangle(v0, v1, v2) {
 		line.setAttribute('stroke', mainController.strokeColor);
 		line.setAttribute('stroke-width', mainController.strokeWidth);
 		line.setAttribute('stroke-opacity', mainController.strokeOpacity);
+		line.setAttribute('opacity', mainController.globalOpacity);
  
 		svg.appendChild(line);
 
@@ -379,6 +382,9 @@ function triangle(v0, v1, v2) {
 				<stop  offset="0" style="stop-color:#0F0F0F"/>
 				<stop  offset="1" style="stop-color:#0A0A0A"/>
 			</linearGradient>
+
+			<polygon id="triangle5540" opacity="0.58" fill="url(#triangle5540_1_)" points="825,0 906,1 1100,0 	"/>
+
 		*/
 
 		var ns = 'http://www.w3.org/2000/svg';
@@ -417,7 +423,10 @@ function triangle(v0, v1, v2) {
 		var newPoly = document.createElementNS(ns, 'polygon');
 		newPoly.setAttribute('id', 'triangle' + id);
 		newPoly.setAttribute('points', this.pointsString);
-		newPoly.setAttribute('style', 'fill: ' + fillStyle + '; stroke: rgb(0, 0, 0); stroke-width: 0;');
+		//newPoly.setAttribute('style', 'fill: ' + fillStyle + '; stroke: rgb(0, 0, 0); stroke-width: 0;');
+		newPoly.setAttribute('style', 'fill: ' + fillStyle + ';');
+		newPoly.setAttribute('opacity', mainController.globalOpacity);
+
 		svg.appendChild(newPoly);
 
 		if (mainController.showStroke) {
