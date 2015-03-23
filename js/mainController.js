@@ -430,10 +430,14 @@ function mainCtrl(srcImg) {
 		return posx * 1;
 	}
 
+	this.scrollPosition = function() {
+		return {'x': $(this.canvasContainer)[0].scrollLeft, 'y': $(this.canvasContainer)[0].scrollTop}
+	}
+
 	this.getRelativeMousePosition = function(e) {
 		var relPos = {};
-		relPos.x = (e.pageX - this.offsetX - this.canvasOffset());
-		relPos.y = (e.pageY - this.offsetY);
+		relPos.x = (e.pageX - this.offsetX - this.canvasOffset()) + this.scrollPosition().x;
+		relPos.y = (e.pageY - this.offsetY) + this.scrollPosition().y;
 		return relPos;
 	}
 
@@ -500,9 +504,11 @@ function mainCtrl(srcImg) {
 	}
 
 	this.toggleSolidGradientDisplay = function() {
+		this.togglingSolidGradient = true;
 		this.useSolidGradient = !this.useSolidGradient;
 		this.redrawTriangles = true;
 		this.reDraw();			
+		this.togglingSolidGradient = false;
 	}
 
 	this.resetSolidGradient = function() {

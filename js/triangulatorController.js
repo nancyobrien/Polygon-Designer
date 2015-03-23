@@ -323,7 +323,16 @@ function triangle(v0, v1, v2) {
 			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
 			this.midVertex.avColor();			
 		}
-
+		if (mainController.togglingSolidGradient) {
+			if (mainController.useSolidGradient) {
+				this.midVertex.red = this.midVertex.gradientColor.red;			
+				this.midVertex.green = this.midVertex.gradientColor.green;			
+				this.midVertex.blue = this.midVertex.gradientColor.blue; 
+			} else {
+				this.midVertex.isColored = false;
+				this.midVertex.avColor();
+			}
+		}
 		return 'rgb(' + ~~ (this.midVertex.red) + ',' + ~~ (this.midVertex.green) + ',' + ~~ (this.midVertex.blue) + ')';
 	}
 
@@ -390,45 +399,44 @@ function triangle(v0, v1, v2) {
 		var ns = 'http://www.w3.org/2000/svg';
 		var defs = document.createElementNS(ns, 'defs');
 
-		var fillStyle;
+		if(!this.transparent) {
+			var fillStyle;
 
-		if (mainController.useGradient && !this.transparent) {
-			var rgbPts = this.getGradient();
-			var grad = document.createElementNS(ns, 'linearGradient');
-			grad.setAttributeNS(null, 'id', 'gr' + id);
-			grad.setAttributeNS(null, 'x1', '0%');
-			grad.setAttributeNS(null, 'x2', '100%');
-			grad.setAttributeNS(null, 'y1', '0%');
-			grad.setAttributeNS(null, 'y2', '100%');
-			var stopTop = document.createElementNS(ns, 'stop');
-			stopTop.setAttributeNS(null, 'offset', '0%');
-			stopTop.setAttributeNS(null, 'stop-color', rgbPts.start);
-			grad.appendChild(stopTop);
-			var stopBottom = document.createElementNS(ns, 'stop');
-			stopBottom.setAttributeNS(null, 'offset', '100%');
-			stopBottom.setAttributeNS(null, 'stop-color', rgbPts.stop);
-			grad.appendChild(stopBottom);
+			if (mainController.useGradient && !this.transparent) {
+				var rgbPts = this.getGradient();
+				var grad = document.createElementNS(ns, 'linearGradient');
+				grad.setAttributeNS(null, 'id', 'gr' + id);
+				grad.setAttributeNS(null, 'x1', '0%');
+				grad.setAttributeNS(null, 'x2', '100%');
+				grad.setAttributeNS(null, 'y1', '0%');
+				grad.setAttributeNS(null, 'y2', '100%');
+				var stopTop = document.createElementNS(ns, 'stop');
+				stopTop.setAttributeNS(null, 'offset', '0%');
+				stopTop.setAttributeNS(null, 'stop-color', rgbPts.start);
+				grad.appendChild(stopTop);
+				var stopBottom = document.createElementNS(ns, 'stop');
+				stopBottom.setAttributeNS(null, 'offset', '100%');
+				stopBottom.setAttributeNS(null, 'stop-color', rgbPts.stop);
+				grad.appendChild(stopBottom);
 
-			defs.appendChild(grad);
-			fillStyle = 'url(#gr' + id + ')';
-		} else {
-			fillStyle = this.getColor(); 
+				defs.appendChild(grad);
+				fillStyle = 'url(#gr' + id + ')';
+			} else {
+				fillStyle = this.getColor(); 
+			}
+
+
+			svg.appendChild(defs);
+
+			var newPoly = document.createElementNS(ns, 'polygon');
+			newPoly.setAttribute('id', 'triangle' + id);
+			newPoly.setAttribute('points', this.pointsString);
+			//newPoly.setAttribute('style', 'fill: ' + fillStyle + '; stroke: rgb(0, 0, 0); stroke-width: 0;');
+			newPoly.setAttribute('style', 'fill: ' + fillStyle + ';');
+			newPoly.setAttribute('opacity', mainController.globalOpacity);
+
+			svg.appendChild(newPoly);
 		}
-
- 		if(this.transparent) {fillStyle='';}
-
-		svg.appendChild(defs);
-
-
-		var newPoly = document.createElementNS(ns, 'polygon');
-		newPoly.setAttribute('id', 'triangle' + id);
-		newPoly.setAttribute('points', this.pointsString);
-		//newPoly.setAttribute('style', 'fill: ' + fillStyle + '; stroke: rgb(0, 0, 0); stroke-width: 0;');
-		newPoly.setAttribute('style', 'fill: ' + fillStyle + ';');
-		newPoly.setAttribute('opacity', mainController.globalOpacity);
-
-		svg.appendChild(newPoly);
-
 		if (mainController.showStroke) {
 			this.drawStrokes(svg, true);
 		}

@@ -17,10 +17,11 @@ canvas {
 	text-align:center;
 	position: absolute;
 	top: 0;
-	bottom: 0;
+	bottom: $statusBarHeight;
 	left: $tabWidth;
-	right: 0;
+	right: $tabContentWidth;
 	display: block;
+	overflow: auto;
 	@include transition(transform 250ms ease-out);
 
 	&.open {

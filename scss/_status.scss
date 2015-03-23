@@ -2,7 +2,7 @@
 	@extend %noselect;
 	z-index: 1005;
 	position: fixed;
-	height: 3rem;
+	height: $statusBarHeight;
 	width: 100%;
 	bottom: 0;
 	padding: 0;

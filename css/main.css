@@ -1554,23 +1554,24 @@ input[type='range']::-moz-range-thumb {
   text-align: center;
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: 3rem;
   left: 2em;
-  right: 0;
+  right: 140px;
   display: block;
+  overflow: auto;
   -moz-transition: -moz-transform 250ms ease-out;
   -o-transition: -o-transform 250ms ease-out;
   -webkit-transition: -webkit-transform 250ms ease-out;
   transition: transform 250ms ease-out;
 }
-/* line 26, ../scss/_canvas.scss */
+/* line 27, ../scss/_canvas.scss */
 #canvasContainer.open {
   -moz-transform: translateX(140px);
   -ms-transform: translateX(140px);
   -webkit-transform: translateX(140px);
   transform: translateX(140px);
 }
-/* line 30, ../scss/_canvas.scss */
+/* line 31, ../scss/_canvas.scss */
 #canvasContainer canvas {
   position: absolute;
   top: 0;
@@ -1578,11 +1579,11 @@ input[type='range']::-moz-range-thumb {
   display: block;
   margin: 0;
 }
-/* line 38, ../scss/_canvas.scss */
+/* line 39, ../scss/_canvas.scss */
 #canvasContainer .selectlayer {
   cursor: crosshair;
 }
-/* line 43, ../scss/_canvas.scss */
+/* line 44, ../scss/_canvas.scss */
 #canvasContainer .overlay--disabled {
   z-index: 50;
   width: 100%;
@@ -1593,7 +1594,7 @@ input[type='range']::-moz-range-thumb {
   top: 0;
   left: 0;
 }
-/* line 54, ../scss/_canvas.scss */
+/* line 55, ../scss/_canvas.scss */
 #canvasContainer .overlay--transparent {
   z-index: 50;
   width: 100%;
@@ -1604,7 +1605,7 @@ input[type='range']::-moz-range-thumb {
   top: 0;
   left: 0;
 }
-/* line 65, ../scss/_canvas.scss */
+/* line 66, ../scss/_canvas.scss */
 #canvasContainer .canvas-layer {
   position: absolute;
   top: 0;

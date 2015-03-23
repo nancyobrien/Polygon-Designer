@@ -923,7 +923,10 @@ $(document).ready(function() {
 		$($(this).data('activelayer')).show();
 	})
 
-
+	$('.zoom-tool').click(function(e) {
+		e.preventDefault();
+		mainController.zooomMode = $(this).data('toolmode');
+	})
 
 	if ($("#canvas").addEventListener) {
 		$("#canvas").addEventListener('contextmenu', function(e) {

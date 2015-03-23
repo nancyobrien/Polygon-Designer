@@ -32,10 +32,10 @@
 	<div class="display-pane open">
 
 		<div class="display-controls">
-			<div id="tool-addPoint2" title="Add point mode" class="tools display-toggle select-tool icon-cursor"  data-toolmode="Add Points"  data-activelayer="#clickLayer"></div>
+			<div id="tool-addPoint2" title="Add point mode" class="tools display-toggle select-tool icon-cursor selected"  data-toolmode="Add Points"  data-activelayer="#clickLayer"></div>
 			<div id="tool-selectPoint2" title="Select points mode" class="tools display-toggle select-tool icon-marquee"  data-toolmode="Select Points"  data-activelayer="#selectLayer"></div>
-			<div id="tool-zoomIn" title="Zoom in" class="tools display-toggle zoom-tool icon-zoom-in"   ></div>
-			<div id="tool-zoomOut" title="Zoom out" class="tools display-toggle zoom-tool icon-zoom-out" ></div>
+			<div id="tool-zoomIn" title="Zoom in" class="tools display-toggle zoom-tool icon-zoom-in" data-toolmode="zoomIn"   ></div>
+			<div id="tool-zoomOut" title="Zoom out" class="tools display-toggle zoom-tool icon-zoom-out" data-toolmode="zoomOut" ></div>
 
 		</div>
 		<div class="display-content">
