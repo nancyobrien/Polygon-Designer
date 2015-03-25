@@ -30,6 +30,15 @@ function initInterface() {
 	})
 
 	
+	$('.uploadURLImage').click(function(e) {
+		e.preventDefault();
+		if($('#imageUploadURL').val() != '') {
+			loadImage($('#imageUploadURL').val());
+		} else {
+			showPlaceholderError('#imageUploadURL', 'You have to enter a valid URL!');
+		}
+	})
+
 
 	$('#cancel-detail-display').click(function(e) {
 		e.preventDefault();
@@ -247,14 +256,17 @@ function initInterface() {
 	$('#sendErrorReport').click(function (e) {
 		e.preventDefault();
 		var bugReport = {};
-		bugReport.bugLabel = $('#bugLabel').val();
-		bugReport.bugSummary = $('#bugSummary').val();
+		bugReport.bugLabel = $('#bugLabel').val() + '';
+		bugReport.bugSummary = $('#bugSummary').val() + '';
 
-		if (bugReport.message != '') {
+		if (bugReport.bugLabel != '') {
 			fileManager.sendBugReport(bugReport);
+		} else {
+			showPlaceholderError('#bugLabel', 'You have to provide a bug label!');
 		}
 		
 	})
+
 
 	$('#saveServer').click(function (e) {
 		e.preventDefault();
@@ -423,6 +435,8 @@ function initInterface() {
 
 
 
+
+
 	$(function() {
 		//$('#transparencyPercent').html($('#canvas').css('opacity') * 100 + '%')
 		$('#transparencyPercent').html(mainController.canvasTransparency * 100 + '%')
@@ -537,7 +551,11 @@ function loadImage(imgData, imgJSON) {
 		if (imgJSON) {mainController.restoreFromJson(imgJSON);}
 
 	}
+	img.onerror = function() {
+		errorMessage("Unable to load image from this URL");
+	}
 	img.src = imgData;
+	img.crossOrigin = "Anonymous";
 
 }
 
@@ -962,7 +980,21 @@ $(document).ready(function() {
 			var menuType = "#zoomMenu"
 			if (mainController.selectionBox) {
 				menuType = "#selectMenu";
-			} 
+			} else {
+				menuType = "#zoomMenu"
+				inTriangle = mainController.isInTriangle(~~ (mousePos.x), ~~ (mousePos.y));
+				if (inTriangle !== false) {
+					$('.toggleTriangleFill').data('triangleX',  ~~ (mousePos.x));
+					$('.toggleTriangleFill').data('triangleY', ~~ (mousePos.y));
+					if (inTriangle.transparent) {
+						$('.toggleTriangleFill').html('Restore Triangle Fill');
+					} else {
+						$('.toggleTriangleFill').html('Clear Triangle Fill');
+					}
+				}
+				$('.toggleTriangleFill').toggle((inTriangle !== false));
+
+			}			
 			showMenu(menuType, mousePos);
 			e.preventDefault();
 		});
@@ -1054,6 +1086,18 @@ function saveSVG() {
 	}, 1000);
 
 	
+}
+
+
+function showPlaceholderError(inputElement, message) {
+	var defPlaceholderText = $(inputElement).prop('placeholder');
+	$(inputElement).prop('placeholder', message);
+	$(inputElement).addClass('placeholder-error');
+
+	setTimeout(function() {
+		$(inputElement).prop('placeholder', defPlaceholderText);
+		$(inputElement).removeClass('placeholder-error');
+	}, 2500)
 }
 
 function savePNG() {

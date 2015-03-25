@@ -271,11 +271,12 @@ function triangle(v0, v1, v2) {
 			return false;
 		}
 		this.transparent = false;
+		if (!this.midVertex) {
+			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
+			this.midVertex.avColor();	//Need to get the true color either way, because we need the transparency state.			
+		}		
 		if (((this.v0.colorString()) == (this.v1.colorString())) && ((this.v0.colorString()) == (this.v2.colorString()))) {
 			var tmpColor = this.v0;
-			if (!this.midVertex) {
-				this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-			}
 
 			this.midVertex.gradientColor = this.getSolidGradientColor(this.midVertex, this.v0);			
 
@@ -287,11 +288,11 @@ function triangle(v0, v1, v2) {
 			this.midVertex.green = tmpColor.green;			
 			this.midVertex.blue = tmpColor.blue;			
 
-		} else {
-			if (!this.midVertex) {
-				this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-				this.midVertex.avColor();			
-			}
+		} 
+
+		if (this.midVertex.alpha == 0)	{
+			this.transparent = true;
+			return false;
 		}
 
 		var rgbStart = 'rgb(' + ~~ ((this.midVertex.red + this.v0.red) / 2) + ',' + ~~ ((this.midVertex.green + this.v0.green) / 2) + ',' + ~~ ((this.midVertex.blue + this.v0.blue) / 2) + ')';
@@ -321,7 +322,8 @@ function triangle(v0, v1, v2) {
 
 		if (!this.midVertex) {
 			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-			this.midVertex.avColor();			
+			this.midVertex.avColor();		
+
 		}
 		if (mainController.togglingSolidGradient) {
 			if (mainController.useSolidGradient) {
@@ -332,6 +334,10 @@ function triangle(v0, v1, v2) {
 				this.midVertex.isColored = false;
 				this.midVertex.avColor();
 			}
+		}
+		if (this.midVertex.alpha == 0)	{
+			this.transparent = true;
+			return false;
 		}
 		return 'rgb(' + ~~ (this.midVertex.red) + ',' + ~~ (this.midVertex.green) + ',' + ~~ (this.midVertex.blue) + ')';
 	}

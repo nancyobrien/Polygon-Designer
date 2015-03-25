@@ -1670,45 +1670,90 @@ input[type='range']::-moz-range-thumb {
   text-shadow: 0px 1px 1px #222;
 }
 /* line 69, ../scss/_startpage.scss */
+#wrapper #intro .imgUploadDiv {
+  position: relative;
+}
+/* line 71, ../scss/_startpage.scss */
+#wrapper #intro .imgUploadDiv .input--upload {
+  /* width: 100%;
+  display: block;
+  padding: 1rem;
+  font-size: 125%; */
+  margin-top: 3rem;
+  width: 100%;
+  height: 3rem;
+  padding-right: 60px;
+  border: none;
+  display: inline-block;
+  font-size: 120%;
+  padding-left: 1rem;
+  position: relative;
+  left: 0;
+  top: 0;
+}
+/* line 89, ../scss/_startpage.scss */
+#wrapper #intro .imgUploadDiv .button--input {
+  margin-left: -50px;
+  height: 3rem;
+  width: 50px;
+  background: red;
+  display: inline-block;
+  margin-top: 0;
+  vertical-align: top;
+  top: 3rem;
+  right: 0;
+  position: absolute;
+  color: #eeeeee;
+  text-align: center;
+  line-height: 3rem;
+  font-size: 200%;
+  text-decoration: none;
+}
+/* line 105, ../scss/_startpage.scss */
+#wrapper #intro .imgUploadDiv .button--input:hover {
+  color: #ffffff;
+  font-size: 210%;
+}
+/* line 113, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary {
   display: none;
   padding: 2em;
 }
-/* line 73, ../scss/_startpage.scss */
+/* line 117, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary h1 {
   font-size: 1.5em;
   color: #ffffff;
   padding: .25em 0;
 }
-/* line 77, ../scss/_startpage.scss */
+/* line 121, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary h1.library-title {
   display: block;
 }
-/* line 80, ../scss/_startpage.scss */
+/* line 124, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary h1.details-title {
   display: none;
 }
-/* line 85, ../scss/_startpage.scss */
+/* line 129, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer {
   border: 1px solid #ffffff;
   padding: 1em .5em;
   position: relative;
 }
-/* line 90, ../scss/_startpage.scss */
+/* line 134, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select {
   width: 14.4%;
   margin: .25em 1% 1em 1%;
   display: inline-block;
   color: #ffffff;
 }
-/* line 96, ../scss/_startpage.scss */
+/* line 140, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon {
   display: block;
   width: 100%;
   margin-bottom: .25em;
   position: relative;
 }
-/* line 102, ../scss/_startpage.scss */
+/* line 146, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon img {
   width: 100%;
   -webkit-box-shadow: 4px 4px 4px 0px rgba(20, 20, 20, 0.5);
@@ -1716,20 +1761,20 @@ input[type='range']::-moz-range-thumb {
   -ms-box-shadow: 4px 4px 4px 0px rgba(20, 20, 20, 0.5);
   box-shadow: 4px 4px 4px 0px rgba(20, 20, 20, 0.5);
 }
-/* line 106, ../scss/_startpage.scss */
+/* line 150, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon img:hover {
   -webkit-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
   -ms-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
 }
-/* line 113, ../scss/_startpage.scss */
+/* line 157, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon:hover:after {
   background: transparent;
   width: 0%;
   height: 0%;
 }
-/* line 119, ../scss/_startpage.scss */
+/* line 163, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon:after {
   content: '';
   position: absolute;
@@ -1739,7 +1784,7 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   background: rgba(21, 21, 21, 0.2);
 }
-/* line 128, ../scss/_startpage.scss */
+/* line 172, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl {
   display: none;
   position: absolute;
@@ -1754,23 +1799,23 @@ input[type='range']::-moz-range-thumb {
   text-decoration: none;
   z-index: 10;
 }
-/* line 142, ../scss/_startpage.scss */
+/* line 186, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl:hover {
   opacity: 1;
   text-shadow: 3px 3px 2px #333;
 }
-/* line 147, ../scss/_startpage.scss */
+/* line 191, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl.favorite {
   color: #FFDF00;
   left: 0;
   bottom: 0;
 }
-/* line 154, ../scss/_startpage.scss */
+/* line 198, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl.folder {
   right: 0;
   bottom: 0;
 }
-/* line 160, ../scss/_startpage.scss */
+/* line 204, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-item {
   display: inline-block;
   width: 100%;
@@ -1780,7 +1825,7 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   z-index: 0;
 }
-/* line 170, ../scss/_startpage.scss */
+/* line 214, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-title {
   display: block;
   width: 100%;
@@ -1788,7 +1833,7 @@ input[type='range']::-moz-range-thumb {
   padding: .35em;
   margin-bottom: .25em;
 }
-/* line 177, ../scss/_startpage.scss */
+/* line 221, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-title .delButton {
   font-weight: normal;
   float: right;
@@ -1802,64 +1847,64 @@ input[type='range']::-moz-range-thumb {
   border-radius: 3px;
   text-decoration: none;
 }
-/* line 186, ../scss/_startpage.scss */
+/* line 230, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-title .delButton:hover {
   color: #ffffff;
   background: #F43537;
 }
-/* line 193, ../scss/_startpage.scss */
+/* line 237, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-subtitle {
   display: block;
   width: 100%;
   padding: .25em .35em;
   font-style: italic;
 }
-/* line 201, ../scss/_startpage.scss */
+/* line 245, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select:hover .image-select-title {
   font-weight: bold;
 }
-/* line 210, ../scss/_startpage.scss */
+/* line 254, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select.multiple .image-select-icon .folder, #wrapper #intro .imageLibrary .libraryContainer .image-select.multiple .image-select-icon .favorite {
   display: inline-block;
 }
-/* line 218, ../scss/_startpage.scss */
+/* line 262, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .details {
   display: none;
 }
-/* line 227, ../scss/_startpage.scss */
+/* line 271, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display h1.library-title {
   display: none;
 }
-/* line 230, ../scss/_startpage.scss */
+/* line 274, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display h1.details-title {
   display: block;
 }
-/* line 234, ../scss/_startpage.scss */
+/* line 278, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer {
   background-color: #ffffff;
 }
-/* line 236, ../scss/_startpage.scss */
+/* line 280, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select {
   display: none;
 }
-/* line 239, ../scss/_startpage.scss */
+/* line 283, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected {
   display: inline-block;
   top: 0;
   left: 0;
   width: 25%;
 }
-/* line 246, ../scss/_startpage.scss */
+/* line 290, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected:hover .image-select-title {
   font-weight: normal;
 }
-/* line 252, ../scss/_startpage.scss */
+/* line 296, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-icon:after {
   background: transparent;
   width: 0%;
   height: 0%;
 }
-/* line 259, ../scss/_startpage.scss */
+/* line 303, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-title {
   color: #DC2C2E;
   background-color: transparent;
@@ -1867,23 +1912,23 @@ input[type='range']::-moz-range-thumb {
   margin-bottom: 0;
   padding-bottom: 0;
 }
-/* line 265, ../scss/_startpage.scss */
+/* line 309, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-title .delButton {
   display: none;
 }
-/* line 269, ../scss/_startpage.scss */
+/* line 313, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-subtitle {
   color: #434343;
 }
-/* line 273, ../scss/_startpage.scss */
+/* line 317, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .select-ctrl {
   display: none;
 }
-/* line 277, ../scss/_startpage.scss */
+/* line 321, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .select-item {
   display: none;
 }
-/* line 284, ../scss/_startpage.scss */
+/* line 328, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details {
   vertical-align: top;
   display: inline-block;
@@ -1891,76 +1936,76 @@ input[type='range']::-moz-range-thumb {
   text-align: center;
   margin-top: .25em;
 }
-/* line 286, ../scss/_startpage.scss */
+/* line 330, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details h1 {
   color: #DC2C2E;
 }
-/* line 294, ../scss/_startpage.scss */
+/* line 338, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list {
   width: 100%;
   text-align: left;
 }
-/* line 298, ../scss/_startpage.scss */
+/* line 342, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header {
   font-weight: bold;
   background-color: #666;
   color: #ffffff;
 }
-/* line 302, ../scss/_startpage.scss */
+/* line 346, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span {
   border-right: 1px solid #eee;
   width: 80%;
   display: inline-block;
   padding: .35em .5em;
 }
-/* line 307, ../scss/_startpage.scss */
+/* line 351, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span:first-of-type {
   width: 10%;
 }
-/* line 310, ../scss/_startpage.scss */
+/* line 354, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span:last-of-type {
   border-right: none;
   width: auto;
 }
-/* line 314, ../scss/_startpage.scss */
+/* line 358, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span.data-type--favorite {
   width: auto;
   color: #FFDF00;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.25);
 }
-/* line 323, ../scss/_startpage.scss */
+/* line 367, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list #details-list-rows {
   max-height: 300px;
   display: block;
   overflow-y: auto;
   margin-bottom: 1rem;
 }
-/* line 329, ../scss/_startpage.scss */
+/* line 373, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row {
   width: 100%;
   border-bottom: 1px solid #eee;
 }
-/* line 335, ../scss/_startpage.scss */
+/* line 379, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row.favorite span.data-type--favorite {
   color: #FFDF00;
 }
-/* line 341, ../scss/_startpage.scss */
+/* line 385, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row span:first-of-type {
   width: 10%;
 }
-/* line 344, ../scss/_startpage.scss */
+/* line 388, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row span:last-of-type {
   border-right: none;
   width: auto;
 }
-/* line 349, ../scss/_startpage.scss */
+/* line 393, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element {
   border-right: 1px solid #eee;
   width: 80%;
   display: inline-block;
   padding: .25em .5em;
 }
-/* line 355, ../scss/_startpage.scss */
+/* line 399, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--favorite {
   width: auto;
   color: #ffffff;
@@ -1968,11 +2013,11 @@ input[type='range']::-moz-range-thumb {
   cursor: pointer;
   position: relative;
 }
-/* line 361, ../scss/_startpage.scss */
+/* line 405, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--favorite:hover {
   color: #FFDF00;
 }
-/* line 364, ../scss/_startpage.scss */
+/* line 408, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--favorite a {
   display: inline-block;
   width: 100%;
@@ -1981,60 +2026,60 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   top: 0;
 }
-/* line 374, ../scss/_startpage.scss */
+/* line 418, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--text {
   text-decoration: none;
 }
-/* line 377, ../scss/_startpage.scss */
+/* line 421, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element a {
   text-decoration: none;
 }
-/* line 379, ../scss/_startpage.scss */
+/* line 423, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element a.detail-ctrl {
   margin-right: 1em;
 }
-/* line 381, ../scss/_startpage.scss */
+/* line 425, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element a.detail-ctrl:last-of-type {
   margin-right: 0;
 }
-/* line 394, ../scss/_startpage.scss */
+/* line 438, ../scss/_startpage.scss */
 #wrapper #intro.library header {
   text-align: left;
   margin-top: 0;
 }
-/* line 397, ../scss/_startpage.scss */
+/* line 441, ../scss/_startpage.scss */
 #wrapper #intro.library header h1 {
   color: white;
   font-size: 2.5em;
 }
-/* line 401, ../scss/_startpage.scss */
+/* line 445, ../scss/_startpage.scss */
 #wrapper #intro.library header h2 {
   color: #DC2C2E;
   font-size: .75em;
 }
-/* line 407, ../scss/_startpage.scss */
+/* line 451, ../scss/_startpage.scss */
 #wrapper #intro.library .imageDropper {
   display: none;
 }
-/* line 410, ../scss/_startpage.scss */
+/* line 454, ../scss/_startpage.scss */
 #wrapper #intro.library .imageLibrary {
   display: block;
 }
-/* line 415, ../scss/_startpage.scss */
+/* line 459, ../scss/_startpage.scss */
 #wrapper #intro .container {
   width: 100%;
 }
-/* line 417, ../scss/_startpage.scss */
+/* line 461, ../scss/_startpage.scss */
 #wrapper #intro .container .container-content {
   margin: 0 auto;
   width: 75%;
 }
-/* line 422, ../scss/_startpage.scss */
+/* line 466, ../scss/_startpage.scss */
 #wrapper #intro .image-drop {
   width: 100%;
   margin: 28px 2em  28px 0;
 }
-/* line 425, ../scss/_startpage.scss */
+/* line 469, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .image-dropzone {
   width: 100%;
   display: block;
@@ -2046,7 +2091,7 @@ input[type='range']::-moz-range-thumb {
   border: 1px dashed #ccc;
   color: #ffffff;
 }
-/* line 441, ../scss/_startpage.scss */
+/* line 485, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .image-dropzone.hover {
   -webkit-box-shadow: inset 0px 0px 30px 0px #666;
   -moz-box-shadow: inset 0px 0px 30px 0px #666;
@@ -2055,19 +2100,19 @@ input[type='range']::-moz-range-thumb {
   background: #434343;
   color: #fff;
 }
-/* line 450, ../scss/_startpage.scss */
+/* line 494, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .image-dropzone img {
   vertical-align: middle;
 }
-/* line 455, ../scss/_startpage.scss */
+/* line 499, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .button {
   margin: 1em .25em;
 }
-/* line 457, ../scss/_startpage.scss */
+/* line 501, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .button#cancel-image-load {
   display: none;
 }
-/* line 463, ../scss/_startpage.scss */
+/* line 507, ../scss/_startpage.scss */
 #wrapper #intro .tutorial {
   font-size: 1.5em;
   width: 30%;
@@ -2076,26 +2121,26 @@ input[type='range']::-moz-range-thumb {
   background: #f0f0f0;
   margin: 28px 0;
 }
-/* line 470, ../scss/_startpage.scss */
+/* line 514, ../scss/_startpage.scss */
 #wrapper #intro .tutorial h2 {
   color: #de2e1f;
   font-size: 1.2em;
   margin-bottom: .5em;
 }
-/* line 475, ../scss/_startpage.scss */
+/* line 519, ../scss/_startpage.scss */
 #wrapper #intro .tutorial .instructions {
   font-size: .8em;
   margin-bottom: 1em;
 }
-/* line 478, ../scss/_startpage.scss */
+/* line 522, ../scss/_startpage.scss */
 #wrapper #intro .tutorial .instructions li {
   margin-bottom: .5em;
 }
-/* line 481, ../scss/_startpage.scss */
+/* line 525, ../scss/_startpage.scss */
 #wrapper #intro .tutorial .instructions li a {
   font-size: 1em;
 }
-/* line 486, ../scss/_startpage.scss */
+/* line 530, ../scss/_startpage.scss */
 #wrapper #intro .tutorial p {
   font-size: .6em;
   color: #581112;
@@ -2106,7 +2151,31 @@ input[type='range']::-moz-range-thumb {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-/* line 6, ../scss/_modal.scss */
+/* line 5, ../scss/_modal.scss */
+.placeholder-error {
+  background-color: #F43537 !important;
+  color: #ffffff !important;
+}
+/* line 8, ../scss/_modal.scss */
+.placeholder-error::-webkit-input-placeholder {
+  color: #ffffff !important;
+}
+/* line 12, ../scss/_modal.scss */
+.placeholder-error:-moz-placeholder {
+  /* Firefox 18- */
+  color: #ffffff !important;
+}
+/* line 16, ../scss/_modal.scss */
+.placeholder-error::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #ffffff !important;
+}
+/* line 20, ../scss/_modal.scss */
+.placeholder-error:-ms-input-placeholder {
+  color: #ffffff !important;
+}
+
+/* line 25, ../scss/_modal.scss */
 .modal-background {
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
@@ -2118,15 +2187,15 @@ input[type='range']::-moz-range-thumb {
   text-align: center;
   display: none;
 }
-/* line 17, ../scss/_modal.scss */
+/* line 36, ../scss/_modal.scss */
 .modal-background.modal-clear {
   background: transparent;
 }
-/* line 20, ../scss/_modal.scss */
+/* line 39, ../scss/_modal.scss */
 .modal-background.modal-dark {
   background: rgba(0, 0, 0, 0.8);
 }
-/* line 24, ../scss/_modal.scss */
+/* line 43, ../scss/_modal.scss */
 .modal-background .modal {
   background: white;
   width: 60%;
@@ -2137,15 +2206,15 @@ input[type='range']::-moz-range-thumb {
   z-index: 1010;
   max-height: 70%;
 }
-/* line 37, ../scss/_modal.scss */
+/* line 56, ../scss/_modal.scss */
 .modal-background .modal.wait .modal-close-button {
   display: none;
 }
-/* line 38, ../scss/_modal.scss */
+/* line 57, ../scss/_modal.scss */
 .modal-background .modal.wait .content {
   position: relative;
 }
-/* line 40, ../scss/_modal.scss */
+/* line 59, ../scss/_modal.scss */
 .modal-background .modal.wait .content:after {
   content: attr(data-waitmessage);
   height: 100%;
@@ -2156,27 +2225,27 @@ input[type='range']::-moz-range-thumb {
   font-size: 250%;
   color: #eeeeee;
 }
-/* line 56, ../scss/_modal.scss */
+/* line 75, ../scss/_modal.scss */
 .modal-background .modal.modal--small {
   width: 25rem;
 }
-/* line 61, ../scss/_modal.scss */
+/* line 80, ../scss/_modal.scss */
 .modal-background .modal.messageModal {
   width: 40rem;
 }
-/* line 65, ../scss/_modal.scss */
+/* line 84, ../scss/_modal.scss */
 .modal-background .modal#deleteVersionModal, .modal-background .modal#archiveProjectModal {
   width: 30rem;
 }
-/* line 70, ../scss/_modal.scss */
+/* line 89, ../scss/_modal.scss */
 .modal-background .modal#pointPropsModal, .modal-background .modal#strokePropsModal {
   width: 700px;
 }
-/* line 75, ../scss/_modal.scss */
+/* line 94, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal {
   width: 500px;
 }
-/* line 77, ../scss/_modal.scss */
+/* line 96, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal input {
   font-size: 150%;
   line-height: 1;
@@ -2187,15 +2256,15 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 87, ../scss/_modal.scss */
+/* line 106, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal input[type=checkbox] {
   margin: 0;
 }
-/* line 91, ../scss/_modal.scss */
+/* line 110, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal input + input {
   margin-top: 0;
 }
-/* line 94, ../scss/_modal.scss */
+/* line 113, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal textarea {
   padding: 0.5em;
   width: 450px;
@@ -2204,25 +2273,25 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 104, ../scss/_modal.scss */
+/* line 123, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal .inline-check {
   text-align: left;
   margin: .5rem 1.5rem;
 }
-/* line 107, ../scss/_modal.scss */
+/* line 126, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal .inline-check .label {
   font-size: 150%;
   padding-right: 1rem;
 }
-/* line 111, ../scss/_modal.scss */
+/* line 130, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal .inline-check .check-control {
   display: inline-block;
 }
-/* line 117, ../scss/_modal.scss */
+/* line 136, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal {
   width: 500px;
 }
-/* line 119, ../scss/_modal.scss */
+/* line 138, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal input {
   font-size: 150%;
   line-height: 1;
@@ -2233,11 +2302,11 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 130, ../scss/_modal.scss */
+/* line 149, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal input + input {
   margin-top: 0;
 }
-/* line 133, ../scss/_modal.scss */
+/* line 152, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal textarea {
   padding: 0.5em;
   width: 450px;
@@ -2246,7 +2315,7 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 142, ../scss/_modal.scss */
+/* line 161, ../scss/_modal.scss */
 .modal-background .modal .modal-close-button {
   width: 30px;
   height: 30px;
@@ -2259,15 +2328,15 @@ input[type='range']::-moz-range-thumb {
   right: 0;
   top: 0;
 }
-/* line 154, ../scss/_modal.scss */
+/* line 173, ../scss/_modal.scss */
 .modal-background .modal .modal-close-button:hover {
   color: white;
 }
-/* line 158, ../scss/_modal.scss */
+/* line 177, ../scss/_modal.scss */
 .modal-background .modal .modal-close-button span {
   line-height: 24px;
 }
-/* line 162, ../scss/_modal.scss */
+/* line 181, ../scss/_modal.scss */
 .modal-background .modal .title {
   font-size: 18px;
   color: #ffffff;
@@ -2276,66 +2345,66 @@ input[type='range']::-moz-range-thumb {
   padding: 0.5em;
   text-align: left;
 }
-/* line 171, ../scss/_modal.scss */
+/* line 190, ../scss/_modal.scss */
 .modal-background .modal .message {
   font-size: 25px;
   padding: 2rem .5rem;
 }
-/* line 175, ../scss/_modal.scss */
+/* line 194, ../scss/_modal.scss */
 .modal-background .modal .modal-controls {
   padding: 0.5em;
   text-align: left;
 }
-/* line 178, ../scss/_modal.scss */
+/* line 197, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section {
   display: block;
   clear: both;
   padding: 10px;
   display: inline-table;
 }
-/* line 184, ../scss/_modal.scss */
+/* line 203, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-left {
   float: left;
 }
-/* line 187, ../scss/_modal.scss */
+/* line 206, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-right {
   float: right;
 }
-/* line 190, ../scss/_modal.scss */
+/* line 209, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-half {
   width: 49%;
   margin: 0;
 }
-/* line 195, ../scss/_modal.scss */
+/* line 214, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-sixtyfive {
   width: 65%;
   margin: 0;
 }
-/* line 200, ../scss/_modal.scss */
+/* line 219, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control {
   width: 100%;
   margin-bottom: 1.5em;
 }
-/* line 203, ../scss/_modal.scss */
+/* line 222, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .pointShapes {
   margin-top: 1em;
 }
-/* line 208, ../scss/_modal.scss */
+/* line 227, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-check .check-control {
   display: inline-block;
   float: none;
 }
-/* line 212, ../scss/_modal.scss */
+/* line 231, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-check .check-control.squaredThree {
   margin: 0;
   margin-left: 5px;
 }
-/* line 219, ../scss/_modal.scss */
+/* line 238, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control {
   display: inline-block;
   float: left;
 }
-/* line 225, ../scss/_modal.scss */
+/* line 244, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control.roundedOne label:after {
   background: #DC2C2E;
   background: -webkit-linear-gradient(top, #F43537 0%, #DC2C2E 100%);
@@ -2345,7 +2414,7 @@ input[type='range']::-moz-range-thumb {
   background: linear-gradient(to bottom, #f43537 0%, #dc2c2e 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=0 );
 }
-/* line 233, ../scss/_modal.scss */
+/* line 252, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group {
   display: inline-block;
   width: 30%;
@@ -2353,11 +2422,11 @@ input[type='range']::-moz-range-thumb {
   padding: 13px 10px 20px 10px;
   border: 1px solid #DC2C2E;
 }
-/* line 239, ../scss/_modal.scss */
+/* line 258, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group.last {
   margin-right: 0;
 }
-/* line 243, ../scss/_modal.scss */
+/* line 262, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label {
   font-size: 24px;
   height: 28px;
@@ -2367,34 +2436,34 @@ input[type='range']::-moz-range-thumb {
   vertical-align: middle;
   cursor: pointer;
 }
-/* line 252, ../scss/_modal.scss */
+/* line 271, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.custom-point-color {
   color: #DC2C2E;
 }
-/* line 256, ../scss/_modal.scss */
+/* line 275, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-triangle {
   font-size: 100px;
   line-height: 35px;
   text-indent: -30px;
 }
-/* line 262, ../scss/_modal.scss */
+/* line 281, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-circle {
   font-size: 46px;
   line-height: 33px;
   text-indent: 2px;
 }
-/* line 268, ../scss/_modal.scss */
+/* line 287, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-square {
   font-size: 53px;
   line-height: 32px;
   text-indent: -4px;
 }
-/* line 279, ../scss/_modal.scss */
+/* line 298, ../scss/_modal.scss */
 .modal-background .modal .buttons {
   padding: 0.5em;
   clear: both;
 }
-/* line 283, ../scss/_modal.scss */
+/* line 302, ../scss/_modal.scss */
 .modal-background .modal .verts {
   width: 90%;
   color: black;
@@ -2406,7 +2475,7 @@ input[type='range']::-moz-range-thumb {
   overflow: auto;
   max-height: 400px;
 }
-/* line 295, ../scss/_modal.scss */
+/* line 314, ../scss/_modal.scss */
 .modal-background .modal textarea {
   width: 90%;
   height: 300px;

@@ -2,6 +2,25 @@
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
+.placeholder-error {
+	background-color: $color5 !important;
+	color: $color3 !important;
+	&::-webkit-input-placeholder {
+		color: $color3  !important;
+	}
+
+	&:-moz-placeholder { /* Firefox 18- */
+		color: $color3  !important;  
+	}
+
+	&::-moz-placeholder {  /* Firefox 19+ */
+		color: $color3  !important;  
+	}
+
+	&:-ms-input-placeholder {  
+		color: $color3  !important;  
+	}
+}
 
 .modal-background{
     position:fixed;

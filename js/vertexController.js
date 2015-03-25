@@ -165,7 +165,7 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 
 	this.avColor = function() {
 		if (!this.isColored) {
-		    var result = [0, 0, 0];
+		    var result = [0, 0, 0, 0];
 		    var startX = 0,
 		        startY = 0;
 		    var snapHalf = mainController.snapSide/2;
@@ -199,10 +199,12 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 		        result[0] += tempColor[fourI];
 		        result[1] += tempColor[fourI + 1];
 		        result[2] += tempColor[fourI + 2];
+		        result[3] += tempColor[fourI + 3];
 		    }
 		    this.red = ~~ (result[0] / i);
 		    this.green = ~~ (result[1] / i);
 		    this.blue = ~~ (result[2] / i);
+		    this.alpha = ~~ (result[3] / i);
 
 		    this.isColored = true;
 		}

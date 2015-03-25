@@ -271,6 +271,7 @@ function fileMngr() {
 
 						selectedVersion.Vertices = result.vertices;
 						selectedVersion.solidGradients = result.solidGradients;
+						selectedVersion.transparentMidpoints = result.transparentMidpoints;
 
 						thisProject.VertJson = JSON.stringify(result.vertices);
 					} else {
@@ -283,6 +284,7 @@ function fileMngr() {
 
 						selectedVersion.Vertices = result;
 						selectedVersion.solidGradients = false;
+						selectedVersion.transparentMidpoints = {};
 						thisProject.VertJson = JSON.stringify(result);
 					}
 					if (makeActive) {

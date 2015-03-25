@@ -24,7 +24,7 @@ public class SendEmail : IHttpHandler {
             string message = Stepframe.Common.GetRequestVar("message");
             string botCatcher = Stepframe.Common.GetRequestVar("tripper");
 
-            if (message != String.Empty && botCatcher == String.Empty) {
+            if (subject != String.Empty && botCatcher == String.Empty) {
                 Stepframe.Emailer email = new Stepframe.Emailer("bugs@polynator.com", trelloEmail, subject, message);
                 email.send();
 

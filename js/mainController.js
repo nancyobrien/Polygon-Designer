@@ -741,6 +741,8 @@ function mainCtrl(srcImg) {
 				this.showStroke = project.activeVersion.showStroke;
 				this.useSolidGradient = project.activeVersion.useSolidGradient;
 				if (project.activeVersion.solidGradients) {midGrads = project.activeVersion.solidGradients;}
+				if (project.activeVersion.transparentMidpoints) {transparentMids = project.activeVersion.transparentMidpoints;}
+
 					
 				if (project.activeVersion.strokeWidth !== undefined) {this.strokeWidth = project.activeVersion.strokeWidth; }
 				if (project.activeVersion.strokeOpacity !== undefined) {this.strokeOpacity = project.activeVersion.strokeOpacity; }
@@ -1133,6 +1135,10 @@ function mainCtrl(srcImg) {
 
 		if (midGrads.length > 0) {
 			responseString += '"solidGradients":' + JSON.stringify(midGrads) + ",";
+		}
+
+		if (transparentMids != undefined) {
+			responseString += '"transparentMidpoints":' + JSON.stringify(transparentMids) + ",";
 		}
 
 		responseString += '"vertices": [' + vertString + ']';

@@ -225,6 +225,10 @@
 			</header>
 			<div class="container imageDropper">
 				<div class="container-content">
+					<!-- <div class="imgUploadDiv">
+						<input id="imageUploadURL" class="input--text input--upload allowPaste" type="text" placeholder="Enter URL of Image to Upload" />
+						<a href="#" class="button--input uploadURLImage icon-cloud-upload"></a>
+					</div> -->
 					<div class="image-drop">
 						<div id="holder"  class="normal image-dropzone"><span class="icon-image"></span> <span class="drop-text">Drop your image here</span></div>
 						<div>
@@ -426,7 +430,7 @@
 			<div class="modal-close modal-close-button">X</div>
 			<div class="title">Report Bug</div>
 			<div class="content" data-waitmessage="Sending">
-				<input id="bugLabel" class="input--text allowPaste" type="text" placeholder="Bug Label (short description please)" />
+				<input id="bugLabel" class="input--text allowPaste required" type="text" placeholder="Bug Label (short description please)" />
 				<textarea id="bugSummary" placeholder="Please provide a detailed description of what happened"></textarea>
 				<div class="buttons"><a href="#" id="sendErrorReport" class="button">Send Bug Report</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
 			</div>
