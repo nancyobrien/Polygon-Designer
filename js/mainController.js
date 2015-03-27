@@ -657,6 +657,14 @@ function mainCtrl(srcImg) {
 	}
 
 	this.clearSelectTriangles = function() {
+		this.setFillSelectTriangles(true);
+	}
+
+	this.restoreSelectTriangles = function() {
+		this.setFillSelectTriangles(false);
+	}
+
+	this.setFillSelectTriangles = function(fillFlag) {
 		if (this.selectionBox) {
 			var selCnt = 0;
 
@@ -668,7 +676,7 @@ function mainCtrl(srcImg) {
 				var bottomRight = {'x': this.triangles[i].maxx, 'y': this.triangles[i].maxy};
 				if (this.isInSelectionArea(topLeft) && this.isInSelectionArea(topRight) && this.isInSelectionArea(bottomLeft) &&this.isInSelectionArea(bottomRight)) {
 					selCnt++;
-					this.triangles[i].toggleGradient(true);
+					this.triangles[i].toggleGradient(fillFlag);
 				}
 			}
 			if (selCnt > 0) {

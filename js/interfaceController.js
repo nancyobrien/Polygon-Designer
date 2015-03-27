@@ -29,6 +29,17 @@ function initInterface() {
 		loadServerImages();
 	})
 
+	$('#backToStart').click(function(e) {
+		e.preventDefault();
+		$('#intro').removeClass('library');
+	})
+
+	$('#backToImageLibrary').click(function(e) {
+		e.preventDefault();
+		$('#intro').removeClass('library');
+	})
+
+
 	
 	$('.uploadURLImage').click(function(e) {
 		e.preventDefault();
@@ -126,6 +137,12 @@ function initInterface() {
 		mainController.clearSelectTriangles();
 		updateStats();
 	})
+
+	$('.restoreSelectedFill').click(function(e) {
+		mainController.restoreSelectTriangles();
+		updateStats();
+	})
+
 
 
 	$('#stroke-point-sync').change(function(e) {

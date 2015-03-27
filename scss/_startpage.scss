@@ -19,6 +19,15 @@
 	}
 }
 
+.button--back {
+	font-size: .9rem;
+	padding: .25rem .75rem .25rem .5rem;
+	margin-right: .5rem;
+
+	span {
+		margin-right: .5rem;
+	}
+}
 
 #wrapper {
 	background:$colorBackground;
@@ -113,6 +122,7 @@
 		.imageLibrary {
 			display:none;
 			padding: 2em;
+			height: 100%;
 
 			h1 {
 				font-size: 1.5em;
@@ -120,16 +130,22 @@
 				padding: .25em 0;
 				&.library-title {
 					display: block;
+
 				}
 				&.details-title {
 					display: none;
 				}
+				> span {
+					vertical-align: middle;
+				}			
 			}
 
 			.libraryContainer {
 				border: 1px solid $color3;
 				padding: 1em .5em;
 				position: relative;
+				height: 85%;
+				overflow: auto;
 
 				.image-select {
 					width: 14.4%;

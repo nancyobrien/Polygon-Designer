@@ -42,6 +42,23 @@
 			<div class="settings display-block">
 				<div class="display-section display-header">Settings</div>
 				<div class="display-section">
+					<span class="label">Show Vertices:</span> 
+					<div class="check-control squaredThree">
+						<input type="checkbox" value="None" id="showVertexCheck" name="showVertexCheck" checked="checked" class="toggleVerts stat-vertex-state"/>
+						<label for="showVertexCheck"></label>
+					</div>
+				</div>
+				<div class="display-section">
+					<span class="label">Show Stroke:</span> 
+					<div class="check-control squaredThree">
+						<input type="checkbox" value="None" id="showStrokeCheck"  class="toggleStroke stat-stroke-state" />
+						<label for="showStrokeCheck"></label>
+					</div>
+				</div>
+
+
+
+				<div class="display-section">
 					<span class="label">Gradient Color:</span> 
 					<div class="check-control squaredThree">
 						<input type="checkbox" value="None" id="colorGradients" name="gradColorCheck" checked="checked"  class="toggleGradient stat-gradient-state" />
@@ -168,7 +185,10 @@
 						<a href="#" class="deleteSelected">Delete Selected Points</a>
 					</li>
 					<li>
-						<a href="#" class="clearSelectedFill">Clear Selected Triangle Fill</a>
+						<a href="#" class="clearSelectedFill">Clear Selected Triangles Fill</a>
+					</li>
+					<li>
+						<a href="#" class="restoreSelectedFill">Restore Selected Triangles Fill</a>
 					</li>
 				</ul>
 			</div>
@@ -240,8 +260,8 @@
 				</div>	
 			</div>	
 			<div id="image-library" class="imageLibrary">
-				<h1 class="library-title">Saved Images</h1>
-				<h1 class="details-title" data-details="title">Versions</h1>
+				<h1 class="library-title"><a id="backToStart" class="button button--back" href="#"><span class="icon-angle-double-left"></span>Back</a><span>Saved Images</span></h1>
+				<h1 class="details-title" data-details="title"><a id="cancel-detail-display" class="button button--back" href="#"><span class="icon-angle-double-left"></span>Back</a><span>Versions</span></h1>
 				<div id="library-container" class="libraryContainer"> 
 					<div class="details">
 						<div class="details-list">
@@ -249,9 +269,6 @@
 								<span>Date</span><span class="data-type--favorite icon-star2" ></span><span>Versions</span><span>&nbsp;</span>
 							</div>
 							<div id="details-list-rows"></div>
-						</div>
-						<div class="buttons">
-							<a href="#" class="button button--cancel" id="cancel-detail-display">Back to image list</a>
 						</div>
 					</div>
 				</div>

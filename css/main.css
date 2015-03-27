@@ -1629,7 +1629,18 @@ input[type='range']::-moz-range-thumb {
   display: block;
 }
 
-/* line 23, ../scss/_startpage.scss */
+/* line 22, ../scss/_startpage.scss */
+.button--back {
+  font-size: .9rem;
+  padding: .25rem .75rem .25rem .5rem;
+  margin-right: .5rem;
+}
+/* line 27, ../scss/_startpage.scss */
+.button--back span {
+  margin-right: .5rem;
+}
+
+/* line 32, ../scss/_startpage.scss */
 #wrapper {
   background: #333;
   padding: 0;
@@ -1642,38 +1653,38 @@ input[type='range']::-moz-range-thumb {
   height: 100%;
   z-index: 1010;
 }
-/* line 43, ../scss/_startpage.scss */
+/* line 52, ../scss/_startpage.scss */
 #wrapper #intro {
   width: 100%;
   margin: 0;
   padding: 1.5em;
   height: 100%;
 }
-/* line 49, ../scss/_startpage.scss */
+/* line 58, ../scss/_startpage.scss */
 #wrapper #intro header {
   width: 100%;
   text-align: center;
   margin-top: 3em;
 }
-/* line 53, ../scss/_startpage.scss */
+/* line 62, ../scss/_startpage.scss */
 #wrapper #intro header h1 {
   color: #DC2C2E;
   font-size: 5em;
   padding: 0;
   text-shadow: 0px 1px 1px #222;
 }
-/* line 61, ../scss/_startpage.scss */
+/* line 70, ../scss/_startpage.scss */
 #wrapper #intro header h2 {
   color: #DC2C2E;
   font-size: 1.5em;
   padding: 0;
   text-shadow: 0px 1px 1px #222;
 }
-/* line 69, ../scss/_startpage.scss */
+/* line 78, ../scss/_startpage.scss */
 #wrapper #intro .imgUploadDiv {
   position: relative;
 }
-/* line 71, ../scss/_startpage.scss */
+/* line 80, ../scss/_startpage.scss */
 #wrapper #intro .imgUploadDiv .input--upload {
   /* width: 100%;
   display: block;
@@ -1691,7 +1702,7 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   top: 0;
 }
-/* line 89, ../scss/_startpage.scss */
+/* line 98, ../scss/_startpage.scss */
 #wrapper #intro .imgUploadDiv .button--input {
   margin-left: -50px;
   height: 3rem;
@@ -1709,51 +1720,58 @@ input[type='range']::-moz-range-thumb {
   font-size: 200%;
   text-decoration: none;
 }
-/* line 105, ../scss/_startpage.scss */
+/* line 114, ../scss/_startpage.scss */
 #wrapper #intro .imgUploadDiv .button--input:hover {
   color: #ffffff;
   font-size: 210%;
 }
-/* line 113, ../scss/_startpage.scss */
+/* line 122, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary {
   display: none;
   padding: 2em;
+  height: 100%;
 }
-/* line 117, ../scss/_startpage.scss */
+/* line 127, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary h1 {
   font-size: 1.5em;
   color: #ffffff;
   padding: .25em 0;
 }
-/* line 121, ../scss/_startpage.scss */
+/* line 131, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary h1.library-title {
   display: block;
 }
-/* line 124, ../scss/_startpage.scss */
+/* line 135, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary h1.details-title {
   display: none;
 }
-/* line 129, ../scss/_startpage.scss */
+/* line 138, ../scss/_startpage.scss */
+#wrapper #intro .imageLibrary h1 > span {
+  vertical-align: middle;
+}
+/* line 143, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer {
   border: 1px solid #ffffff;
   padding: 1em .5em;
   position: relative;
+  height: 85%;
+  overflow: auto;
 }
-/* line 134, ../scss/_startpage.scss */
+/* line 150, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select {
   width: 14.4%;
   margin: .25em 1% 1em 1%;
   display: inline-block;
   color: #ffffff;
 }
-/* line 140, ../scss/_startpage.scss */
+/* line 156, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon {
   display: block;
   width: 100%;
   margin-bottom: .25em;
   position: relative;
 }
-/* line 146, ../scss/_startpage.scss */
+/* line 162, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon img {
   width: 100%;
   -webkit-box-shadow: 4px 4px 4px 0px rgba(20, 20, 20, 0.5);
@@ -1761,20 +1779,20 @@ input[type='range']::-moz-range-thumb {
   -ms-box-shadow: 4px 4px 4px 0px rgba(20, 20, 20, 0.5);
   box-shadow: 4px 4px 4px 0px rgba(20, 20, 20, 0.5);
 }
-/* line 150, ../scss/_startpage.scss */
+/* line 166, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon img:hover {
   -webkit-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
   -ms-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
 }
-/* line 157, ../scss/_startpage.scss */
+/* line 173, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon:hover:after {
   background: transparent;
   width: 0%;
   height: 0%;
 }
-/* line 163, ../scss/_startpage.scss */
+/* line 179, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon:after {
   content: '';
   position: absolute;
@@ -1784,7 +1802,7 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   background: rgba(21, 21, 21, 0.2);
 }
-/* line 172, ../scss/_startpage.scss */
+/* line 188, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl {
   display: none;
   position: absolute;
@@ -1799,23 +1817,23 @@ input[type='range']::-moz-range-thumb {
   text-decoration: none;
   z-index: 10;
 }
-/* line 186, ../scss/_startpage.scss */
+/* line 202, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl:hover {
   opacity: 1;
   text-shadow: 3px 3px 2px #333;
 }
-/* line 191, ../scss/_startpage.scss */
+/* line 207, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl.favorite {
   color: #FFDF00;
   left: 0;
   bottom: 0;
 }
-/* line 198, ../scss/_startpage.scss */
+/* line 214, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-ctrl.folder {
   right: 0;
   bottom: 0;
 }
-/* line 204, ../scss/_startpage.scss */
+/* line 220, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-icon .select-item {
   display: inline-block;
   width: 100%;
@@ -1825,7 +1843,7 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   z-index: 0;
 }
-/* line 214, ../scss/_startpage.scss */
+/* line 230, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-title {
   display: block;
   width: 100%;
@@ -1833,7 +1851,7 @@ input[type='range']::-moz-range-thumb {
   padding: .35em;
   margin-bottom: .25em;
 }
-/* line 221, ../scss/_startpage.scss */
+/* line 237, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-title .delButton {
   font-weight: normal;
   float: right;
@@ -1847,64 +1865,64 @@ input[type='range']::-moz-range-thumb {
   border-radius: 3px;
   text-decoration: none;
 }
-/* line 230, ../scss/_startpage.scss */
+/* line 246, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-title .delButton:hover {
   color: #ffffff;
   background: #F43537;
 }
-/* line 237, ../scss/_startpage.scss */
+/* line 253, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select .image-select-subtitle {
   display: block;
   width: 100%;
   padding: .25em .35em;
   font-style: italic;
 }
-/* line 245, ../scss/_startpage.scss */
+/* line 261, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select:hover .image-select-title {
   font-weight: bold;
 }
-/* line 254, ../scss/_startpage.scss */
+/* line 270, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .image-select.multiple .image-select-icon .folder, #wrapper #intro .imageLibrary .libraryContainer .image-select.multiple .image-select-icon .favorite {
   display: inline-block;
 }
-/* line 262, ../scss/_startpage.scss */
+/* line 278, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary .libraryContainer .details {
   display: none;
 }
-/* line 271, ../scss/_startpage.scss */
+/* line 287, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display h1.library-title {
   display: none;
 }
-/* line 274, ../scss/_startpage.scss */
+/* line 290, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display h1.details-title {
   display: block;
 }
-/* line 278, ../scss/_startpage.scss */
+/* line 294, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer {
   background-color: #ffffff;
 }
-/* line 280, ../scss/_startpage.scss */
+/* line 296, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select {
   display: none;
 }
-/* line 283, ../scss/_startpage.scss */
+/* line 299, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected {
   display: inline-block;
   top: 0;
   left: 0;
   width: 25%;
 }
-/* line 290, ../scss/_startpage.scss */
+/* line 306, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected:hover .image-select-title {
   font-weight: normal;
 }
-/* line 296, ../scss/_startpage.scss */
+/* line 312, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-icon:after {
   background: transparent;
   width: 0%;
   height: 0%;
 }
-/* line 303, ../scss/_startpage.scss */
+/* line 319, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-title {
   color: #DC2C2E;
   background-color: transparent;
@@ -1912,23 +1930,23 @@ input[type='range']::-moz-range-thumb {
   margin-bottom: 0;
   padding-bottom: 0;
 }
-/* line 309, ../scss/_startpage.scss */
+/* line 325, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-title .delButton {
   display: none;
 }
-/* line 313, ../scss/_startpage.scss */
+/* line 329, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .image-select-subtitle {
   color: #434343;
 }
-/* line 317, ../scss/_startpage.scss */
+/* line 333, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .select-ctrl {
   display: none;
 }
-/* line 321, ../scss/_startpage.scss */
+/* line 337, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .image-select.detail-selected .select-item {
   display: none;
 }
-/* line 328, ../scss/_startpage.scss */
+/* line 344, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details {
   vertical-align: top;
   display: inline-block;
@@ -1936,76 +1954,76 @@ input[type='range']::-moz-range-thumb {
   text-align: center;
   margin-top: .25em;
 }
-/* line 330, ../scss/_startpage.scss */
+/* line 346, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details h1 {
   color: #DC2C2E;
 }
-/* line 338, ../scss/_startpage.scss */
+/* line 354, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list {
   width: 100%;
   text-align: left;
 }
-/* line 342, ../scss/_startpage.scss */
+/* line 358, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header {
   font-weight: bold;
   background-color: #666;
   color: #ffffff;
 }
-/* line 346, ../scss/_startpage.scss */
+/* line 362, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span {
   border-right: 1px solid #eee;
   width: 80%;
   display: inline-block;
   padding: .35em .5em;
 }
-/* line 351, ../scss/_startpage.scss */
+/* line 367, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span:first-of-type {
   width: 10%;
 }
-/* line 354, ../scss/_startpage.scss */
+/* line 370, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span:last-of-type {
   border-right: none;
   width: auto;
 }
-/* line 358, ../scss/_startpage.scss */
+/* line 374, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--header span.data-type--favorite {
   width: auto;
   color: #FFDF00;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.25);
 }
-/* line 367, ../scss/_startpage.scss */
+/* line 383, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list #details-list-rows {
   max-height: 300px;
   display: block;
   overflow-y: auto;
   margin-bottom: 1rem;
 }
-/* line 373, ../scss/_startpage.scss */
+/* line 389, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row {
   width: 100%;
   border-bottom: 1px solid #eee;
 }
-/* line 379, ../scss/_startpage.scss */
+/* line 395, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row.favorite span.data-type--favorite {
   color: #FFDF00;
 }
-/* line 385, ../scss/_startpage.scss */
+/* line 401, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row span:first-of-type {
   width: 10%;
 }
-/* line 388, ../scss/_startpage.scss */
+/* line 404, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row span:last-of-type {
   border-right: none;
   width: auto;
 }
-/* line 393, ../scss/_startpage.scss */
+/* line 409, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element {
   border-right: 1px solid #eee;
   width: 80%;
   display: inline-block;
   padding: .25em .5em;
 }
-/* line 399, ../scss/_startpage.scss */
+/* line 415, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--favorite {
   width: auto;
   color: #ffffff;
@@ -2013,11 +2031,11 @@ input[type='range']::-moz-range-thumb {
   cursor: pointer;
   position: relative;
 }
-/* line 405, ../scss/_startpage.scss */
+/* line 421, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--favorite:hover {
   color: #FFDF00;
 }
-/* line 408, ../scss/_startpage.scss */
+/* line 424, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--favorite a {
   display: inline-block;
   width: 100%;
@@ -2026,60 +2044,60 @@ input[type='range']::-moz-range-thumb {
   left: 0;
   top: 0;
 }
-/* line 418, ../scss/_startpage.scss */
+/* line 434, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element.data-type--text {
   text-decoration: none;
 }
-/* line 421, ../scss/_startpage.scss */
+/* line 437, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element a {
   text-decoration: none;
 }
-/* line 423, ../scss/_startpage.scss */
+/* line 439, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element a.detail-ctrl {
   margin-right: 1em;
 }
-/* line 425, ../scss/_startpage.scss */
+/* line 441, ../scss/_startpage.scss */
 #wrapper #intro .imageLibrary.detail-display .libraryContainer .details .details-list .details-list--row .row-element a.detail-ctrl:last-of-type {
   margin-right: 0;
 }
-/* line 438, ../scss/_startpage.scss */
+/* line 454, ../scss/_startpage.scss */
 #wrapper #intro.library header {
   text-align: left;
   margin-top: 0;
 }
-/* line 441, ../scss/_startpage.scss */
+/* line 457, ../scss/_startpage.scss */
 #wrapper #intro.library header h1 {
   color: white;
   font-size: 2.5em;
 }
-/* line 445, ../scss/_startpage.scss */
+/* line 461, ../scss/_startpage.scss */
 #wrapper #intro.library header h2 {
   color: #DC2C2E;
   font-size: .75em;
 }
-/* line 451, ../scss/_startpage.scss */
+/* line 467, ../scss/_startpage.scss */
 #wrapper #intro.library .imageDropper {
   display: none;
 }
-/* line 454, ../scss/_startpage.scss */
+/* line 470, ../scss/_startpage.scss */
 #wrapper #intro.library .imageLibrary {
   display: block;
 }
-/* line 459, ../scss/_startpage.scss */
+/* line 475, ../scss/_startpage.scss */
 #wrapper #intro .container {
   width: 100%;
 }
-/* line 461, ../scss/_startpage.scss */
+/* line 477, ../scss/_startpage.scss */
 #wrapper #intro .container .container-content {
   margin: 0 auto;
   width: 75%;
 }
-/* line 466, ../scss/_startpage.scss */
+/* line 482, ../scss/_startpage.scss */
 #wrapper #intro .image-drop {
   width: 100%;
   margin: 28px 2em  28px 0;
 }
-/* line 469, ../scss/_startpage.scss */
+/* line 485, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .image-dropzone {
   width: 100%;
   display: block;
@@ -2091,7 +2109,7 @@ input[type='range']::-moz-range-thumb {
   border: 1px dashed #ccc;
   color: #ffffff;
 }
-/* line 485, ../scss/_startpage.scss */
+/* line 501, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .image-dropzone.hover {
   -webkit-box-shadow: inset 0px 0px 30px 0px #666;
   -moz-box-shadow: inset 0px 0px 30px 0px #666;
@@ -2100,19 +2118,19 @@ input[type='range']::-moz-range-thumb {
   background: #434343;
   color: #fff;
 }
-/* line 494, ../scss/_startpage.scss */
+/* line 510, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .image-dropzone img {
   vertical-align: middle;
 }
-/* line 499, ../scss/_startpage.scss */
+/* line 515, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .button {
   margin: 1em .25em;
 }
-/* line 501, ../scss/_startpage.scss */
+/* line 517, ../scss/_startpage.scss */
 #wrapper #intro .image-drop .button#cancel-image-load {
   display: none;
 }
-/* line 507, ../scss/_startpage.scss */
+/* line 523, ../scss/_startpage.scss */
 #wrapper #intro .tutorial {
   font-size: 1.5em;
   width: 30%;
@@ -2121,26 +2139,26 @@ input[type='range']::-moz-range-thumb {
   background: #f0f0f0;
   margin: 28px 0;
 }
-/* line 514, ../scss/_startpage.scss */
+/* line 530, ../scss/_startpage.scss */
 #wrapper #intro .tutorial h2 {
   color: #de2e1f;
   font-size: 1.2em;
   margin-bottom: .5em;
 }
-/* line 519, ../scss/_startpage.scss */
+/* line 535, ../scss/_startpage.scss */
 #wrapper #intro .tutorial .instructions {
   font-size: .8em;
   margin-bottom: 1em;
 }
-/* line 522, ../scss/_startpage.scss */
+/* line 538, ../scss/_startpage.scss */
 #wrapper #intro .tutorial .instructions li {
   margin-bottom: .5em;
 }
-/* line 525, ../scss/_startpage.scss */
+/* line 541, ../scss/_startpage.scss */
 #wrapper #intro .tutorial .instructions li a {
   font-size: 1em;
 }
-/* line 530, ../scss/_startpage.scss */
+/* line 546, ../scss/_startpage.scss */
 #wrapper #intro .tutorial p {
   font-size: .6em;
   color: #581112;
