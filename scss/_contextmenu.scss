@@ -1,4 +1,9 @@
-.context-menu{
+.show-popup {
+	cursor: pointer;
+}
+
+
+.menu{
 	border:0; //2px solid $colorBorder;
 	z-index:1000;
 	position: absolute;
@@ -15,11 +20,50 @@
 		display: none;
 	}
 
+
+	&.arrow-down {
+		background: $color3;
+		&:after {
+			top: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(255, 255, 255, 0);
+			border-top-color: $color3;
+			border-width: 1rem;
+			margin-left: -1rem;
+		}
+	}
+
+	.check {
+		
+		margin-left: -1rem;
+		padding-right: .15rem;
+		width: 1rem;
+		display: inline-block;
+		&.selected {
+			@extend .icon;
+			@extend .icon-check;
+		}
+	}
+
+
 	li{
 		list-style: none; 
 		&.spacer{
 			background-color: tint($colorBackground, 30);
 			height: 2px;
+		}
+		&.selected {
+			background-color: darken($color2, 7);
+			
+			a {
+				color: $color3;
+			}
 		}
 		a {
 			display:block;
@@ -27,7 +71,7 @@
 			border-bottom:1px solid darken($color3, .8);
 			color: #000;
 			text-decoration: none; 
-			padding:.5em 5em .5em 1.5em;
+			padding:.5em 5em .5em 1.75em;
 			font-weight: normal;
 			text-align: left;
 			&:hover { 

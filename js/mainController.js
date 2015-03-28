@@ -134,7 +134,7 @@ function mainCtrl(srcImg) {
 		mCtrl.selectLayer.onmousedown = function(e) {
 			if (e.which !== 3 && isContextMenuOpen()) {
 				//Left mouse was clicked, but there is a context menu open, so just close the menu
-				hideContentMenu();
+				hideMenus();
 				return false;
 			} else if (e.which === 3) {
 				//Right mouse was clicked, don't do anything else.
@@ -197,7 +197,7 @@ function mainCtrl(srcImg) {
 			mCtrl.selectionBox = false;
 			if (e.which !== 3 && isContextMenuOpen()) {
 				//Left mouse was clicked, but there is a context menu open, so don't add a vertex, close the menu
-				hideContentMenu();
+				hideMenus();
 				return false;
 			}
 
@@ -229,7 +229,7 @@ function mainCtrl(srcImg) {
 					}
 					mCtrl.clickLayer.onmousemove = function(e) {
 						e.preventDefault();
-						  e.stopPropagation();
+						e.stopPropagation();
 						var movingMousePos = mCtrl.getRelativeMousePosition(e);
 						moveDist = Math.pow((movingMousePos.x - lastMousePos.x),2) + Math.pow((movingMousePos.y - lastMousePos.y),2);
 						if (moveDist > mCtrl.multidropDistance) {
@@ -237,7 +237,6 @@ function mainCtrl(srcImg) {
 							mCtrl.raiseEvent("verticesChanged", "Vertices Changed");
 							lastMousePos = movingMousePos;
 						}
-
 					}
 				}
 
@@ -473,8 +472,12 @@ function mainCtrl(srcImg) {
 		this.setShowVertices(!this.showVertices);
 	}
 
-	this.toggleGradientDisplay = function() {
-		this.useGradient = !this.useGradient;
+	this.toggleGradientDisplay = function(gradFlag) {
+		if (gradFlag === undefined) {
+			this.useGradient = !this.useGradient;
+		} else {
+			this.useGradient = gradFlag;
+		}
 		this.reDraw();
 	}
 

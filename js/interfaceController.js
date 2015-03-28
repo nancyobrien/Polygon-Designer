@@ -94,15 +94,67 @@ function initInterface() {
 		}
 	})
 
+	$('.menu a').click(function (e) {
+		e.preventDefault();
+		hideMenus();
+	})
+
+	$('.show-popup').click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		var menuType = $(this).data('popupmenu');
+		if (!$(menuType).hasClass('hide')) {
+			hideMenus();
+			return;
+		}
+
+		var popClass = ($(this).data('popupclass') ? $(this).data('popupclass') : '');
+		var borderHeight = 16;// $(this).find(':after').css('border-width');
+		var objSize = {}
+		objSize.width = $(this).width() + parseFloat($(this).css('padding-left')) + parseFloat($(this).css('padding-right'));
+		objSize.height = $(this).height() + parseFloat($(this).css('padding-top')) + parseFloat($(this).css('padding-bottom'));
+		var mousePos = {};
+		mousePos.x = $(this).position().left;
+		mousePos.y = $(this).position().top + borderHeight;
+		var menuPlacement = {'horizontal' : 'left', 'vertical': 'top'};
+		switch ($(this).data('popuppositionh')) {
+			case 'left':
+				mousePos.x -= objSize.width/2;
+				break;
+			case 'center':
+				mousePos.x += 0;
+				break;
+			case 'right':
+				mousePos.x += objSize.width;
+				break;
+
+		}
+		switch ($(this).data('popuppositionv')) {
+			case 'top':
+				menuPlacement.vertical = 'bottom';
+				mousePos.y = objSize.height + borderHeight;
+				break;
+			case 'middle':
+				mousePos.x += objSize.height/2;
+				break;
+
+		}
+
+		showPopupMenu(menuType, mousePos, menuPlacement, popClass);
+	})
+
 	$('.toggleVerts').click(function(e) {
 		mainController.toggleVertices();
 		updateStats();
 	})
 
 	$('.toggleGradient').click(function(e) {
-		mainController.toggleGradientDisplay();
+		var setvalue;
+		if ($(this).data('setvalue') !== undefined) {
+			setvalue = $(this).data('setvalue');
+		}
+		mainController.toggleGradientDisplay(setvalue);
 		updateStats();
-		//$(this).find('.icon--radio').toggleClass('checked', mainController.useGradient);
 	})
 
 	$('.toggleFill').click(function(e) {
@@ -743,6 +795,12 @@ function setValue(ctrl, value) {
 		var thisCtrl = $(this);
 		if (thisCtrl.hasClass('show-hide')) {
 			thisCtrl.toggleClass('show', !value);
+		} else  if (thisCtrl.hasClass('show-selected')) {
+			if (thisCtrl.hasClass('stat-reverse')) {
+				thisCtrl.toggleClass('selected', !value);
+			} else {
+				thisCtrl.toggleClass('selected', value);
+			}
 		} else {
 			thisCtrl.html(value);
 			if(thisCtrl.is(':checkbox') || thisCtrl.is(':radio')) {
@@ -1021,18 +1079,37 @@ $(document).ready(function() {
 function hideContextMenu() {
 	$('.context-menu').addClass('hide');
 }
+function hideMenus() {
+	$('.menu').addClass('hide');
+}
 
 $(document).bind("click", function(event) {
-	 hideContextMenu();
+	 hideMenus();
 });
 
-function showMenu(menuType, menuPosition) {
+function showPopupMenu(menuType, menuPosition, menuPlacement, menuClass) {
+	if(!menuPlacement) {
+		menuPlacement.vertical = 'top';
+		menuPlacement.horizontal = 'left';
+	}
 	hideContextMenu();	//Hide all context menus before showing a new one.
+	var menuElement = $(menuType);
+	if (menuClass) {menuElement.addClass(menuClass);}
+	menuElement.removeClass('hide');  
+	menuElement.css(menuPlacement.vertical,  menuPosition.y);
+	menuElement.css(menuPlacement.horizontal,  menuPosition.x);
+}
+
+
+function showMenu(menuType, menuPosition) {
+	hideMenus();	//Hide all menus before showing a new one.
 	var menuElement = $(menuType);
 	menuElement.removeClass('hide');  
 	menuElement.css('top',  menuPosition.y);
 	menuElement.css('left',  menuPosition.x);
 }
+
+
 
 function infoMessage(title, message) {
 	if (title) {$('#infoMessage').find('.title').html(title);}
@@ -1063,9 +1140,7 @@ function showModal(modalName, autoFade){
 function isContextMenuOpen() {
 	return ($('.context-menu').not('.hide').length > 0);
 }
-function hideContentMenu() {
-	$('.context-menu').addClass('hide');
-}
+
 
 function saveSVG() {
 	var svgData = mainController.generateSVG();

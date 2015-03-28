@@ -322,7 +322,15 @@ function triangle(v0, v1, v2) {
 
 		if (!this.midVertex) {
 			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-			this.midVertex.avColor();		
+			this.midVertex.avColor();	
+			if (((this.v0.colorString()) == (this.v1.colorString())) && ((this.v0.colorString()) == (this.v2.colorString()))) {
+				this.midVertex.gradientColor = this.getSolidGradientColor(this.midVertex, this.v0);
+				if (mainController.useSolidGradient) {
+					this.midVertex.red = this.midVertex.gradientColor.red;			
+					this.midVertex.green = this.midVertex.gradientColor.green;			
+					this.midVertex.blue = this.midVertex.gradientColor.blue; 
+				}
+			}	
 
 		}
 		if (mainController.togglingSolidGradient) {

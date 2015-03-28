@@ -138,14 +138,14 @@
 	<div id="canvasContainer" class="open">
 
 		<div class="menus">
-			<div class="context-menu context-menu--vertex hide" id="vertexMenu">
+			<div class="menu context-menu context-menu--vertex hide" id="vertexMenu">
 				<ul>
 					<li>
 						<a href="#" class="deleteVertex">Delete Vertex</a>
 					</li>	                
 				</ul>
 			</div>
-			<div class="context-menu context-menu--zoom hide" id="zoomMenu">
+			<div class="menu context-menu context-menu--zoom hide" id="zoomMenu">
 				<ul>
 					<li>
 						<a href="#" class="zoomIn">Zoom In</a>
@@ -179,7 +179,7 @@
 				</ul>
 			</div>
 
-			<div class="context-menu context-menu--select hide" id="selectMenu">
+			<div class="menu context-menu context-menu--select hide" id="selectMenu">
 				<ul>
 					<li>
 						<a href="#" class="deleteSelected">Delete Selected Points</a>
@@ -215,7 +215,8 @@
 			<div class="status-section">
 				<span class="label">Opacity:</span> <span class="stat stat-opacity"></span> 
 			</div>
-			<div class="status-section">
+			<div class="status-section show-popup" data-popupmenu="#fillOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
+				<span class="popup-indicator icon-arrow-up2"></span>
 				<span class="label">Fill Style:</span> <span class="stat stat-fillstyle"></span> 
 			</div>
 			<div class="status-section toolbar-button">
@@ -237,8 +238,26 @@
 
 	</div>
 	
+	<div class="popup-menus">
+
+		<div class="menu popup-menu--filloptions hide" id="fillOptionsMenu">
+			<ul>
+				<li class=" show-selected stat-gradient-state">
+					<a href="#" class="toggleGradient" data-setvalue="true"><span class="check show-selected stat-gradient-state"></span>Gradient Fill</span></a>
+				</li>
+				<li class=" show-selected stat-gradient-state stat-reverse">
+					<a href="#" class="toggleGradient" data-setvalue="false"><span class="check show-selected stat-gradient-state stat-reverse"></span>Solid Fill</span></a>
+				</li>
+				<li>
+					<a href="#" class="toggleFill" data-setvalue="true"><span class="show-hide stat-fill-state"></span> Fill</span></a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+
 	<div id="wrapper">
-		<div id="intro">
+		<div id="intro"> 
 			<header>
 				<h1>Poly-i-nator</h1>
 				<h2>Create works of geo-art</h2>
