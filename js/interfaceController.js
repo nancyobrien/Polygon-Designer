@@ -108,6 +108,13 @@ function initInterface() {
 			return;
 		}
 
+		hideMenus();
+
+		//Have to show the menu to get the width;
+		$(menuType).removeClass('hide');
+		var menuWidth = $(menuType).width();
+		$(menuType).addClass('hide');
+
 		var popClass = ($(this).data('popupclass') ? $(this).data('popupclass') : '');
 		var borderHeight = 16;// $(this).find(':after').css('border-width');
 		var objSize = {}
@@ -122,7 +129,7 @@ function initInterface() {
 				mousePos.x -= objSize.width/2;
 				break;
 			case 'center':
-				mousePos.x += 0;
+				mousePos.x += (objSize.width - menuWidth)/2;
 				break;
 			case 'right':
 				mousePos.x += objSize.width;
