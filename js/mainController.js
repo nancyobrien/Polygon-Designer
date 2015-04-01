@@ -143,7 +143,17 @@ function mainCtrl(srcImg) {
 					// Shift + Ctrl + 1
 					// Fit to screen
 					mCtrl.fitToScreen();
-				}
+				} /*else if ((e.which == 187 || e.keyCode == 187) && e.shiftKey) {
+					// Ctrl + +
+					// Fit to screen
+					e.preventDefault();
+					mCtrl.zoomIn();
+				} else if ((e.which == 189 || e.keyCode == 189) && e.shiftKey) {
+					// Ctrl + -
+					// Fit to screen
+					e.preventDefault();
+					mCtrl.zoomOut();
+				}*/
 			}
 			
 		}
@@ -355,8 +365,8 @@ function mainCtrl(srcImg) {
 
 	this.fitToScreen = function() {
 		var newZoom = 1;
-		var maxWidth = $(window).width() - this.offsetX - this.canvasOffset();
-		var maxHeight = $(window).height() - this.offsetY;
+		var maxWidth = $(this.canvasContainer).width(); //$(window).width() - this.offsetX - this.canvasOffset();
+		var maxHeight = $(this.canvasContainer).height(); //$(window).height() - this.offsetY;
 
 		newZoom = Math.min((maxWidth/this.originalSize.width), (maxHeight/this.originalSize.height))
 
