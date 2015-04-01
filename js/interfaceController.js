@@ -1135,6 +1135,20 @@ function showMenu(menuType, menuPosition) {
 	hideMenus();	//Hide all menus before showing a new one.
 	var menuElement = $(menuType);
 	menuElement.removeClass('hide');  
+	var menuWidth = menuElement.width();
+	var menuHeight = menuElement.height();
+
+	var containerWidth = $(mainController.canvasContainer).width() - 25;
+	var containerHeight = $(mainController.canvasContainer).height() - 25;
+
+	if ((menuPosition.x + menuWidth) > containerWidth) {
+		menuPosition.x = menuPosition.x - menuWidth;
+	}
+
+	if ((menuPosition.y + menuHeight) > containerHeight) {
+		menuPosition.y = menuPosition.y - menuHeight - 2;
+	}
+
 	menuElement.css('top',  menuPosition.y);
 	menuElement.css('left',  menuPosition.x);
 }
