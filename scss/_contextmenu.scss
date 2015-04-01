@@ -4,17 +4,17 @@
 
 
 .menu{
-	border:0; //2px solid $colorBorder;
 	z-index:1000;
 	position: absolute;
 	display: block;
 	background-color:$color3;
 	color: $color2;
-	padding: .15em 0;
+	padding: 0;
 	margin: 0;
 	list-style-type: none;
 	list-style: none;    
 	@include box-shadow(2px 2px 2px 0px rgba(238,238,238,0.5));
+	border: 1px solid $colorBorder2;
 
 	&.hide {
 		display: none;
@@ -74,6 +74,7 @@
 			padding:.5em 5em .5em 1.75em;
 			font-weight: normal;
 			text-align: left;
+			white-space: nowrap;
 			&:hover { 
 				//text-decoration: shade($color3, 50); 
 				background-color:$color2; //tint($colorBackground, 40);

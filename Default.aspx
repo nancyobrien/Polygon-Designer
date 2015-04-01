@@ -32,10 +32,10 @@
 	<div class="display-pane open">
 
 		<div class="display-controls">
-			<div id="tool-addPoint2" title="Add point mode" class="tools display-toggle select-tool icon-cursor selected"  data-toolmode="Add Points"  data-activelayer="#clickLayer"></div>
-			<div id="tool-selectPoint2" title="Select points mode" class="tools display-toggle select-tool icon-marquee"  data-toolmode="Select Points"  data-activelayer="#selectLayer"></div>
-			<div id="tool-zoomIn" title="Zoom in" class="tools display-toggle zoom-tool icon-zoom-in zoomIn" data-toolmode="zoomIn"   ></div>
-			<div id="tool-zoomOut" title="Zoom out" class="tools display-toggle zoom-tool icon-zoom-out zoomOut" data-toolmode="zoomOut" ></div>
+			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add point mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
+			<div id="tool-selectPoint2" data-tooltip="Select points mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Select Points"  data-activelayer="#selectLayer"><span class="icon-marquee"></span></div>
+			<div id="tool-zoomIn" data-tooltip="Zoom in" class="tools display-toggle zoom-tool  zoomIn tooltip tooltip--right" data-toolmode="zoomIn"   ><span class="icon-zoom-in"></span></div>
+			<div id="tool-zoomOut" data-tooltip="Zoom out" class="tools display-toggle zoom-tool  zoomOut tooltip tooltip--right" data-toolmode="zoomOut" ><span class="icon-zoom-out"></span></div>
 
 		</div>
 		<div class="display-content">

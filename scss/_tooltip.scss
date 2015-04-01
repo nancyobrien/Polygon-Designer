@@ -1,0 +1,57 @@
+.tooltip {
+	display: inline;
+	position: relative;
+	font-family: 'Archivo Narrow', sans-serif;
+
+	&:hover {
+		&:after {
+			background: $colorBackground2;
+			background: rgba(102, 102, 102, .9);
+			@include border-radius(2px);
+			bottom: 26px;
+			color: #fff;
+			content: attr(data-tooltip);
+			left: 20%;
+			padding: 5px 15px;
+			position: absolute;
+			z-index: 998;
+			width: auto;
+			font-family: 'Archivo Narrow', sans-serif;
+			font-size: 80%;
+			min-width: 50px;
+			@include box-shadow(1px 1px 1px 0px rgba(204,204,204,0.5));
+			white-space: nowrap;
+		}
+
+		&:before {
+			border: solid;
+			border-color: rgba(102, 102, 102, .9) transparent;
+			border-width: 6px 6px 0 6px;
+			bottom: 20px;
+			content: "";
+			left: 50%;
+			position: absolute; 
+			z-index: 999;
+		}
+	}
+
+	&.tooltip--right {
+		&:hover {
+			&:after {
+				bottom: 0;
+				left: 48px;
+
+			}
+
+			&:before {
+				border-color: transparent rgba(102, 102, 102, .9) ;
+				border-width: 10px 10px 10px 0;
+				bottom: .5em;
+				right: -7px;
+
+			}
+		}
+
+	}
+}
+	

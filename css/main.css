@@ -1560,6 +1560,61 @@ input[type='range']::-moz-range-thumb {
   border-right: 1px dotted #eee;
 }
 
+/* line 1, ../scss/_tooltip.scss */
+.tooltip {
+  display: inline;
+  position: relative;
+  font-family: 'Archivo Narrow', sans-serif;
+}
+/* line 7, ../scss/_tooltip.scss */
+.tooltip:hover:after {
+  background: #666;
+  background: rgba(102, 102, 102, 0.9);
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px;
+  bottom: 26px;
+  color: #fff;
+  content: attr(data-tooltip);
+  left: 20%;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 998;
+  width: auto;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 80%;
+  min-width: 50px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(204, 204, 204, 0.5);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(204, 204, 204, 0.5);
+  -ms-box-shadow: 1px 1px 1px 0px rgba(204, 204, 204, 0.5);
+  box-shadow: 1px 1px 1px 0px rgba(204, 204, 204, 0.5);
+  white-space: nowrap;
+}
+/* line 26, ../scss/_tooltip.scss */
+.tooltip:hover:before {
+  border: solid;
+  border-color: rgba(102, 102, 102, 0.9) transparent;
+  border-width: 6px 6px 0 6px;
+  bottom: 20px;
+  content: "";
+  left: 50%;
+  position: absolute;
+  z-index: 999;
+}
+/* line 40, ../scss/_tooltip.scss */
+.tooltip.tooltip--right:hover:after {
+  bottom: 0;
+  left: 48px;
+}
+/* line 46, ../scss/_tooltip.scss */
+.tooltip.tooltip--right:hover:before {
+  border-color: transparent rgba(102, 102, 102, 0.9);
+  border-width: 10px 10px 10px 0;
+  bottom: .5em;
+  right: -7px;
+}
+
 /* line 1, ../scss/_settingsbar.scss */
 .topbar {
   position: absolute;
@@ -2546,13 +2601,12 @@ input[type='range']::-moz-range-thumb {
 
 /* line 6, ../scss/_contextmenu.scss */
 .menu {
-  border: 0;
   z-index: 1000;
   position: absolute;
   display: block;
   background-color: #ffffff;
   color: #DC2C2E;
-  padding: .15em 0;
+  padding: 0;
   margin: 0;
   list-style-type: none;
   list-style: none;
@@ -2560,6 +2614,7 @@ input[type='range']::-moz-range-thumb {
   -moz-box-shadow: 2px 2px 2px 0px rgba(238, 238, 238, 0.5);
   -ms-box-shadow: 2px 2px 2px 0px rgba(238, 238, 238, 0.5);
   box-shadow: 2px 2px 2px 0px rgba(238, 238, 238, 0.5);
+  border: 1px solid #ccc;
 }
 /* line 19, ../scss/_contextmenu.scss */
 .menu.hide {
@@ -2618,13 +2673,14 @@ input[type='range']::-moz-range-thumb {
   padding: .5em 5em .5em 1.75em;
   font-weight: normal;
   text-align: left;
+  white-space: nowrap;
 }
-/* line 77, ../scss/_contextmenu.scss */
+/* line 78, ../scss/_contextmenu.scss */
 .menu li a:hover {
   background-color: #DC2C2E;
   color: #ffffff;
 }
-/* line 84, ../scss/_contextmenu.scss */
+/* line 85, ../scss/_contextmenu.scss */
 .menu li:last-of-type a {
   border-bottom: none;
 }
@@ -2704,23 +2760,24 @@ input[type='range']::-moz-range-thumb {
   font-size: 1.5em;
   padding: 5px 10px;
   cursor: pointer;
+  display: inline-block;
 }
-/* line 57, ../scss/_stats.scss */
+/* line 58, ../scss/_stats.scss */
 .display-pane .display-controls .display-toggle:hover {
   background-color: rgba(238, 238, 238, 0.8);
 }
-/* line 59, ../scss/_stats.scss */
+/* line 60, ../scss/_stats.scss */
 .display-pane .display-controls .display-toggle:hover.selected {
   background-color: #DC2C2E;
   color: #ffffff;
   border: 1px solid #DC2C2E;
   border-left: none;
 }
-/* line 70, ../scss/_stats.scss */
+/* line 71, ../scss/_stats.scss */
 .display-pane .display-content {
   width: 140px;
 }
-/* line 73, ../scss/_stats.scss */
+/* line 74, ../scss/_stats.scss */
 .display-pane .display-block {
   width: 140px;
   height: auto;
@@ -2730,11 +2787,11 @@ input[type='range']::-moz-range-thumb {
   position: relative;
   display: block;
 }
-/* line 84, ../scss/_stats.scss */
+/* line 85, ../scss/_stats.scss */
 .display-pane .display-block.open {
   display: block;
 }
-/* line 88, ../scss/_stats.scss */
+/* line 89, ../scss/_stats.scss */
 .display-pane .display-block.display-static {
   display: block;
   bottom: 0;
@@ -2751,15 +2808,15 @@ input[type='range']::-moz-range-thumb {
   -webkit-transform: translateY(0);
   transform: translateY(0);
 }
-/* line 97, ../scss/_stats.scss */
+/* line 98, ../scss/_stats.scss */
 .display-pane .display-block.display-static .display-section {
   color: #ffffff;
 }
-/* line 99, ../scss/_stats.scss */
+/* line 100, ../scss/_stats.scss */
 .display-pane .display-block.display-static .display-section.display-header {
   font-size: 1.2em;
 }
-/* line 102, ../scss/_stats.scss */
+/* line 103, ../scss/_stats.scss */
 .display-pane .display-block.display-static .display-section.display-header .display-trigger {
   font-family: 'icomoon';
   text-align: center;
@@ -2774,38 +2831,38 @@ input[type='range']::-moz-range-thumb {
   border-radius: 0.25em;
   background-color: #b71e20;
 }
-/* line 112, ../scss/_stats.scss */
+/* line 113, ../scss/_stats.scss */
 .display-pane .display-block.display-static .display-section.display-header .display-trigger:before {
   content: "\f103";
 }
-/* line 115, ../scss/_stats.scss */
+/* line 116, ../scss/_stats.scss */
 .display-pane .display-block.display-static .display-section.display-header .display-trigger:hover {
   background-color: #a11b1c;
   cursor: pointer;
 }
-/* line 123, ../scss/_stats.scss */
+/* line 124, ../scss/_stats.scss */
 .display-pane .display-block.display-static.closed {
   -moz-transform: translateY(81%);
   -ms-transform: translateY(81%);
   -webkit-transform: translateY(81%);
   transform: translateY(81%);
 }
-/* line 128, ../scss/_stats.scss */
+/* line 129, ../scss/_stats.scss */
 .display-pane .display-block.display-static.closed .display-section.display-header .display-trigger:before {
   content: "\f102";
 }
-/* line 138, ../scss/_stats.scss */
+/* line 139, ../scss/_stats.scss */
 .display-pane .display-block .display-section {
   color: #ffffff;
   display: block;
   border-bottom: 1px dotted #333;
   padding: 10px;
 }
-/* line 144, ../scss/_stats.scss */
+/* line 145, ../scss/_stats.scss */
 .display-pane .display-block .display-section #opacityPercent {
   margin-left: 5px;
 }
-/* line 146, ../scss/_stats.scss */
+/* line 147, ../scss/_stats.scss */
 .display-pane .display-block .display-section.display-header {
   background-color: #DC2C2E;
   color: #ffffff;
@@ -2813,12 +2870,12 @@ input[type='range']::-moz-range-thumb {
   font-size: 1.2em;
   padding: 5px 10px;
 }
-/* line 155, ../scss/_stats.scss */
+/* line 156, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button {
   padding: 0;
   text-align: left;
 }
-/* line 158, ../scss/_stats.scss */
+/* line 159, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button a {
   font-weight: normal;
   padding: 10px;
@@ -2827,60 +2884,60 @@ input[type='range']::-moz-range-thumb {
   display: inline-block;
   width: 100%;
 }
-/* line 165, ../scss/_stats.scss */
+/* line 166, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button a .tool-icon {
   margin-right: 5px;
 }
-/* line 169, ../scss/_stats.scss */
+/* line 170, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button a.selected {
   background-color: #efefef;
   color: #DC2C2E;
   cursor: default;
 }
-/* line 174, ../scss/_stats.scss */
+/* line 175, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button a.selected .tool-icon {
   color: #DC2C2E;
 }
-/* line 177, ../scss/_stats.scss */
+/* line 178, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button a.selected:hover {
   color: #DC2C2E;
   background-color: #efefef;
 }
-/* line 185, ../scss/_stats.scss */
+/* line 186, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button:hover {
   background-color: #cfcfcf;
 }
-/* line 186, ../scss/_stats.scss */
+/* line 187, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button:hover a {
   color: #DC2C2E;
 }
-/* line 191, ../scss/_stats.scss */
+/* line 192, ../scss/_stats.scss */
 .display-pane .display-block .display-section.toolbar-button.nohover:hover {
   background-color: transparent;
 }
-/* line 196, ../scss/_stats.scss */
+/* line 197, ../scss/_stats.scss */
 .display-pane .display-block .display-section .editable-input {
   margin: auto 5px;
   padding: 2px;
 }
-/* line 199, ../scss/_stats.scss */
+/* line 200, ../scss/_stats.scss */
 .display-pane .display-block .display-section .editable-input:focus {
   outline: 1px dotted #DC2C2E;
 }
-/* line 204, ../scss/_stats.scss */
+/* line 205, ../scss/_stats.scss */
 .display-pane .display-block .display-section .label + .inline-button {
   margin-left: 5px;
 }
-/* line 208, ../scss/_stats.scss */
+/* line 209, ../scss/_stats.scss */
 .display-pane .display-block .display-section .icon-button {
   text-decoration: none;
   color: #eee;
 }
-/* line 211, ../scss/_stats.scss */
+/* line 212, ../scss/_stats.scss */
 .display-pane .display-block .display-section .icon-button:hover {
   color: #ffffff;
 }
-/* line 217, ../scss/_stats.scss */
+/* line 218, ../scss/_stats.scss */
 .display-pane .display-block .display-section .check-control.squaredThree {
   display: inline-block;
   margin: 0 5px;

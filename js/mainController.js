@@ -136,11 +136,11 @@ function mainCtrl(srcImg) {
 					mCtrl.needToDrawTriangles = true;
 					 mCtrl.reDraw();
 				} else if ((e.which == 48 || e.keyCode == 48) && e.shiftKey) {
-					// Ctrl + 0
+					// Shift + Ctrl + 0
 					// Zoom 100%
 					mCtrl.setZoomLevel(1);
 				} else if ((e.which == 49 || e.keyCode == 49) && e.shiftKey) {
-					// Ctrl + 1
+					// Shift + Ctrl + 1
 					// Fit to screen
 					mCtrl.fitToScreen();
 				}
