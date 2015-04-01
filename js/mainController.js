@@ -185,6 +185,8 @@ function mainCtrl(srcImg) {
 			mCtrl.selectLayer.onmouseup = function(e) {
 				mousePos = mCtrl.getRelativeMousePosition(e);
 				if ((mousePos.x != startMousePos.x) && (mousePos.y != startMousePos.y)) {
+					var tmpVertFlag = mCtrl.showVertices;
+					if (!tmpVertFlag) {mCtrl.setShowVertices(true);}
 					//console.log(mousePos.x + " " + startMousePos.x + " " + (mousePos.x - startMousePos.x) + " : "  + (mousePos.y - startMousePos.y))
 					//mCtrl.selectCtx.clearRect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height)
 					mCtrl.clearThisCanvas(mCtrl.selectCtx);
@@ -202,6 +204,14 @@ function mainCtrl(srcImg) {
 
 					mCtrl.selectCtx.clearRect(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y)
 					ctx.closePath();
+
+					var imageData = mCtrl.vertCtx.getImageData(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y);
+					mCtrl.invertVerts(imageData);
+			      	mCtrl.selectCtx.putImageData(imageData, startMousePos.x, startMousePos.y);
+					if (!tmpVertFlag) {mCtrl.setShowVertices(false);}
+
+
+
 					var xOffset = 0; //mCtrl.canvasOffset();
 					mCtrl.selectionBox = {
 							xstart: Math.min(startMousePos.x, mousePos.x) + xOffset, 
@@ -381,6 +391,19 @@ function mainCtrl(srcImg) {
 	this.zoomOut = function() {
 		this.setZoomLevel(this.zoomLevel - .1);
 	}
+
+	this.invertVerts = function(imgData, args) {
+		var d = imgData.data;
+		for (var i = 0; i < d.length; i += 4) {
+			var r = d[i];
+			var g = d[i + 1];
+			var b = d[i + 2];
+			d[i] = 255 - r;        // apply average to red channel
+			d[i + 1] = 255 - g;
+			d[i + 2] = 255 - b; // zero out green and blue channel
+		}
+		return imgData;
+	};
 
 	this.setUpCanvas = function() {
 		this.resizeElement(this.sourceImg, this.canvasWidth, this.canvasHeight);
