@@ -172,8 +172,8 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 		    if (this.x < mainController.snapSide/2)  {    
 		        startX = 0;
 		    } else {
-		    	if (this.x + snapHalf > mainController.sourceImg.width)  {
-		        	startX = mainController.sourceImg.width - mainController.snapSide
+		    	if (this.x + snapHalf > mainController.samplingImg.width)  {
+		        	startX = mainController.samplingImg.width - mainController.snapSide
 		    	} else {
 		        	startX = this.x - snapHalf
 		    	}
@@ -182,8 +182,8 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 		    if (this.y < snapHalf)  {    
 		        startY = 0;                
 		    } else {
-			    if (this.y + snapHalf > mainController.sourceImg.height)  {
-			        startY = mainController.sourceImg.height - mainController.snapSide
+			    if (this.y + snapHalf > mainController.samplingImg.height)  {
+			        startY = mainController.samplingImg.height - mainController.snapSide
 			    } else {
 			        startY = this.y - snapHalf
 			    }
@@ -194,17 +194,18 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 
 		    var tempColor = mainController.getImageData(startX, startY);
 
-		    for (var i = 0; i < mainController.snapSide * mainController.snapSide; i++) {
-		    	var fourI = 4*i;
-		        result[0] += tempColor[fourI];
-		        result[1] += tempColor[fourI + 1];
-		        result[2] += tempColor[fourI + 2];
-		        result[3] += tempColor[fourI + 3];
-		    }
-		    this.red = ~~ (result[0] / i);
-		    this.green = ~~ (result[1] / i);
-		    this.blue = ~~ (result[2] / i);
-		    this.alpha = ~~ (result[3] / i);
+			for (var i = 0; i < tempColor.length;i+=4) {
+				result[0] += tempColor[i];
+				result[1] += tempColor[i + 1];
+				result[2] += tempColor[i + 2];
+				result[3] += tempColor[i + 3];
+			}
+			var ptCnt = tempColor.length/4;
+
+		    this.red = ~~ (result[0] / ptCnt);
+		    this.green = ~~ (result[1] / ptCnt);
+		    this.blue = ~~ (result[2] / ptCnt);
+		    this.alpha = ~~ (result[3] / ptCnt);
 
 		    this.isColored = true;
 		}

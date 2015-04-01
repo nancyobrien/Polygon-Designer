@@ -56,6 +56,7 @@ function mainCtrl(srcImg) {
 	this.imageData = new Array();
 	this.drawTimer = 0;
 
+	this.samplingCtx = false;
 	this.fillCtx = false;
 	this.vertCtx = false;
 	this.strokeCtx = false;
@@ -71,6 +72,7 @@ function mainCtrl(srcImg) {
 	this.multidropDistance = Math.pow(25, 2);
 	this.selectionBox = false;
 	this.includeOriginalImageInPNG = true;
+	this.zoomLevel = 1;
 
 	this.init = function() {
 		var mCtrl = this;
@@ -87,6 +89,8 @@ function mainCtrl(srcImg) {
 		this.selectCanvas = document.getElementById('selectCanvas');
 		this.sourceImg = document.getElementById('sourceImg');
 
+		this.samplingImg = document.createElement('canvas');
+
 		if (canvas.getContext) {
 			ctx = canvas.getContext('2d');
 			this.fillCtx = canvas.getContext('2d');
@@ -95,6 +99,8 @@ function mainCtrl(srcImg) {
 			this.strokeCtx = this.strokeCanvas.getContext('2d');
 			this.tempCtx = this.tempCanvas.getContext('2d');
 			this.selectCtx = this.selectCanvas.getContext('2d');
+			this.samplingCtx = this.samplingImg.getContext('2d');
+
 		}
 
 		//initInterface();
@@ -102,33 +108,44 @@ function mainCtrl(srcImg) {
 		window.onkeyup = function(e){
 		 // Ensure event is not null
 			e = e || window.event;
-			if ((e.which == 90 || e.keyCode == 90) && e.ctrlKey) {
-				// Ctrl + Z
-				// Undo last change
-				//remove the last vertex
-				if (mCtrl.dataStack.length > 0) {
-					mCtrl.lastUndo = mCtrl.cloneVertices();
-					mCtrl.vertices = mCtrl.dataStack.pop();
+			if (e.ctrlKey) {
+				if ((e.which == 90 || e.keyCode == 90)) {
+					// Ctrl + Z
+					// Undo last change
+					//remove the last vertex
+					if (mCtrl.dataStack.length > 0) {
+						mCtrl.lastUndo = mCtrl.cloneVertices();
+						mCtrl.vertices = mCtrl.dataStack.pop();
+						mCtrl.needToDrawTriangles = true;
+						mCtrl.redrawTriangles = true;
+						mCtrl.draw();
+					} 
 					mCtrl.needToDrawTriangles = true;
-					mCtrl.redrawTriangles = true;
-					mCtrl.draw();
-				} 
-				mCtrl.needToDrawTriangles = true;
-				mCtrl.reDraw();
-			} else if ((e.which == 89 || e.keyCode == 89) && e.ctrlKey) {
-				// Ctrl + Y
-				// Redo last undo
-				if (mCtrl.lastUndo) {
-					mCtrl.dataStack.push(mCtrl.lastUndo)
-					mCtrl.vertices = mCtrl.lastUndo;
-					mCtrl.lastUndo = false;
+					mCtrl.reDraw();
+				} else if ((e.which == 89 || e.keyCode == 89)) {
+					// Ctrl + Y
+					// Redo last undo
+					if (mCtrl.lastUndo) {
+						mCtrl.dataStack.push(mCtrl.lastUndo)
+						mCtrl.vertices = mCtrl.lastUndo;
+						mCtrl.lastUndo = false;
+						mCtrl.needToDrawTriangles = true;
+						mCtrl.redrawTriangles = true;
+						mCtrl.draw();
+					}
 					mCtrl.needToDrawTriangles = true;
-					mCtrl.redrawTriangles = true;
-					mCtrl.draw();
+					 mCtrl.reDraw();
+				} else if ((e.which == 48 || e.keyCode == 48) && e.shiftKey) {
+					// Ctrl + 0
+					// Zoom 100%
+					mCtrl.setZoomLevel(1);
+				} else if ((e.which == 49 || e.keyCode == 49) && e.shiftKey) {
+					// Ctrl + 1
+					// Fit to screen
+					mCtrl.fitToScreen();
 				}
-				mCtrl.needToDrawTriangles = true;
-				 mCtrl.reDraw();
 			}
+			
 		}
 
 		mCtrl.selectLayer.onmousedown = function(e) {
@@ -145,7 +162,8 @@ function mainCtrl(srcImg) {
 			var mousePos = false;
 			mCtrl.selectLayer.onmousemove = function(e) {
 				mousePos = mCtrl.getRelativeMousePosition(e);
-				mCtrl.selectCtx.clearRect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height)
+				//mCtrl.selectCtx.clearRect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height)
+				mCtrl.clearThisCanvas(mCtrl.selectCtx);
 				mCtrl.selectCtx.beginPath();
 
 				mCtrl.selectCtx.rect(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y)
@@ -158,10 +176,12 @@ function mainCtrl(srcImg) {
 				mousePos = mCtrl.getRelativeMousePosition(e);
 				if ((mousePos.x != startMousePos.x) && (mousePos.y != startMousePos.y)) {
 					//console.log(mousePos.x + " " + startMousePos.x + " " + (mousePos.x - startMousePos.x) + " : "  + (mousePos.y - startMousePos.y))
-					mCtrl.selectCtx.clearRect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height)
+					//mCtrl.selectCtx.clearRect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height)
+					mCtrl.clearThisCanvas(mCtrl.selectCtx);
 					mCtrl.selectCtx.beginPath();
 					mCtrl.selectCtx.fillStyle = 'rgba(0, 0, 0,.3)';
-					mCtrl.selectCtx.rect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height);
+					//mCtrl.selectCtx.rect(0, 0, mCtrl.canvas.width, mCtrl.canvas.height);
+					mCtrl.selectCtx.rect(0, 0, mCtrl.originalSize.width, mCtrl.originalSize.height);
 					mCtrl.selectCtx.strokeStyle = 'rgba(0, 0, 0, 0)';
 					mCtrl.selectCtx.fill();
 					mCtrl.selectCtx.stroke();
@@ -291,7 +311,8 @@ function mainCtrl(srcImg) {
 	}
 
 	this.clearSelection = function() {
-		this.selectCtx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+		//this.selectCtx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+		this.clearThisCanvas(this.selectCtx);
 		this.selectionBox = false;
 	}
 
@@ -308,40 +329,94 @@ function mainCtrl(srcImg) {
 		mCtrl.clickLayer.onmouseleave = function(e) {void(0)}
 	}
 
-	this.scaleCanvas = function(theSourceImage, currentZoom) {
-		var newWidth = theSourceImage.width * currentZoom;
-		var newHeight = theSourceImage.height * currentZoom;
+	this.setZoomLevel = function(newZoom) {
+		this.zoomLevel =  Math.max(newZoom * 1, .1);
+		this.canvasWidth = this.originalImage.width * this.zoomLevel;
+		this.canvasHeight = this.originalImage.height * this.zoomLevel;
 
-		this.resizeElement(this.sourceImg, newWidth, newHeight);
-		this.resizeElement(this.canvas, newWidth, newHeight);
-		this.resizeElement(this.vertCanvas, newWidth, newHeight);
-		this.resizeElement(this.strokeCanvas, newWidth, newHeight);
-		this.resizeElement(this.tempCanvas, newWidth, newHeight);
-		this.resizeElement($(this.clickLayer), newWidth, newHeight);
-		this.resizeElement($(this.selectLayer), newWidth, newHeight);
-		this.resizeElement(this.selectCanvas, newWidth, newHeight)
+		this.setUpCanvas();
+		this.imgCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+		this.fillCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+		this.vertCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+		this.strokeCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+		this.tempCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+		this.selectCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 
-		this.canvasWidth = newWidth;
-		this.canvasHeight = newHeight;
+
+		//this.imgCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+		this.imgCtx.drawImage(this.originalImage, 0, 0, this.originalImage.width, this.originalImage.height);
+
+		this.needToDrawTriangles = true;
+		this.redrawTriangles = true;
+		this.draw();
+
+		this.raiseEvent("zoomChanged", "Zoom Changed");
+	}
+
+	this.fitToScreen = function() {
+		var newZoom = 1;
+		var maxWidth = $(window).width() - this.offsetX - this.canvasOffset();
+		var maxHeight = $(window).height() - this.offsetY;
+
+		newZoom = Math.min((maxWidth/this.originalSize.width), (maxHeight/this.originalSize.height))
+
+		this.setZoomLevel(newZoom);
+	}
+
+
+	this.zoomIn = function() {
+		this.setZoomLevel(this.zoomLevel + .1);
+	}
+
+	this.zoomOut = function() {
+		this.setZoomLevel(this.zoomLevel - .1);
+	}
+
+	this.setUpCanvas = function() {
+		this.resizeElement(this.sourceImg, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.canvas, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.vertCanvas, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.strokeCanvas, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.tempCanvas, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.clickLayer, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.selectLayer, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.selectCanvas, this.canvasWidth, this.canvasHeight)
 
 		this.offsetX = this.canvasContainer.offsetLeft + (this.canvas ? this.canvas.offsetLeft : 0);
 		this.offsetY = this.canvasContainer.offsetTop + (this.canvas ? this.canvas.offsetTop : 0);
 
-
-
-		this.imgCtx.clearRect(0, 0, newWidth, newHeight);
-		this.imgCtx.drawImage(theSourceImage, 0, 0, newWidth, newHeight);
-		this.draw();
 	}
 
 	this.resizeElement = function(element, width, height){
-		element.width = width;
-		element.height = height;
-		$(element).width(width);
-		$(element).height(height);
+		if (element instanceof HTMLCanvasElement) {
+			element.width = width;
+			element.height = height;
+		} else {
+			$(element).width(width);
+			$(element).height(height);
+		}
+
 
 	}
 
+	this.setImage = function(sourceImage) {
+		this.originalImage = sourceImage;
+		this.originalSize = {'width': this.originalImage.width, 'height': this.originalImage.height}
+
+		this.offsetX = this.canvasContainer.offsetLeft + (this.canvas ? this.canvas.offsetLeft : 0);
+		this.offsetY = this.canvasContainer.offsetTop + (this.canvas ? this.canvas.offsetTop : 0);
+
+		this.setZoomLevel(1);
+		this.setUpCanvas();
+
+		//this.imgCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+		this.clearThisCanvas(this.imgCtx);
+		this.imgCtx.drawImage(this.originalImage, 0, 0, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.samplingImg, this.canvasWidth, this.canvasHeight);
+		this.samplingCtx.drawImage(this.originalImage, 0, 0, this.canvasWidth, this.canvasHeight); //Save the original image in an unscaled canvas to sample colors later.
+
+		this.draw();
+	}
 	this.updateVertexSize = function(vertexSize, stopRecursion) {
 		this.snapSide = vertexSize * 4;
 		for (var i = this.vertices.length-1; i>=0; i--) {
@@ -435,8 +510,8 @@ function mainCtrl(srcImg) {
 
 	this.getRelativeMousePosition = function(e) {
 		var relPos = {};
-		relPos.x = (e.pageX - this.offsetX - this.canvasOffset()) + this.scrollPosition().x;
-		relPos.y = (e.pageY - this.offsetY) + this.scrollPosition().y;
+		relPos.x = ((e.pageX - this.offsetX - this.canvasOffset()) + this.scrollPosition().x)/this.zoomLevel;
+		relPos.y = ((e.pageY - this.offsetY) + this.scrollPosition().y)/this.zoomLevel;
 		return relPos;
 	}
 
@@ -533,8 +608,8 @@ function mainCtrl(srcImg) {
 		this.recordVertices();
 
 		for (var i = 0; i < totCnt; i++) {
-			var randX = this.canvasWidth * Math.random();
-			var randY = this.canvasHeight * Math.random();
+			var randX = this.originalSize.width * Math.random();
+			var randY = this.originalSize.height * Math.random();
 
 			this.addVertex(~~ (randX), ~~ (randY), true);
 		}
@@ -549,10 +624,10 @@ function mainCtrl(srcImg) {
 
 		var xtmp = 0;
 		var ytmp = 0;
-		var ytmp2 = this.canvasHeight;
+		var ytmp2 = this.originalSize.height;
 		//horizontal
 		for (var i=0; i < this.vertsPerSide; i++) {
-			xtmp = i * this.canvasWidth / (this.vertsPerSide-1);
+			xtmp = i * this.originalSize.width / (this.vertsPerSide-1);
 			var v = this.addVertex(~~ (xtmp), ~~ (ytmp), true);
 			v.isEdge = true;
 
@@ -562,9 +637,9 @@ function mainCtrl(srcImg) {
 
 		//vertical
 		xtmp = 0;
-		var xtmp2 = this.canvasWidth;
+		var xtmp2 = this.originalSize.width;
 		for (var i=1; i < this.vertsPerSide - 1; i++) {
-			ytmp = i * this.canvasHeight / (this.vertsPerSide-1);
+			ytmp = i * this.originalSize.height / (this.vertsPerSide-1);
 
 			var v = this.addVertex(~~ (xtmp), ~~ (ytmp), true);
 			v.isEdge = true;
@@ -586,8 +661,8 @@ function mainCtrl(srcImg) {
 		var xtmp = 0;
 		var ytmp = 0;
 
-		var horFactor = this.canvasWidth / (this.vertsGrid.hor-1);
-		var vertFactor = this.canvasHeight / (this.vertsGrid.vert-1);
+		var horFactor = this.originalSize.width / (this.vertsGrid.hor-1);
+		var vertFactor = this.originalSize.height / (this.vertsGrid.vert-1);
 		for (var i=0; i < this.vertsGrid.hor; i++) {
 			xtmp = i * horFactor;
 			for(var j=0; j < this.vertsGrid.vert; j++) {
@@ -847,7 +922,8 @@ function mainCtrl(srcImg) {
 
 	this.getImageData = function(xVal, yVal) {
 		if (this.imageData[xVal+'-'+yVal] == undefined ) {
-			this.imageData[xVal+'-'+yVal] = this.imgCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
+			//this.imageData[xVal+'-'+yVal] = this.imgCtx.getImageData(xVal * this.zoomLevel, yVal * this.zoomLevel, this.snapSide, this.snapSide).data;
+			this.imageData[xVal+'-'+yVal] = this.samplingCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
 		}
 
 		return this.imageData[xVal+'-'+yVal];
@@ -889,16 +965,30 @@ function mainCtrl(srcImg) {
 	}
 
 	this.clearTriangles = function() {
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		//ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.clearThisCanvas(ctx);
+	}
+
+	this.clearThisCanvas = function(thisCanvas) {
+		thisCanvas.width = thisCanvas.width; //clear entire canvas
+		if (!this.originalImage) {
+			return;
+		}
+		thisCanvas.clearRect(0, 0, this.originalImage.width, this.originalImage.height);
 	}
 
 	this.drawTriangles = function() {
 
 		//create a temporary canvas and then copy it.
 		var m_canvas = document.createElement('canvas');
-		m_canvas.width = this.canvas.width;
-		m_canvas.height = this.canvas.height;
 		var m_context = m_canvas.getContext('2d');
+		// m_canvas.width = this.canvas.width;
+		// m_canvas.height = this.canvas.height;
+		if (!this.originalImage) {
+			return;
+		}
+		this.resizeElement(m_canvas, this.originalImage.width, this.originalImage.height);
+		//m_context.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 
 		for (var i in this.triangles) {
 			this.triangles[i].Draw(m_context, i);
@@ -910,9 +1000,10 @@ function mainCtrl(srcImg) {
 	}
 
 	this.drawVertices = function(excludeMoving) {
-		if(!excludeMoving) this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
-		this.vertCtx.clearRect(0, 0, this.vertCanvas.width, this.vertCanvas.height);
-
+		//if(!excludeMoving) this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
+		if(!excludeMoving) this.clearThisCanvas(this.tempCtx);
+		//this.vertCtx.clearRect(0, 0, this.vertCanvas.width, this.vertCanvas.height);
+		this.clearThisCanvas(this.vertCtx);
 
 		if (this.showVertices) {
 			for (var i in this.vertices) {
@@ -924,7 +1015,8 @@ function mainCtrl(srcImg) {
 	}
 
 	this.drawStrokes = function() {
-		this.strokeCtx.clearRect(0, 0, this.strokeCanvas.width, this.strokeCanvas.height);
+		//this.strokeCtx.clearRect(0, 0, this.strokeCanvas.width, this.strokeCanvas.height);
+		this.clearThisCanvas(this.strokeCtx);
 		if (this.showStroke) {
 			if (this.needToDrawTriangles) {
 				this.triangles = triangulate(this.vertices);

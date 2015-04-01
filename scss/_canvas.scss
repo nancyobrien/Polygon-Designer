@@ -18,7 +18,7 @@ canvas {
 	position: absolute;
 	top: 0;
 	bottom: $statusBarHeight;
-	left: $tabWidth;
+	left: 4rem;
 	right: $tabContentWidth;
 	display: block;
 	overflow: auto;
@@ -31,7 +31,7 @@ canvas {
 	canvas {
 	    position: absolute;
 	    top: 0;
-	    left: 1%;
+	    left: 0;
 	    display:block;
 	    margin:0;
 	}
@@ -66,7 +66,7 @@ canvas {
 	.canvas-layer {
 		position: absolute;
 		top:0;
-		left: 1%;
+		left: 0;
 		display:block;
 		margin:0;
 	}

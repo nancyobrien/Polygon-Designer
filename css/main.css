@@ -1595,7 +1595,7 @@ input[type='range']::-moz-range-thumb {
   position: absolute;
   top: 0;
   bottom: 3rem;
-  left: 2em;
+  left: 4rem;
   right: 140px;
   display: block;
   overflow: auto;
@@ -1615,7 +1615,7 @@ input[type='range']::-moz-range-thumb {
 #canvasContainer canvas {
   position: absolute;
   top: 0;
-  left: 1%;
+  left: 0;
   display: block;
   margin: 0;
 }
@@ -1649,7 +1649,7 @@ input[type='range']::-moz-range-thumb {
 #canvasContainer .canvas-layer {
   position: absolute;
   top: 0;
-  left: 1%;
+  left: 0;
   display: block;
   margin: 0;
 }

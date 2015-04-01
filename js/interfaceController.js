@@ -203,6 +203,20 @@ function initInterface() {
 	})
 
 
+	$('.setZoom').click(function(e) {
+		e.preventDefault();
+		var zoomLevel = $(this).data('setvalue');
+		if (isNumber(zoomLevel)) {
+			mainController.setZoomLevel(zoomLevel);
+		} else {
+			switch(zoomLevel) {
+				case "fitToScreen":
+					mainController.fitToScreen();
+					break;
+			}
+		}
+		updateStats();
+	})
 
 	$('#stroke-point-sync').change(function(e) {
 		mainController.setSyncPointStrokeSizes($(this).is(":checked"), mainController.strokeWidth);
@@ -255,7 +269,7 @@ function initInterface() {
 
 
 
-	window.onkeydown = function(e){
+	/*window.onkeydown = function(e){
 	 // Ensure event is not null
 		e = e || window.event;
 		
@@ -266,7 +280,7 @@ function initInterface() {
 			$('#clipboard').html(mainController.getVertexJSON());
 			$('#clipboard').focus().select();
 		} 
-	}
+	}*/
  
 	$('#getVertices').click(function(e){
 		var responseString = mainController.getVertexJSON();
@@ -609,7 +623,8 @@ function loadImage(imgData, imgJSON) {
 		theSourceImage = this;
 		previousImage = true;
 
-		resizeCanvas();
+		//resizeCanvas();
+		mainController.setImage(theSourceImage);
 
 		hideLoadScreen(); 
 
@@ -660,7 +675,8 @@ function resizeCanvas(scale) {
 	if (!scale) {scale = 0;}
 	currentZoom += scale;
 
-	mainController.scaleCanvas(theSourceImage, currentZoom);
+	//mainController.scaleCanvas(theSourceImage, currentZoom);
+	mainController.setZoomLevel(currentZoom);
 }
 
 function deleteAllVertices() {
@@ -749,6 +765,7 @@ function updateStats() {
 	setValue($('.stat-num-points'), mainController.vertices.length);
 //			$("#opacitySlider").val(mainController.globalOpacity);
 
+	setValue($('.stat-zoom'), Math.floor(mainController.zoomLevel * 100) + '%')
 
 
 	setValue($('.stat-globalOpacity'), Math.ceil(mainController.globalOpacity * 100));
@@ -940,6 +957,7 @@ $(document).ready(function() {
 	document.addEventListener("jsonRestored", loadProjectData, false);
 	document.addEventListener("versionsUpdated", loadVersions, false);
 	document.addEventListener("activeProjectLoaded", versionLoaded, false);
+	document.addEventListener("zoomChanged", updateStats, false);
 
 
 	mainController = new mainCtrl(false);
@@ -991,12 +1009,12 @@ $(document).ready(function() {
 
 	$('.zoomIn').click(function(e){
 		e.preventDefault();
-		//resizeCanvas(.1);
+		mainController.zoomIn();
 	})
 
 	$('.zoomOut').click(function(e){
 		e.preventDefault();
-		//resizeCanvas(-.1);
+		mainController.zoomOut();
 	})
 
 	$('.toggleTriangleFill').click(function(e) {
@@ -1054,6 +1072,8 @@ $(document).ready(function() {
 				}
 			}
 			$('.toggleTriangleFill').toggle((inTriangle !== false));
+			mousePos.x = mousePos.x*mainController.zoomLevel;
+			mousePos.y = mousePos.y*mainController.zoomLevel;
 			showMenu(menuType, mousePos);
 			e.preventDefault();
 		});
@@ -1077,6 +1097,8 @@ $(document).ready(function() {
 				$('.toggleTriangleFill').toggle((inTriangle !== false));
 
 			}			
+			mousePos.x = mousePos.x*mainController.zoomLevel;
+			mousePos.y = mousePos.y*mainController.zoomLevel;
 			showMenu(menuType, mousePos);
 			e.preventDefault();
 		});

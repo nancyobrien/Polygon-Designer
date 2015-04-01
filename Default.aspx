@@ -34,8 +34,8 @@
 		<div class="display-controls">
 			<div id="tool-addPoint2" title="Add point mode" class="tools display-toggle select-tool icon-cursor selected"  data-toolmode="Add Points"  data-activelayer="#clickLayer"></div>
 			<div id="tool-selectPoint2" title="Select points mode" class="tools display-toggle select-tool icon-marquee"  data-toolmode="Select Points"  data-activelayer="#selectLayer"></div>
-			<div id="tool-zoomIn" title="Zoom in" class="tools display-toggle zoom-tool icon-zoom-in" data-toolmode="zoomIn"   ></div>
-			<div id="tool-zoomOut" title="Zoom out" class="tools display-toggle zoom-tool icon-zoom-out" data-toolmode="zoomOut" ></div>
+			<div id="tool-zoomIn" title="Zoom in" class="tools display-toggle zoom-tool icon-zoom-in zoomIn" data-toolmode="zoomIn"   ></div>
+			<div id="tool-zoomOut" title="Zoom out" class="tools display-toggle zoom-tool icon-zoom-out zoomOut" data-toolmode="zoomOut" ></div>
 
 		</div>
 		<div class="display-content">
@@ -205,7 +205,7 @@
 		<div id="selectLayer" class="selectlayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
 	</div>    
 	<div id="statusBar" class="status-bar">
-			<span class="collapse-trigger"></span><div class="status-content"><div class="status-section status-header">Stats</div>
+			<span class="collapse-trigger"></span><div class="status-content">
 			<div class="status-section">
 				<span class="label">Points:</span> <span class="stat stat-num-points"></span> 
 			</div>
@@ -218,6 +218,10 @@
 			<div class="status-section show-popup" data-popupmenu="#fillOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
 				<span class="popup-indicator icon-arrow-up2"></span>
 				<span class="label">Fill Style:</span> <span class="stat stat-fillstyle"></span> 
+			</div>
+			<div class="status-section show-popup" data-popupmenu="#zoomOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
+				<span class="popup-indicator icon-arrow-up2"></span>
+				<span class="label">Zoom:</span> <span class="stat stat-zoom"></span> 
 			</div>
 			<div class="status-section toolbar-button">
 				<a href="#" title="Export to SVG" id="svgSaver"><span class="tool-icon icon-cloud-download"></span> <span class="label">Export Image</span></a>
@@ -243,13 +247,32 @@
 		<div class="menu popup-menu--filloptions hide" id="fillOptionsMenu">
 			<ul>
 				<li class=" show-selected stat-gradient-state">
-					<a href="#" class="toggleGradient" data-setvalue="true"><span class="check show-selected stat-gradient-state"></span>Gradient Fill</span></a>
+					<a href="#" class="toggleGradient" data-setvalue="true"><span class="check show-selected stat-gradient-state"></span>Gradient Fill</a>
 				</li>
 				<li class=" show-selected stat-gradient-state stat-reverse">
-					<a href="#" class="toggleGradient" data-setvalue="false"><span class="check show-selected stat-gradient-state stat-reverse"></span>Solid Fill</span></a>
+					<a href="#" class="toggleGradient" data-setvalue="false"><span class="check show-selected stat-gradient-state stat-reverse"></span>Solid Fill</a>
 				</li>
 				<li>
 					<a href="#" class="toggleFill" data-setvalue="true"><span class="show-hide stat-fill-state"></span> Fill</span></a>
+				</li>
+			</ul>
+		</div>
+		<div class="menu popup-menu--zoomOptions hide" id="zoomOptionsMenu">
+			<ul>
+				<li>
+					<a href="#" class="setZoom" data-setvalue="fitToScreen">Fit to Screen</a>
+				</li>
+				<li>
+					<a href="#" class="setZoom" data-setvalue="2">200%</a>
+				</li>
+				<li>
+					<a href="#" class="setZoom" data-setvalue="1.5">150%</a>
+				</li>
+				<li>
+					<a href="#" class="setZoom" data-setvalue="1">Full Size (100%)</a>
+				</li>
+				<li>
+					<a href="#" class="setZoom" data-setvalue=".5">50%</a>
 				</li>
 			</ul>
 		</div>
