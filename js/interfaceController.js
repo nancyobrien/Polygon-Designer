@@ -1035,6 +1035,7 @@ $(document).ready(function() {
 
 		mainController.toolMode = $(this).data('toolmode');
 		mainController.clearSelection();
+		hideMenus();
 		updateStats();
 
 		$('.tool-layer').hide();

@@ -150,9 +150,9 @@ function mainCtrl(srcImg) {
 
 		mCtrl.selectLayer.onmousedown = function(e) {
 			if (e.which !== 3 && isContextMenuOpen()) {
-				//Left mouse was clicked, but there is a context menu open, so just close the menu
+				//Left mouse was clicked, but there is a context menu open, so close the menu before continuing
 				hideMenus();
-				return false;
+				//return false;
 			} else if (e.which === 3) {
 				//Right mouse was clicked, don't do anything else.
 				return false;
