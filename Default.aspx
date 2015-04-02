@@ -34,6 +34,10 @@
 		<div class="display-controls">
 			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add point mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
 			<div id="tool-selectPoint2" data-tooltip="Select points mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Select Points"  data-activelayer="#selectLayer"><span class="icon-marquee"></span></div>
+			<div id="tool-selectPoint2" data-tooltip="Shape drawing mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Shape Drawing"  data-activelayer="#shapeLayer"><span class="icon-hipster2"></span></div>
+
+
+
 			<div id="tool-zoomIn" data-tooltip="Zoom in" class="tools display-toggle zoom-tool  zoomIn tooltip tooltip--right" data-toolmode="zoomIn"   ><span class="icon-zoom-in"></span></div>
 			<div id="tool-zoomOut" data-tooltip="Zoom out" class="tools display-toggle zoom-tool  zoomOut tooltip tooltip--right" data-toolmode="zoomOut" ><span class="icon-zoom-out"></span></div>
 
@@ -235,7 +239,7 @@
 			</div>
 
 			<div class="status-section toolbar-button">
-				<a href="#" title="Report a bug" id="showErrorReport"><span class="icon-bug"></span> <span class="label">Report Bugs</span> </a>
+				<a href="#" title="Comments" id="showErrorReport"><span class="icon-paper-plane"></span> <span class="label">Comments</span> </a>
 			</div>
 
 		</div>
@@ -487,11 +491,11 @@
 	<div class="modal-background modal-close">
 		<div class="modal" id="errorReportModal">
 			<div class="modal-close modal-close-button">X</div>
-			<div class="title">Report Bug</div>
+			<div class="title">Send Us a Comment</div>
 			<div class="content" data-waitmessage="Sending">
-				<input id="bugLabel" class="input--text allowPaste required" type="text" placeholder="Bug Label (short description please)" />
-				<textarea id="bugSummary" placeholder="Please provide a detailed description of what happened"></textarea>
-				<div class="buttons"><a href="#" id="sendErrorReport" class="button">Send Bug Report</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
+				<input id="bugLabel" class="input--text allowPaste required" type="text" placeholder="Comment (short description please)" />
+				<textarea id="bugSummary" placeholder="Please provide a detailed description of your request"></textarea>
+				<div class="buttons"><a href="#" id="sendErrorReport" class="button">Send Meesage</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
 			</div>
 		</div>
 	</div> 
