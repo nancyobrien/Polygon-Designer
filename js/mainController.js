@@ -545,10 +545,11 @@ function mainCtrl(srcImg) {
 	this.setTransparency = function(transparency) {
 		this.globalOpacity = transparency;
 		this.canvasTransparency = transparency;
-		$(this.canvas).css('opacity', transparency);
+		//$(this.canvas).css('opacity', transparency);
 		$(this.vertCanvas).css('opacity', transparency);
 		$(this.strokeCanvas).css('opacity', transparency);
 		$(this.tempCanvas).css('opacity', transparency);
+		$(this.adjustmentCanvas).css('opacity', transparency);
 	}
 
 	this.setStrokeTransparency = function(transparency) {
