@@ -230,6 +230,10 @@ function triangle(v0, v1, v2) {
 		}
 	}
 
+	this.isSolidColored = function() {
+		return (((this.v0.colorString()) == (this.v1.colorString())) && ((this.v0.colorString()) == (this.v2.colorString())));
+	}
+
 	this.toggleGradient = function(gradFlag) {
 		if (gradFlag === undefined) {gradFlag = !this.transparent;}
 		/*if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
@@ -275,7 +279,7 @@ function triangle(v0, v1, v2) {
 			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
 			this.midVertex.avColor();	//Need to get the true color either way, because we need the transparency state.			
 		}		
-		if (((this.v0.colorString()) == (this.v1.colorString())) && ((this.v0.colorString()) == (this.v2.colorString()))) {
+		if (this.isSolidColored()) {
 			var tmpColor = this.v0;
 
 			this.midVertex.gradientColor = this.getSolidGradientColor(this.midVertex, this.v0);			
@@ -334,7 +338,8 @@ function triangle(v0, v1, v2) {
 
 		}
 		if (mainController.togglingSolidGradient) {
-			if (mainController.useSolidGradient) {
+			if (mainController.useSolidGradient && this.isSolidColored()) {
+				if(!this.midVertex.gradientColor) {this.midVertex.gradientColor = this.getSolidGradientColor(this.midVertex, this.v0);}
 				this.midVertex.red = this.midVertex.gradientColor.red;			
 				this.midVertex.green = this.midVertex.gradientColor.green;			
 				this.midVertex.blue = this.midVertex.gradientColor.blue; 
