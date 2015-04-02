@@ -1,5 +1,5 @@
 function mainCtrl(srcImg) {
-	var ctx;
+	//var ctx;
 	var currentIndex= 0;
 	var nearestV = new Array();
 	var lastUndo = false;
@@ -74,36 +74,45 @@ function mainCtrl(srcImg) {
 	this.includeOriginalImageInPNG = true;
 	this.zoomLevel = 1;
 
+	this.includeColorAdjust = true;
+	this.adjustedColor = {'red': 0, 'blue': 0, 'green': 0};
+
 	this.init = function() {
 		var mCtrl = this;
 
 		this.clickLayer = document.getElementById('clickLayer');
 		this.selectLayer = document.getElementById('selectLayer');
+		this.maskLayer = document.getElementById('maskLayer');
 
 		this.canvasContainer = document.getElementById('canvasContainer');
-		canvas = document.getElementById('canvas');
-		this.canvas = document.getElementById('canvas');
+		canvas = document.createElement('canvas');
+		canvas.id = 'canvas';
+
+		//canvas = document.getElementById('canvas');
+		this.canvas = canvas;
 		this.vertCanvas = document.getElementById('vertCanvas');
 		this.strokeCanvas = document.getElementById('strokeCanvas');
 		this.tempCanvas = document.getElementById('tempCanvas');
 		this.selectCanvas = document.getElementById('selectCanvas');
 		this.sourceImg = document.getElementById('sourceImg');
+		this.maskCanvas = document.getElementById('maskCanvas');
+		this.adjustmentCanvas = document.getElementById('adjustmentCanvas');
 
 		this.samplingImg = document.createElement('canvas');
 
 		if (canvas.getContext) {
-			ctx = canvas.getContext('2d');
-			this.fillCtx = canvas.getContext('2d');
+			//ctx = canvas.getContext('2d');
+			this.fillCtx = this.canvas.getContext('2d');
 			this.imgCtx = this.sourceImg.getContext('2d');
 			this.vertCtx = this.vertCanvas.getContext('2d');
 			this.strokeCtx = this.strokeCanvas.getContext('2d');
 			this.tempCtx = this.tempCanvas.getContext('2d');
 			this.selectCtx = this.selectCanvas.getContext('2d');
 			this.samplingCtx = this.samplingImg.getContext('2d');
-
+			this.maskCtx = this.maskCanvas.getContext('2d');
+			this.adjustmentCtx = this.adjustmentCanvas.getContext('2d');
 		}
 
-		//initInterface();
 
 		window.onkeyup = function(e){
 		 // Ensure event is not null
@@ -180,7 +189,7 @@ function mainCtrl(srcImg) {
 				mCtrl.selectCtx.strokeStyle = 'rgba(255, 255, 255, 1)';
 				mCtrl.selectCtx.stroke();
 
-				ctx.closePath();
+				mCtrl.selectCtx.closePath();
 			}
 			mCtrl.selectLayer.onmouseup = function(e) {
 				mousePos = mCtrl.getRelativeMousePosition(e);
@@ -203,7 +212,7 @@ function mainCtrl(srcImg) {
 					mCtrl.selectCtx.stroke();
 
 					mCtrl.selectCtx.clearRect(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y)
-					ctx.closePath();
+					mCtrl.selectCtx.closePath();
 
 					var imageData = mCtrl.vertCtx.getImageData(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y);
 					mCtrl.invertVerts(imageData);
@@ -327,7 +336,37 @@ function mainCtrl(srcImg) {
 				}
 			}
 		}
-		//this.draw();
+
+
+		mCtrl.maskLayer.onmousedown = function(e) {
+			if (e.which !== 3 && isContextMenuOpen()) {
+				//Left mouse was clicked, but there is a context menu open, so close the menu before continuing
+				hideMenus();
+			} else if (e.which === 3) {
+				//Right mouse was clicked, don't do anything else.
+				return false;
+			}
+
+			var startMousePos = mCtrl.getRelativeMousePosition(e);
+			var mousePos = false;
+			mCtrl.maskCtx.beginPath();
+			mCtrl.maskCtx.moveTo(startMousePos.x, startMousePos.y);
+			mCtrl.maskLayer.onmousemove = function(e) {
+				var maskColor = "rgba(255, 0, 0, 1)";
+				var brushSize = 25;
+				var mousePos = mCtrl.getRelativeMousePosition(e);
+				mCtrl.maskCtx.lineTo(mousePos.x, mousePos.y);
+				mCtrl.maskCtx.strokeStyle = maskColor;
+				mCtrl.maskCtx.lineWidth = brushSize;
+				mCtrl.maskCtx.stroke();
+			}
+			mCtrl.maskLayer.onmouseup = function(e) {
+				mCtrl.maskCtx.closePath();
+
+				mCtrl.maskLayer.onmouseup = function(e) {void(0);}
+				mCtrl.maskLayer.onmousemove = function(e) {void(0);}
+			}
+		}
 	}
 
 	this.clearSelection = function() {
@@ -349,6 +388,34 @@ function mainCtrl(srcImg) {
 		mCtrl.clickLayer.onmouseleave = function(e) {void(0)}
 	}
 
+	this.setColorAdjustment = function(includeAdjustment, newColor) {
+		this.includeColorAdjust = includeAdjustment;
+		if (newColor) {
+			this.adjustedColor.red = Math.min(Math.max(newColor.red * 1, -255), 255);
+			this.adjustedColor.blue = Math.min(Math.max(newColor.blue * 1, -255), 255);
+			this.adjustedColor.green = Math.min(Math.max(newColor.green * 1, -255), 255);
+		} 
+
+		this.adjustColors();
+
+	}
+
+	this.adjustColors = function() {
+		//directly adjust the color of fill layer based on the unadjusted colors of the hidden canvas.
+		var imgData = this.fillCtx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+		if (this.includeColorAdjust) {
+			var tempColor = imgData.data;
+			for (var i = 0; i < tempColor.length;i+=4) {
+				tempColor[i] += this.adjustedColor.red;
+				tempColor[i + 1] += this.adjustedColor.green;
+				tempColor[i + 2] += this.adjustedColor.blue;
+				//tempColor[i + 3] += tempColor[i + 3];
+			}			
+		}
+
+		this.adjustmentCtx.putImageData(imgData, 0, 0);
+	}
+
 	this.setZoomLevel = function(newZoom) {
 		this.zoomLevel =  Math.max(newZoom * 1, .1);
 		this.canvasWidth = this.originalImage.width * this.zoomLevel;
@@ -361,6 +428,7 @@ function mainCtrl(srcImg) {
 		this.strokeCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.tempCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.selectCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+		this.adjustmentCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 
 
 		//this.imgCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -414,7 +482,9 @@ function mainCtrl(srcImg) {
 		this.resizeElement(this.clickLayer, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.selectLayer, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.selectCanvas, this.canvasWidth, this.canvasHeight)
-
+		this.resizeElement(this.maskCanvas, this.canvasWidth, this.canvasHeight)
+		this.resizeElement(this.adjustmentCanvas, this.canvasWidth, this.canvasHeight)
+ 
 		this.offsetX = this.canvasContainer.offsetLeft + (this.canvas ? this.canvas.offsetLeft : 0);
 		this.offsetY = this.canvasContainer.offsetTop + (this.canvas ? this.canvas.offsetTop : 0);
 
@@ -861,6 +931,7 @@ function mainCtrl(srcImg) {
 				this.useSolidGradient = project.activeVersion.useSolidGradient;
 				if (project.activeVersion.solidGradients) {midGrads = project.activeVersion.solidGradients;}
 				if (project.activeVersion.transparentMidpoints) {transparentMids = project.activeVersion.transparentMidpoints;}
+				if (project.activeVersion.adjustedColor) {this.adjustedColor = project.activeVersion.adjustedColor;}
 
 					
 				if (project.activeVersion.strokeWidth !== undefined) {this.strokeWidth = project.activeVersion.strokeWidth; }
@@ -875,6 +946,7 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.pointColor !== undefined) {this.pointColor = project.activeVersion.pointColor; }
 				if (project.activeVersion.pointStrokeColor !== undefined) {this.pointStrokeColor = project.activeVersion.pointStrokeColor; }
 				if (project.activeVersion.globalOpacity !== undefined) {this.globalOpacity = project.activeVersion.globalOpacity; }
+				if (project.activeVersion.includeColorAdjust !== undefined) {this.includeColorAdjust = project.activeVersion.includeColorAdjust; }
 
 				this.setTransparency(this.globalOpacity);
 			}
@@ -999,7 +1071,8 @@ function mainCtrl(srcImg) {
 
 	this.clearTriangles = function() {
 		//ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.clearThisCanvas(ctx);
+		this.clearThisCanvas(this.fillCtx);
+		this.clearThisCanvas(this.adjustmentCtx);
 	}
 
 	this.clearThisCanvas = function(thisCanvas) {
@@ -1027,8 +1100,9 @@ function mainCtrl(srcImg) {
 			this.triangles[i].Draw(m_context, i);
 		}
 		this.clearTriangles();
-		ctx.drawImage(m_canvas, 0, 0);
+		this.fillCtx.drawImage(m_canvas, 0, 0);
 		delete m_canvas;
+		this.adjustColors();
 		this.needToDrawTriangles = false;
 	}
 
@@ -1186,6 +1260,24 @@ function mainCtrl(srcImg) {
 		return false;
 	}
 
+	this.isInMask = function(x, y) {
+		
+		var tempColor = this.maskCtx.getImageData(x - 2, y - 2,  this.snapSide, this.snapSide).data;
+		var result = [0,0,0,0];
+		for (var i = 0; i < tempColor.length;i+=4) {
+			result[0] += tempColor[i];
+			result[1] += tempColor[i + 1];
+			result[2] += tempColor[i + 2];
+			result[3] += tempColor[i + 3];
+		}
+		var ptCnt = tempColor.length/4;
+
+	   // var tempR = ~~ (result[0] / ptCnt);
+	   // var tempG = ~~ (result[1] / ptCnt);
+	   // var tempB = ~~ (result[2] / ptCnt);
+	    var tempAlpha = ~~ (result[3] / ptCnt);
+	    return (tempAlpha > 0);
+	}
 
 
 	this.isInTriangle = function(x, y) {
@@ -1267,6 +1359,7 @@ function mainCtrl(srcImg) {
 		responseString += '"pointColor":"' + this.pointColor + '",';
 		responseString += '"pointStrokeColor":"' + this.pointStrokeColor + '",';
 		responseString += '"globalOpacity":"' + this.globalOpacity + '",';
+		responseString += '"includeColorAdjust":"' + this.includeColorAdjust + '",';
 
 
 		if (midGrads.length > 0) {
@@ -1275,6 +1368,10 @@ function mainCtrl(srcImg) {
 
 		if (transparentMids != undefined) {
 			responseString += '"transparentMidpoints":' + JSON.stringify(transparentMids) + ",";
+		}
+
+		if (this.adjustedColor != undefined) {
+			responseString += '"adjustedColor":' + JSON.stringify(this.adjustedColor) + ",";
 		}
 
 		responseString += '"vertices": [' + vertString + ']';

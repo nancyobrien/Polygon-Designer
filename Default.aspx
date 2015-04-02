@@ -34,7 +34,7 @@
 		<div class="display-controls">
 			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add point mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
 			<div id="tool-selectPoint2" data-tooltip="Select points mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Select Points"  data-activelayer="#selectLayer"><span class="icon-marquee"></span></div>
-			<div id="tool-selectPoint2" data-tooltip="Shape drawing mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Shape Drawing"  data-activelayer="#shapeLayer"><span class="icon-hipster2"></span></div>
+			<!-- <div id="tool-selectPoint2" data-tooltip="Masking mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Draw Mask"  data-activelayer="#maskLayer"><span class="icon-brush"></span></div> -->
 
 
 
@@ -95,6 +95,9 @@
 				<div class="display-section toolbar-button">
 					<a href="#" title="Stroke Settings" id="showStrokeModal"><span class="tool-icon icon-cog"></span> <span class="label">Stroke Settings</span></a>									
 				</div>
+				<div class="display-section toolbar-button">
+					<a href="#" title="Adjust Color" id="showColorAdjustModal"><span class="tool-icon icon-palette"></span> <span class="label">Adjust Color</span></a>									
+				</div>
 
 			</div>
 			<div class="delete display-block">
@@ -121,9 +124,9 @@
 				<div class="display-section">
 					<span class="label">Edge:</span><span class="editable-input" contenteditable id="edgeVertCount">0</span><a id="edgeVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
 				</div>
-				<div class="display-section">
+				<!-- <div class="display-section">
 					<span class="label">Spiral</span><a id="spiralVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
-				</div>
+				</div> -->
 			</div>
 
 			<div class="upload display-block">
@@ -200,13 +203,16 @@
 		</div>
 		<div id="canvasLoading" class="overlay--disabled"></div>
 		<canvas id="sourceImg" width="600" height="600"></canvas>    
-		<canvas id="canvas" width="600" height="600"></canvas>    
+		<!-- <canvas id="canvas" width="600" height="600"></canvas>  -->   
+		<canvas id="adjustmentCanvas" width="600" height="600"></canvas>    
 		<canvas id="strokeCanvas" width="600" height="600"></canvas>   
 		<canvas id="vertCanvas" width="600" height="600"></canvas>   
 		<canvas id="tempCanvas" width="600" height="600"></canvas>   
 		<canvas id="selectCanvas" width="600" height="600"></canvas>   
+		<canvas id="maskCanvas" width="600" height="600"></canvas>   
 		<div id="clickLayer" class="clicklayer tool-layer canvas-layer overlay overlay--transparent"></div> 
 		<div id="selectLayer" class="selectlayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
+		<div id="maskLayer" class="maskLayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
 	</div>    
 	<div id="statusBar" class="status-bar">
 			<span class="collapse-trigger"></span><div class="status-content">
@@ -466,6 +472,46 @@
 			<div class="buttons"><a href="#" id="updatePointSettings" class="button modal-close">Update Settings</a> <a  href="#" class="cancelStrokeSettings button button--cancel">Cancel</a></div>
 		</div>
 	</div> 
+
+	<div class="modal-background modal-clear">
+		<div class="modal" id="ColorAdjustModal">
+			<input type="hidden" id="colorAdjustRedInit" value="0" />
+			<input type="hidden" id="colorAdjustBlueInit" value="0" />
+			<input type="hidden" id="colorAdjustGreenInit" value="0" />
+			<input type="hidden" id="colorAdjustStateInit" value="0" />
+			<div class="modal-close-button cancelColorAdjustSettings"><span class="icon-cancel"></span></div>
+			<div class="title modal-mover">Color Adjustment</div>
+			<div class="modal-controls">
+				<div class="modal-ctrl-section modal-full">
+					<div class="modal-control inline-check">
+						<span class="label">Adjust Color:</span> 
+						<div class="check-control squaredThree">
+							<input type="checkbox" value="None" id="includeColorAdjustCheck" class="toggleIncludeColorAdjust stat-adjustColor-state" />
+							<label for="includeColorAdjustCheck"></label>
+						</div>
+					</div>
+					<div class="modal-control"> 
+						<span class="label">Red Adjustment:</span> <span id="colorAdjustRedInput" contenteditable class="ctrl-display editable-input stat-adjustColor-red" ></span>
+						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustRedSlider"/>
+						
+					</div>
+					<div class="modal-control">
+						<span class="label">Blue Adjustment:</span> <span id="colorAdjustBlueInput" contenteditable class="ctrl-display editable-input stat-adjustColor-blue" ></span>
+						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustBlueSlider"/>
+						
+					</div>
+					<div class="modal-control">
+						<span class="label">Green Adjustment:</span> <span id="colorAdjustGreenInput" contenteditable class="ctrl-display editable-input stat-adjustColor-green" ></span>
+						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustGreenSlider"/>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="buttons"><a href="#" class="button modal-close">Update Color Adjustments</a> <a  href="#" class="cancelColorAdjustSettings button button--cancel">Cancel</a></div>
+		</div>
+	</div> 
+
 
 
 	<div class="modal-background modal-close">

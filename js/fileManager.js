@@ -268,10 +268,12 @@ function fileMngr() {
 						if (result.pointShape !== undefined) {selectedVersion.pointShape = result.pointShape; }
 						if (result.pointColor !== undefined) {selectedVersion.pointColor = result.pointColor; }
 						if (result.pointStrokeColor !== undefined) {selectedVersion.pointStrokeColor = result.pointStrokeColor; }
+						if (result.includeColorAdjust !== undefined) {selectedVersion.includeColorAdjust = (result.includeColorAdjust === "true") ? true : false; }
 
 						selectedVersion.Vertices = result.vertices;
 						selectedVersion.solidGradients = result.solidGradients;
 						selectedVersion.transparentMidpoints = result.transparentMidpoints;
+						if (result.adjustedColor !== undefined) {selectedVersion.adjustedColor = result.adjustedColor;}
 
 						thisProject.VertJson = JSON.stringify(result.vertices);
 					} else {

@@ -290,7 +290,7 @@ function triangle(v0, v1, v2) {
 
 		} 
 
-		if (this.midVertex.alpha == 0)	{
+		if (this.midVertex.alpha == 0 || mainController.isInMask(this.midVertex.x ,this.midVertex.y))	{
 			this.transparent = true;
 			return false;
 		}
@@ -343,7 +343,7 @@ function triangle(v0, v1, v2) {
 				this.midVertex.avColor();
 			}
 		}
-		if (this.midVertex.alpha == 0)	{
+		if (this.midVertex.alpha == 0 || mainController.isInMask(this.midVertex.x ,this.midVertex.y))	{
 			this.transparent = true;
 			return false;
 		}

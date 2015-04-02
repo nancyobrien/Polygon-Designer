@@ -91,6 +91,11 @@
 			@extend %noselect;
 	    }
 
+	    &#ColorAdjustModal { 
+	    	width: 500px;
+			@extend %noselect;
+	    }
+
 	    &#saveProjectModal {
 	    	width: 500px;
 	    	input {
@@ -215,12 +220,27 @@
 					width: 65%;
 					margin: 0;
 				}
+				&.modal-full {
+					width: 100%;
+					margin: 0;
+				}
 
 				.modal-control { 
 					width: 100%;
 					margin-bottom: 1.5em;
 					.pointShapes {
 						margin-top: 1em;
+					}
+
+					.editable-input {
+						margin:auto 5px;
+						padding: 2px;
+						min-width: 3em;
+						display: inline-block;
+						//text-align: right;
+						&:focus {
+							outline: 1px dotted $color2;
+						}
 					}
 
 					&.inline-check {
