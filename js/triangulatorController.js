@@ -299,8 +299,10 @@ function triangle(v0, v1, v2) {
 			return false;
 		}
 
-		var rgbStart = 'rgb(' + ~~ ((this.midVertex.red + this.v0.red) / 2) + ',' + ~~ ((this.midVertex.green + this.v0.green) / 2) + ',' + ~~ ((this.midVertex.blue + this.v0.blue) / 2) + ')';
-		var rgbStop = 'rgb(' + ~~ ((this.midVertex.red + this.v1.red + this.v2.red) / 3) + ',' + ~~ ((this.midVertex.green + this.v1.green + this.v2.green) / 3) + ',' + ~~ ((this.midVertex.blue + this.v1.blue + this.v2.blue) / 3) + ')';
+		var startColors = {'red': ~~ ((this.midVertex.red + this.v0.red) / 2), 'green': ~~ ((this.midVertex.green + this.v0.green) / 2), 'blue': ~~ ((this.midVertex.blue + this.v0.blue) / 2)};
+		var stopColors = {'red': ~~ ((this.midVertex.red + this.v1.red + this.v2.red) / 3), 'green': ~~ ((this.midVertex.green + this.v1.green + this.v2.green) / 3), 'blue': ~~ ((this.midVertex.blue + this.v1.blue + this.v2.blue) / 3)};
+		var rgbStart = 'rgb(' + startColors.red + ',' + startColors.green + ',' + startColors.blue + ')';
+		var rgbStop = 'rgb(' + stopColors.red + ',' + stopColors.green + ',' + stopColors.blue + ')';
 		var rgbPts = {'start': rgbStart, 'stop': rgbStop};			
 
 
@@ -311,7 +313,7 @@ function triangle(v0, v1, v2) {
 			lingrad.addColorStop(1, rgbPts.stop);
 		}
 		if (!ctx) {
-			return {'start': rgbStart, 'stop': rgbStop};
+			return {'start': rgbStart, 'stop': rgbStop, 'startColors': startColors, 'stopColors': stopColors};
 		} else {
 			return lingrad;
 		}
@@ -431,17 +433,30 @@ function triangle(v0, v1, v2) {
 				grad.setAttributeNS(null, 'y2', '100%');
 				var stopTop = document.createElementNS(ns, 'stop');
 				stopTop.setAttributeNS(null, 'offset', '0%');
-				stopTop.setAttributeNS(null, 'stop-color', rgbPts.start);
+
+
+				var rgbStart = rgbPts.start;
+				var rgbStop = rgbPts.stop;
+				if (mainController.includeColorAdjust) {
+					rgbStart = 'rgb(' + (rgbPts.startColors.red + mainController.adjustedColor.red) + ',' + (rgbPts.startColors.green + mainController.adjustedColor.green) + ',' + (rgbPts.startColors.blue + mainController.adjustedColor.blue) + ')';
+					rgbStop = 'rgb(' + (rgbPts.stopColors.red + mainController.adjustedColor.red) + ',' + (rgbPts.stopColors.green + mainController.adjustedColor.green) + ',' + (rgbPts.stopColors.blue + mainController.adjustedColor.blue) + ')';
+				}
+
+				stopTop.setAttributeNS(null, 'stop-color', rgbStart);
 				grad.appendChild(stopTop);
 				var stopBottom = document.createElementNS(ns, 'stop');
 				stopBottom.setAttributeNS(null, 'offset', '100%');
-				stopBottom.setAttributeNS(null, 'stop-color', rgbPts.stop);
+				stopBottom.setAttributeNS(null, 'stop-color', rgbStop);
 				grad.appendChild(stopBottom);
 
 				defs.appendChild(grad);
 				fillStyle = 'url(#gr' + id + ')';
 			} else {
+
 				fillStyle = this.getColor(); 
+				if (mainController.includeColorAdjust) {
+					fillStyle = 'rgb(' + ~~ (this.midVertex.red + mainController.adjustedColor.red) + ',' + ~~ (this.midVertex.green + mainController.adjustedColor.green) + ',' + ~~ (this.midVertex.blue + mainController.adjustedColor.blue) + ')'
+				}
 			}
 
 
