@@ -204,7 +204,8 @@
 				clear: both;
 				padding: 10px;
 				display: inline-table;
-
+				position: relative;
+				
 				&.modal-left { 
 					float:left;
 				}
@@ -243,6 +244,19 @@
 						}
 					}
 
+					&.resetButton {
+						position: absolute;
+						top: 0;
+						right: 0;
+						width: auto;
+						font-size: 100%;
+						a {
+							padding: .25em;
+							font-size: .9rem;
+							font-weight: normal;
+						}
+					}
+
 					&.inline-check {
 						.check-control {
 							display: inline-block;
@@ -250,7 +264,7 @@
 							
 							&.squaredThree {
 								margin: 0;
-								margin-left: 5px;
+								margin-left: 5px; 
 							}
 						}
 					}

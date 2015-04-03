@@ -390,6 +390,10 @@ function mainCtrl(srcImg) {
 		mCtrl.clickLayer.onmouseleave = function(e) {void(0)}
 	}
 
+	this.resetColorAdjustments = function() {
+		this.setColorAdjustment(true, {'red': 0, 'blue': 0, 'green': 0}, 0, 0);
+	}
+
 	this.setColorAdjustment = function(includeAdjustment, newColor, newBrightness, newContrast) {
 		this.includeColorAdjust = includeAdjustment;
 		if (newColor) {
@@ -397,8 +401,8 @@ function mainCtrl(srcImg) {
 			this.adjustedColor.blue = Math.min(Math.max(newColor.blue * 1, -255), 255);
 			this.adjustedColor.green = Math.min(Math.max(newColor.green * 1, -255), 255);
 		} 
-		if (newBrightness) {this.brightness = Math.min(Math.max(newBrightness * 1, -150), 150);}
-		if (newContrast) {this.contrast = Math.min(Math.max(newContrast * 1, -100), 100);}
+		if (newBrightness !== undefined) {this.brightness = Math.min(Math.max(newBrightness * 1, -150), 150);}
+		if (newContrast !== undefined) {this.contrast = Math.min(Math.max(newContrast * 1, -100), 100);}
 		this.adjustColors();
 
 	}
@@ -441,6 +445,9 @@ function mainCtrl(srcImg) {
 		}
 
 		this.adjustmentCtx.putImageData(imgData, 0, 0);
+		console.log("adjusting colors!")
+ 
+		//this.raiseEvent("settingsChanged", "Settings Changed");
 	}
 
 	this.setZoomLevel = function(newZoom) {
@@ -1181,14 +1188,18 @@ function mainCtrl(srcImg) {
 	}
 
 	this.updateStrokeColor = function(strokeColor) {
-		this.strokeColor = strokeColor;
-		this.drawStrokes();
+		if (this.strokeColor != strokeColor) {
+			this.strokeColor = strokeColor;
+			this.drawStrokes();
+		}
 	}
 
 	this.updatePointColor = function(pointColor) {
-		this.pointColor = pointColor;
-		this.pointStrokeColor = pointColor;
-		this.reDraw(true);
+		if (this.pointColor != pointColor || this.pointStrokeColor != pointColor) {
+			this.pointColor = pointColor;
+			this.pointStrokeColor = pointColor;
+			this.reDraw(true);
+		}
 	}
 
 	this.getPointSize = function() {

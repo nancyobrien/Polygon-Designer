@@ -394,6 +394,12 @@ function initInterface() {
 		
 	})
 
+	$('.resetColorAdjustments').click(function (e) {
+		e.preventDefault();
+		mainController.resetColorAdjustments();
+		updateStats();
+	})
+
 	$('.cancelPointSettings').click(function (e) {
 		e.preventDefault();
 
@@ -505,17 +511,12 @@ function initInterface() {
 		showModal('#ColorAdjustModal');
 	})
 
-
-
-
 	$('.cancelColorAdjustSettings').click(function (e) {
 		e.preventDefault();
 		var includeColorAdjust = ($('#colorAdjustStateInit').val() === 'true')
 
 		var oldColor = {'red': $('#colorAdjustRedInit').val(), 'blue': $('#colorAdjustBlueInit').val(), 'green': $('#colorAdjustGreenInit').val()};
 		mainController.setColorAdjustment(includeColorAdjust, oldColor, $('#brightnessInit').val(), $('#contrastInit').val());
-
-		updateStats();
 		closeModal(this);
 	})
 
@@ -623,46 +624,47 @@ function initInterface() {
 
 		$("#colorAdjustRedSlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
-			var newColor = {'red': sliderVal, 'blue': mainController.adjustedColor.blue, 'green': mainController.adjustedColor.green};
-			mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
-
-			updateStats();
+			if (mainController.adjustedColor.red != sliderVal) {
+				console.log(mainController.adjustedColor.red + " : " + sliderVal)
+				var newColor = {'red': sliderVal, 'blue': mainController.adjustedColor.blue, 'green': mainController.adjustedColor.green};
+				mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
+				updateStats();
+			}
 		});
 
 
 		$("#colorAdjustBlueSlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
-			var newColor = {'red': mainController.adjustedColor.red, 'blue': sliderVal, 'green': mainController.adjustedColor.green};
-			mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
-
-			updateStats();
+			if (mainController.adjustedColor.blue != sliderVal) {
+				var newColor = {'red': mainController.adjustedColor.red, 'blue': sliderVal, 'green': mainController.adjustedColor.green};
+				mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
+				updateStats();
+			}
 		});
 
 		$("#colorAdjustGreenSlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
-			var newColor = {'red': mainController.adjustedColor.red, 'blue': mainController.adjustedColor.blue, 'green': sliderVal};
-			mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
-
-			updateStats();
+			if (mainController.adjustedColor.green != sliderVal) {
+				var newColor = {'red': mainController.adjustedColor.red, 'blue': mainController.adjustedColor.blue, 'green': sliderVal};
+				mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
+				updateStats();
+			}
 		});
 
 		$("#brightnessSlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
 			mainController.setBrightness(sliderVal);
-
 			updateStats();
 		});
 
 		$("#contrastSlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
 			mainController.setContrast(sliderVal);
-
 			updateStats();
 		});
 
 
 		$('#colorAdjustRedInput').on('input', function(e){
-			//e.preventDefault();
 			if (isNumber($('#colorAdjustRedInput').text())) {
 				var colorVal = $('#colorAdjustRedInput').text();
 				var newColor = {'red': colorVal, 'blue': mainController.adjustedColor.blue, 'green': mainController.adjustedColor.green};
@@ -672,7 +674,6 @@ function initInterface() {
 		});
 
 		$('#colorAdjustBlueInput').on('input', function(e){
-			//e.preventDefault();
 			if (isNumber($('#colorAdjustBlueInput').text())) {
 				var colorVal = $('#colorAdjustBlueInput').text();
 				var newColor = {'red': mainController.adjustedColor.red, 'blue': colorVal, 'green': mainController.adjustedColor.green};
@@ -682,7 +683,6 @@ function initInterface() {
 		});
 
 		$('#colorAdjustGreenInput').on('input', function(e){
-			//e.preventDefault();
 			if (isNumber($('#colorAdjustGreenInput').text())) {
 				var colorVal = $('#colorAdjustGreenInput').text();
 				var newColor = {'red': mainController.adjustedColor.red, 'blue': mainController.adjustedColor.blue, 'green': colorVal};
@@ -692,7 +692,6 @@ function initInterface() {
 		});
 
 		$('#brightnessInput').on('input', function(e){
-			//e.preventDefault();
 			if (isNumber($('#brightnessInput').text())) {
 				var brightnessVal = $('#brightnessInput').text();
 				mainController.setBrightness(brightnessVal);
@@ -999,7 +998,7 @@ function setValue(ctrl, value) {
 			thisCtrl.html(value);
 			if(thisCtrl.is(':checkbox') || thisCtrl.is(':radio')) {
 				thisCtrl.prop('checked', value)
-			} else if (thisCtrl.html() != value) {
+			} else if (thisCtrl.html() !== value && thisCtrl.val() !== value) {
 				thisCtrl.val(value);
 			}
 		}
@@ -1128,6 +1127,7 @@ $(document).ready(function() {
 	document.addEventListener("versionsUpdated", loadVersions, false);
 	document.addEventListener("activeProjectLoaded", versionLoaded, false);
 	document.addEventListener("zoomChanged", updateStats, false);
+	document.addEventListener("settingsChanged", updateStats, false);
 
 
 	mainController = new mainCtrl(false);

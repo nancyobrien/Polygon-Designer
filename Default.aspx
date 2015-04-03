@@ -492,29 +492,37 @@
 							<label for="includeColorAdjustCheck"></label>
 						</div>
 					</div>
-					<div class="modal-control"> 
-						<span class="label">Red Adjustment:</span> <span id="colorAdjustRedInput" contenteditable class="ctrl-display editable-input stat-adjustColor-red" ></span>
-						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustRedSlider"/>
+					<div class="modal-control resetButton"> 
+						<a href="#" class="button resetColorAdjustments">Reset to defaults</a>
 						
 					</div>
-					<div class="modal-control">
-						<span class="label">Blue Adjustment:</span> <span id="colorAdjustBlueInput" contenteditable class="ctrl-display editable-input stat-adjustColor-blue" ></span>
-						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustBlueSlider"/>
+				</div>
+				<div class="modal-ctrl-section modal-half">
+					<div class="modal-control"> 
+						<span class="label">Red Adjustment:</span> <span id="colorAdjustRedInput" contenteditable class="ctrl-display editable-input stat-adjustColor-red" ></span>
+						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustRedSlider" class="stat-adjustColor-red"/>
 						
 					</div>
 					<div class="modal-control">
 						<span class="label">Green Adjustment:</span> <span id="colorAdjustGreenInput" contenteditable class="ctrl-display editable-input stat-adjustColor-green" ></span>
-						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustGreenSlider"/>
+						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustGreenSlider" class="stat-adjustColor-green"/>
 						
 					</div>
 					<div class="modal-control">
+						<span class="label">Blue Adjustment:</span> <span id="colorAdjustBlueInput" contenteditable class="ctrl-display editable-input stat-adjustColor-blue" ></span>
+						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustBlueSlider" class="stat-adjustColor-blue"/>
+						
+					</div>
+				</div>
+				<div class="modal-ctrl-section modal-half">
+					<div class="modal-control">
 						<span class="label">Brightness:</span> <span id="brightnessInput" contenteditable class="ctrl-display editable-input stat-brightness" ></span>
-						<input type="range" min="-150" max="150" value="0" step="1" id="brightnessSlider"/>
+						<input type="range" min="-150" max="150" value="0" step="1" id="brightnessSlider" class="stat-brightness"/>
 						
 					</div>
 					<div class="modal-control">
 						<span class="label">Contrast:</span> <span id="contrastInput" contenteditable class="ctrl-display editable-input stat-contrast" ></span>
-						<input type="range" min="-100" max="100" value="0" step="1" id="contrastSlider"/>
+						<input type="range" min="-100" max="100" value="0" step="1" id="contrastSlider" class="stat-contrast"/>
 						
 					</div>
 				</div>
