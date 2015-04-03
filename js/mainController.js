@@ -1230,7 +1230,7 @@ function mainCtrl(srcImg) {
 
 		tmpCtx = tempCanvas.getContext('2d');
 		if (this.includeOriginalImageInPNG) tmpCtx.drawImage(this.sourceImg,0,0);
-		tmpCtx.drawImage(this.canvas,0,0);
+		tmpCtx.drawImage(this.adjustmentCanvas,0,0);
 		this.addOverlays(tmpCtx);
 
 		return tempCanvas.toDataURL('image/png');
