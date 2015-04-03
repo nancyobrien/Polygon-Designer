@@ -492,10 +492,12 @@ function initInterface() {
 		$('#colorAdjustBlueInit').val(mainController.adjustedColor.blue);
 		$('#colorAdjustGreenInit').val(mainController.adjustedColor.green);
 		$('#colorAdjustStateInit').val(mainController.includeColorAdjust);
+		$('#brightnessInit').val(mainController.brightness);
 
 		$("#colorAdjustRedSlider").val(mainController.adjustedColor.red);
 		$("#colorAdjustBlueSlider").val(mainController.adjustedColor.blue);
 		$("#colorAdjustGreenSlider").val(mainController.adjustedColor.green);
+		$("#brightnessSlider").val(mainController.brightness);
 
 
 		showModal('#ColorAdjustModal');
@@ -509,7 +511,7 @@ function initInterface() {
 		var includeColorAdjust = ($('#colorAdjustStateInit').val() === 'true')
 
 		var oldColor = {'red': $('#colorAdjustRedInit').val(), 'blue': $('#colorAdjustBlueInit').val(), 'green': $('#colorAdjustGreenInit').val()};
-		mainController.setColorAdjustment(includeColorAdjust, oldColor);
+		mainController.setColorAdjustment(includeColorAdjust, oldColor, $('#brightnessInit').val());
 
 		updateStats();
 		closeModal(this);
@@ -642,6 +644,13 @@ function initInterface() {
 			updateStats();
 		});
 
+		$("#brightnessSlider").on("input change", function() { 
+			var sliderVal = Math.ceil($(this).val());
+			mainController.setBrightness(sliderVal);
+
+			updateStats();
+		});
+
 
 		$('#colorAdjustRedInput').on('input', function(e){
 			//e.preventDefault();
@@ -673,28 +682,41 @@ function initInterface() {
 			}
 		});
 
-		$('#colorAdjustRedInput').on('blur', function(e){
-			if ($('#colorAdjustRedInput').text() != mainController.adjustedColor.red) {
-				$('#colorAdjustRedInput').text(mainController.adjustedColor.red);
+		$('#brightnessInput').on('input', function(e){
+			//e.preventDefault();
+			if (isNumber($('#brightnessInput').text())) {
+				var brightnessVal = $('#brightnessInput').text();
+				mainController.setBrightness(brightnessVal);
+
+				$("#brightnessSlider").val(mainController.brightness);
 			}
+		});
+
+		$('#colorAdjustRedInput').on('blur', function(e){
+			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
+			$('#colorAdjustRedInput').text(mainController.adjustedColor.red);
 		});
 
 		$('#colorAdjustBlueInput').on('blur', function(e){
-			if ($('#colorAdjustBlueInput').text() != mainController.adjustedColor.blue) {
-				$('#colorAdjustBlueInput').text(mainController.adjustedColor.blue);
-			}
+			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
+			$('#colorAdjustBlueInput').text(mainController.adjustedColor.blue);
 		});
 
 		$('#colorAdjustGreenInput').on('blur', function(e){
-			if ($('#colorAdjustGreenInput').text() != mainController.adjustedColor.green) {
-				$('#colorAdjustGreenInput').text(mainController.adjustedColor.green);
-			}
+			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
+			$('#colorAdjustGreenInput').text(mainController.adjustedColor.green);
+		});
+
+		$('#brightnessInput').on('blur', function(e){
+			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
+			$('#brightnessInput').text(mainController.brightness);
 		});
 
 
 		$("#colorAdjustRedSlider").val(mainController.adjustedColor.red);
 		$("#colorAdjustBlueSlider").val(mainController.adjustedColor.blue);
 		$("#colorAdjustGreenSlider").val(mainController.adjustedColor.green);
+		$("#brightnessSlider").val(mainController.brightness);
 
 
 		$('.details-list').on("click", '.detail-ctrl--delete', function(e) { 
@@ -888,6 +910,7 @@ function updateStats() {
 	setValue($('.stat-adjustColor-green'), mainController.adjustedColor.green);
 	setValue($('.stat-adjustColor-state'), mainController.includeColorAdjust);
 
+	setValue($('.stat-brightness'), mainController.brightness);
 
 
 	setValue($('.stat-globalOpacity'), Math.ceil(mainController.globalOpacity * 100));

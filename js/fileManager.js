@@ -268,6 +268,7 @@ function fileMngr() {
 						if (result.pointShape !== undefined) {selectedVersion.pointShape = result.pointShape; }
 						if (result.pointColor !== undefined) {selectedVersion.pointColor = result.pointColor; }
 						if (result.pointStrokeColor !== undefined) {selectedVersion.pointStrokeColor = result.pointStrokeColor; }
+						if (result.brightness !== undefined) {selectedVersion.brightness = result.brightness; }
 						if (result.includeColorAdjust !== undefined) {selectedVersion.includeColorAdjust = (result.includeColorAdjust === "true") ? true : false; }
 
 						selectedVersion.Vertices = result.vertices;

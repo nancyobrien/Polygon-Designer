@@ -76,6 +76,7 @@ function mainCtrl(srcImg) {
 
 	this.includeColorAdjust = true;
 	this.adjustedColor = {'red': 0, 'blue': 0, 'green': 0};
+	this.brightness = 0;
 
 	this.init = function() {
 		var mCtrl = this;
@@ -388,16 +389,25 @@ function mainCtrl(srcImg) {
 		mCtrl.clickLayer.onmouseleave = function(e) {void(0)}
 	}
 
-	this.setColorAdjustment = function(includeAdjustment, newColor) {
+	this.setColorAdjustment = function(includeAdjustment, newColor, newBrightness) {
 		this.includeColorAdjust = includeAdjustment;
 		if (newColor) {
 			this.adjustedColor.red = Math.min(Math.max(newColor.red * 1, -255), 255);
 			this.adjustedColor.blue = Math.min(Math.max(newColor.blue * 1, -255), 255);
 			this.adjustedColor.green = Math.min(Math.max(newColor.green * 1, -255), 255);
 		} 
-
+		if (newBrightness) {this.brightness = Math.min(Math.max(newBrightness * 1, -150), 150);}
 		this.adjustColors();
 
+	}
+
+
+	this.setBrightness = function(newBrightness) {
+		newBrightness = Math.min(Math.max(newBrightness * 1, -150), 150);
+		if (this.brightness != newBrightness) {
+			this.brightness = newBrightness;
+			this.adjustColors();
+		} 
 	}
 
 	this.adjustColors = function() {
@@ -406,9 +416,9 @@ function mainCtrl(srcImg) {
 		if (this.includeColorAdjust) {
 			var tempColor = imgData.data;
 			for (var i = 0; i < tempColor.length;i+=4) {
-				tempColor[i] += this.adjustedColor.red;
-				tempColor[i + 1] += this.adjustedColor.green;
-				tempColor[i + 2] += this.adjustedColor.blue;
+				tempColor[i] += this.adjustedColor.red + this.brightness;
+				tempColor[i + 1] += this.adjustedColor.green + this.brightness;
+				tempColor[i + 2] += this.adjustedColor.blue + this.brightness;
 				//tempColor[i + 3] += tempColor[i + 3];
 			}			
 		}
@@ -924,6 +934,7 @@ function mainCtrl(srcImg) {
 			this.projectData = project;
 			if (project.activeVersion) {
 				this.globalOpacity = 1;
+				this.brightness = 0;
 				this.showVertices = project.activeVersion.showVertices;
 				this.useGradient = project.activeVersion.useGradient;
 				this.showFill = project.activeVersion.showFill;
@@ -948,6 +959,7 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.pointStrokeColor !== undefined) {this.pointStrokeColor = project.activeVersion.pointStrokeColor; }
 				if (project.activeVersion.globalOpacity !== undefined) {this.globalOpacity = project.activeVersion.globalOpacity; }
 				if (project.activeVersion.includeColorAdjust !== undefined) {this.includeColorAdjust = project.activeVersion.includeColorAdjust; }
+				if (project.activeVersion.brightness !== undefined) {this.brightness = project.activeVersion.brightness * 1; }
 
 				this.setTransparency(this.globalOpacity);
 			}
@@ -1361,6 +1373,7 @@ function mainCtrl(srcImg) {
 		responseString += '"pointStrokeColor":"' + this.pointStrokeColor + '",';
 		responseString += '"globalOpacity":"' + this.globalOpacity + '",';
 		responseString += '"includeColorAdjust":"' + this.includeColorAdjust + '",';
+		responseString += '"brightness":"' + this.brightness + '",';
 
 
 		if (midGrads.length > 0) {

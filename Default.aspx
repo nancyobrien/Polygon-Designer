@@ -479,6 +479,7 @@
 			<input type="hidden" id="colorAdjustBlueInit" value="0" />
 			<input type="hidden" id="colorAdjustGreenInit" value="0" />
 			<input type="hidden" id="colorAdjustStateInit" value="0" />
+			<input type="hidden" id="brightnessInit" value="0" />
 			<div class="modal-close-button cancelColorAdjustSettings"><span class="icon-cancel"></span></div>
 			<div class="title modal-mover">Color Adjustment</div>
 			<div class="modal-controls">
@@ -503,6 +504,11 @@
 					<div class="modal-control">
 						<span class="label">Green Adjustment:</span> <span id="colorAdjustGreenInput" contenteditable class="ctrl-display editable-input stat-adjustColor-green" ></span>
 						<input type="range" min="-255" max="255" value="0" step="1" id="colorAdjustGreenSlider"/>
+						
+					</div>
+					<div class="modal-control">
+						<span class="label">Brightness:</span> <span id="brightnessInput" contenteditable class="ctrl-display editable-input stat-brightness" ></span>
+						<input type="range" min="-150" max="150" value="0" step="1" id="brightnessSlider"/>
 						
 					</div>
 				</div>

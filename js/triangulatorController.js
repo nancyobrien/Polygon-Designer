@@ -438,8 +438,8 @@ function triangle(v0, v1, v2) {
 				var rgbStart = rgbPts.start;
 				var rgbStop = rgbPts.stop;
 				if (mainController.includeColorAdjust) {
-					rgbStart = 'rgb(' + (rgbPts.startColors.red + mainController.adjustedColor.red) + ',' + (rgbPts.startColors.green + mainController.adjustedColor.green) + ',' + (rgbPts.startColors.blue + mainController.adjustedColor.blue) + ')';
-					rgbStop = 'rgb(' + (rgbPts.stopColors.red + mainController.adjustedColor.red) + ',' + (rgbPts.stopColors.green + mainController.adjustedColor.green) + ',' + (rgbPts.stopColors.blue + mainController.adjustedColor.blue) + ')';
+					rgbStart = 'rgb(' + (rgbPts.startColors.red + mainController.adjustedColor.red + mainController.brightness) + ',' + (rgbPts.startColors.green + mainController.adjustedColor.green + mainController.brightness) + ',' + (rgbPts.startColors.blue + mainController.adjustedColor.blue + mainController.brightness) + ')';
+					rgbStop = 'rgb(' + (rgbPts.stopColors.red + mainController.adjustedColor.red + mainController.brightness) + ',' + (rgbPts.stopColors.green + mainController.adjustedColor.green + mainController.brightness) + ',' + (rgbPts.stopColors.blue + mainController.adjustedColor.blue + mainController.brightness) + ')';
 				}
 
 				stopTop.setAttributeNS(null, 'stop-color', rgbStart);
@@ -455,7 +455,7 @@ function triangle(v0, v1, v2) {
 
 				fillStyle = this.getColor(); 
 				if (mainController.includeColorAdjust) {
-					fillStyle = 'rgb(' + ~~ (this.midVertex.red + mainController.adjustedColor.red) + ',' + ~~ (this.midVertex.green + mainController.adjustedColor.green) + ',' + ~~ (this.midVertex.blue + mainController.adjustedColor.blue) + ')'
+					fillStyle = 'rgb(' + ~~ (this.midVertex.red + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ (this.midVertex.green + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ (this.midVertex.blue + mainController.adjustedColor.blue + mainController.brightness) + ')'
 				}
 			}
 
