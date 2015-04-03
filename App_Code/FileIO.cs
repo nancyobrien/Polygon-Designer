@@ -37,7 +37,7 @@ public class FileIO {
         List<Project> projects = new List<Project>();
         string[] dirs = System.IO.Directory.GetDirectories(Common.context.Server.MapPath(UploadPath));
         foreach (string dir in dirs) {
-            if (dir.ToLower() != ArchiveMapPath.ToLower().TrimEnd('\\')) {
+            if (dir.ToLower() != ArchiveMapPath.ToLower().TrimEnd('\\') && !dir.ToLower().Contains("tmpfiles")) {
                 projects.Add(GetProject(dir));
             }
         }

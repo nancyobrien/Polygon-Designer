@@ -15,9 +15,8 @@ public class SaveSVG : IHttpHandler {
         string decodedString = System.Text.Encoding.UTF8.GetString(data);
         
         if (svgData != String.Empty) {
-
-            svgFile = "/tmpFiles/" + svgName + ".svg";
- 
+            svgFile = "/uploads/tmpFiles/" + svgName + ".svg";
+            if (!Stepframe.FileUtilities.DirectoryExists(context.Server.MapPath("/uploads/tmpFiles/"))) { Stepframe.FileUtilities.CreateNewDirectory(context.Server.MapPath("/uploads/tmpFiles/")); }
             Stepframe.FileUtilities.WriteFile(context.Server.MapPath(svgFile), decodedString);
         }
 
