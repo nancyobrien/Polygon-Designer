@@ -493,11 +493,13 @@ function initInterface() {
 		$('#colorAdjustGreenInit').val(mainController.adjustedColor.green);
 		$('#colorAdjustStateInit').val(mainController.includeColorAdjust);
 		$('#brightnessInit').val(mainController.brightness);
+		$('#contrastInit').val(mainController.contrast);
 
 		$("#colorAdjustRedSlider").val(mainController.adjustedColor.red);
 		$("#colorAdjustBlueSlider").val(mainController.adjustedColor.blue);
 		$("#colorAdjustGreenSlider").val(mainController.adjustedColor.green);
 		$("#brightnessSlider").val(mainController.brightness);
+		$("#contrastSlider").val(mainController.contrast);
 
 
 		showModal('#ColorAdjustModal');
@@ -511,7 +513,7 @@ function initInterface() {
 		var includeColorAdjust = ($('#colorAdjustStateInit').val() === 'true')
 
 		var oldColor = {'red': $('#colorAdjustRedInit').val(), 'blue': $('#colorAdjustBlueInit').val(), 'green': $('#colorAdjustGreenInit').val()};
-		mainController.setColorAdjustment(includeColorAdjust, oldColor, $('#brightnessInit').val());
+		mainController.setColorAdjustment(includeColorAdjust, oldColor, $('#brightnessInit').val(), $('#contrastInit').val());
 
 		updateStats();
 		closeModal(this);
@@ -651,6 +653,13 @@ function initInterface() {
 			updateStats();
 		});
 
+		$("#contrastSlider").on("input change", function() { 
+			var sliderVal = Math.ceil($(this).val());
+			mainController.setContrast(sliderVal);
+
+			updateStats();
+		});
+
 
 		$('#colorAdjustRedInput').on('input', function(e){
 			//e.preventDefault();
@@ -692,6 +701,16 @@ function initInterface() {
 			}
 		});
 
+		$('#contrastInput').on('input', function(e){
+			//e.preventDefault();
+			if (isNumber($('#contrastInput').text())) {
+				var contrastVal = $('#contrastInput').text();
+				mainController.setContrast(contrastVal);
+
+				$("#contrastSlider").val(mainController.contrast);
+			}
+		});
+
 		$('#colorAdjustRedInput').on('blur', function(e){
 			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
 			$('#colorAdjustRedInput').text(mainController.adjustedColor.red);
@@ -710,6 +729,11 @@ function initInterface() {
 		$('#brightnessInput').on('blur', function(e){
 			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
 			$('#brightnessInput').text(mainController.brightness);
+		});
+
+		$('#contrastInput').on('blur', function(e){
+			// Make sure the text gets set to the true value (non-numbers rejected, -0 switches to 0)
+			$('#contrastInput').text(mainController.contrast);
 		});
 
 
@@ -911,6 +935,7 @@ function updateStats() {
 	setValue($('.stat-adjustColor-state'), mainController.includeColorAdjust);
 
 	setValue($('.stat-brightness'), mainController.brightness);
+	setValue($('.stat-contrast'), mainController.contrast);
 
 
 	setValue($('.stat-globalOpacity'), Math.ceil(mainController.globalOpacity * 100));

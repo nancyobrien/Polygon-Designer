@@ -77,6 +77,7 @@ function mainCtrl(srcImg) {
 	this.includeColorAdjust = true;
 	this.adjustedColor = {'red': 0, 'blue': 0, 'green': 0};
 	this.brightness = 0;
+	this.contrast = 0;
 
 	this.init = function() {
 		var mCtrl = this;
@@ -389,7 +390,7 @@ function mainCtrl(srcImg) {
 		mCtrl.clickLayer.onmouseleave = function(e) {void(0)}
 	}
 
-	this.setColorAdjustment = function(includeAdjustment, newColor, newBrightness) {
+	this.setColorAdjustment = function(includeAdjustment, newColor, newBrightness, newContrast) {
 		this.includeColorAdjust = includeAdjustment;
 		if (newColor) {
 			this.adjustedColor.red = Math.min(Math.max(newColor.red * 1, -255), 255);
@@ -397,6 +398,7 @@ function mainCtrl(srcImg) {
 			this.adjustedColor.green = Math.min(Math.max(newColor.green * 1, -255), 255);
 		} 
 		if (newBrightness) {this.brightness = Math.min(Math.max(newBrightness * 1, -150), 150);}
+		if (newContrast) {this.contrast = Math.min(Math.max(newContrast * 1, -100), 100);}
 		this.adjustColors();
 
 	}
@@ -409,6 +411,19 @@ function mainCtrl(srcImg) {
 			this.adjustColors();
 		} 
 	}
+	this.setContrast = function(newContrast) {
+		newContrast = Math.min(Math.max(newContrast * 1, -100), 100);
+		if (this.contrast != newContrast) {
+			this.contrast = newContrast;
+			this.adjustColors();
+		} 
+	}
+
+	this.getContrastedColor = function(color) { 
+		var factor = (259 * (this.contrast + 255)) / (255 * (259 - this.contrast));
+		color = factor * (color - 128) + 128;
+		return color;
+	}
 
 	this.adjustColors = function() {
 		//directly adjust the color of fill layer based on the unadjusted colors of the hidden canvas.
@@ -416,10 +431,12 @@ function mainCtrl(srcImg) {
 		if (this.includeColorAdjust) {
 			var tempColor = imgData.data;
 			for (var i = 0; i < tempColor.length;i+=4) {
-				tempColor[i] += this.adjustedColor.red + this.brightness;
-				tempColor[i + 1] += this.adjustedColor.green + this.brightness;
-				tempColor[i + 2] += this.adjustedColor.blue + this.brightness;
-				//tempColor[i + 3] += tempColor[i + 3];
+				//tempColor[i] += this.adjustedColor.red + this.brightness;
+				//tempColor[i + 1] += this.adjustedColor.green + this.brightness;
+				//tempColor[i + 2] += this.adjustedColor.blue + this.brightness;
+				tempColor[i] = this.getContrastedColor(tempColor[i] + this.adjustedColor.red + this.brightness);
+				tempColor[i + 1] = this.getContrastedColor(tempColor[i + 1] + this.adjustedColor.green + this.brightness);
+				tempColor[i + 2] = this.getContrastedColor(tempColor[i + 2] + this.adjustedColor.blue + this.brightness);
 			}			
 		}
 
@@ -935,6 +952,7 @@ function mainCtrl(srcImg) {
 			if (project.activeVersion) {
 				this.globalOpacity = 1;
 				this.brightness = 0;
+				this.contrast = 0;
 				this.showVertices = project.activeVersion.showVertices;
 				this.useGradient = project.activeVersion.useGradient;
 				this.showFill = project.activeVersion.showFill;
@@ -960,6 +978,7 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.globalOpacity !== undefined) {this.globalOpacity = project.activeVersion.globalOpacity; }
 				if (project.activeVersion.includeColorAdjust !== undefined) {this.includeColorAdjust = project.activeVersion.includeColorAdjust; }
 				if (project.activeVersion.brightness !== undefined) {this.brightness = project.activeVersion.brightness * 1; }
+				if (project.activeVersion.contrast !== undefined) {this.contrast = project.activeVersion.contrast * 1; }
 
 				this.setTransparency(this.globalOpacity);
 			}
@@ -1374,6 +1393,7 @@ function mainCtrl(srcImg) {
 		responseString += '"globalOpacity":"' + this.globalOpacity + '",';
 		responseString += '"includeColorAdjust":"' + this.includeColorAdjust + '",';
 		responseString += '"brightness":"' + this.brightness + '",';
+		responseString += '"contrast":"' + this.contrast + '",';
 
 
 		if (midGrads.length > 0) {
