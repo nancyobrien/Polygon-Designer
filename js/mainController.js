@@ -698,10 +698,10 @@ function mainCtrl(srcImg) {
 		this.showFill = !this.showFill;
 		
 		if (this.showFill) {
-			$(this.canvas).show();
+			$(this.adjustmentCanvas).show();
 			this.draw();
 		} else {
-			$(this.canvas).hide();
+			$(this.adjustmentCanvas).hide();
 		}
 	}
 
