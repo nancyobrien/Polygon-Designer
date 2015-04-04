@@ -19,6 +19,7 @@
 	&.open {
 		//right: 0;
 		@include translateX(0);
+		background-color: $colorBackground2;
 		.display-toggle{
 			//top: 0;
 			border: none;
@@ -98,8 +99,9 @@
 			.display-section {
 				color: $color3;
 				&.display-header {
-					font-size: 1.2em;
-
+					font-size: 1.1em;
+					cursor: pointer;
+					text-align: left;
 					 .display-trigger {
 					 	font-family: 'icomoon';
 					 	text-align: center;
@@ -107,27 +109,30 @@
 					 	width: auto;
 					 	float: right;
 					 	color: $color3;
-					 	padding: .1em .3em;
-					 	@include border-radius(.25em);
-					 	background-color: darken($color2, 10%);
+					 	//padding: .1em .3em;
+					 	margin-left: .3em;
+					 	//@include border-radius(.05em);
+					 	//background-color: darken($color2, 5%);
 					 	&:before {
-							content: "\f103";
+							content: "\e62f";
 						}
-					 	&:hover {
-					 		background-color: darken($color2, 15%);
+					 	/* &:hover {
+					 		background-color: darken($color2, 10%);
 					 		cursor: pointer;
-					 	}
+					 	} */
 					 }
 				}
 			}
 
 			&.closed {
-				@include translateY(81%);
+				//@include translateY(81%);
+				height: 2.25rem;
+				overflow: hidden;
 				.display-section {
 					&.display-header {
 						.display-trigger {
 						 	&:before {
-								content: "\f102";
+								content: "\e630";
 							}
 						}
 					}

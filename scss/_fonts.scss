@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?me63lu');
-	src:url('fonts/icomoon.eot?#iefixme63lu') format('embedded-opentype'),
-		url('fonts/icomoon.woff?me63lu') format('woff'),
-		url('fonts/icomoon.ttf?me63lu') format('truetype'),
-		url('fonts/icomoon.svg?me63lu#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?8tichc');
+	src:url('fonts/icomoon.eot?#iefix8tichc') format('embedded-opentype'),
+		url('fonts/icomoon.woff?8tichc') format('woff'),
+		url('fonts/icomoon.ttf?8tichc') format('truetype'),
+		url('fonts/icomoon.svg?8tichc#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -71,6 +71,30 @@
 	content: "\e62c";
 }
 
+.icon-minus2:before {
+	content: "\e62f";
+}
+
+.icon-plus3:before {
+	content: "\e630";
+}
+
+.icon-minus3:before {
+	content: "\e631";
+}
+
+.icon-plus4:before {
+	content: "\e632";
+}
+
+.icon-minus4:before {
+	content: "\e633";
+}
+
+.icon-plus5:before {
+	content: "\e634";
+}
+
 .icon-layout:before {
 	content: "\e61d";
 }
@@ -127,8 +151,20 @@
 	content: "\e605";
 }
 
+.icon-plus6:before {
+	content: "\e635";
+}
+
 .icon-plus-alt:before {
 	content: "\e616";
+}
+
+.icon-minus5:before {
+	content: "\e636";
+}
+
+.icon-minus-alt:before {
+	content: "\e637";
 }
 
 .icon-move:before {
@@ -181,6 +217,10 @@
 
 .icon-in:before {
 	content: "\e61e";
+}
+
+.icon-minus6:before {
+	content: "\e638";
 }
 
 .icon-plus2:before {
@@ -537,6 +577,10 @@
 
 .icon-plus-circle:before {
 	content: "\f055";
+}
+
+.icon-minus-circle:before {
+	content: "\f056";
 }
 
 .icon-exclamation-triangle:before {

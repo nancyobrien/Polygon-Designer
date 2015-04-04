@@ -242,7 +242,7 @@ function initInterface() {
 		mainController.updateStrokeColor($('#strokeColor').html());
 	});
 
-	$('.display-trigger').click(function(e) {
+	$('.display-trigger').closest('.display-section').click(function(e) {
 		e.preventDefault();
 		$(this).closest('.display-static').toggleClass('closed');
 	})

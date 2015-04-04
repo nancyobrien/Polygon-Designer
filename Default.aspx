@@ -43,8 +43,8 @@
 
 		</div>
 		<div class="display-content">
-			<div class="settings display-block">
-				<div class="display-section display-header">Settings</div>
+			<div class="settings display-block display-static">
+				<div class="display-section display-header">Settings <span class="display-trigger"></span></div>
 				<div class="display-section">
 					<span class="label">Show Vertices:</span> 
 					<div class="check-control squaredThree">
@@ -100,8 +100,8 @@
 				</div>
 
 			</div>
-			<div class="delete display-block">
-				<div class="display-section display-header">Delete Vertices</div>
+			<div class="delete display-block display-static">
+				<div class="display-section display-header">Delete Vertices <span class="display-trigger"></span></div>
 				<div class="display-section toolbar-button">
 					<a href="#" title="Delete all vertices"   id="recycler"><span class="tool-icon icon-bin"></span> <span class="label">All Vertices</span></a>									
 				</div>
@@ -113,8 +113,8 @@
 				</div>
 
 			</div>
-			<div class="add display-block">
-				<div class="display-section display-header">Add Vertices</div>
+			<div class="add display-block display-static">
+				<div class="display-section display-header">Add Vertices <span class="display-trigger"></span></div>
 				<div class="display-section">
 					<span class="label">Random:</span><span class="editable-input" contenteditable id="randomVertCount">0</span><a id="randomGenerator" href="#" class="icon-plus-square inline-button icon-button"></a>								
 				</div>
@@ -129,8 +129,8 @@
 				</div> -->
 			</div>
 
-			<div class="upload display-block">
-				<div class="display-section display-header">Save / Load</div>
+			<div class="upload display-block display-static">
+				<div class="display-section display-header">Save / Load <span class="display-trigger"></span></div>
 				<div class="display-section toolbar-button">
 					<a href="/" title="Load New Image" id="imageLoader"><span class="tool-icon icon-popup"></span> <span class="label">Load New Image</span></a>									
 				</div>
