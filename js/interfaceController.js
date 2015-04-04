@@ -501,13 +501,13 @@ function initInterface() {
 		$('#brightnessInit').val(mainController.brightness);
 		$('#contrastInit').val(mainController.contrast);
 
-		$("#colorAdjustRedSlider").val(mainController.adjustedColor.red);
+		/*$("#colorAdjustRedSlider").val(mainController.adjustedColor.red);
 		$("#colorAdjustBlueSlider").val(mainController.adjustedColor.blue);
 		$("#colorAdjustGreenSlider").val(mainController.adjustedColor.green);
 		$("#brightnessSlider").val(mainController.brightness);
 		$("#contrastSlider").val(mainController.contrast);
-
-
+*/
+		updateStats();
 		showModal('#ColorAdjustModal');
 	})
 
