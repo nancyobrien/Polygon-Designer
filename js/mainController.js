@@ -79,6 +79,8 @@ function mainCtrl(srcImg) {
 	this.brightness = 0;
 	this.contrast = 0;
 
+	this.canvases = {};
+
 	this.init = function() {
 		var mCtrl = this;
 
@@ -102,8 +104,20 @@ function mainCtrl(srcImg) {
 
 		this.samplingImg = document.createElement('canvas');
 
+		this.canvases["canvas"] = {"canvas": this.canvas, "context":false};
+		this.canvases["vertCanvas"] = {"canvas": this.vertCanvas, "context":false};
+		this.canvases["strokeCanvas"] = {"canvas": this.strokeCanvas, "context":false};
+		this.canvases["tempCanvas"] = {"canvas": this.tempCanvas, "context":false};
+		this.canvases["selectCanvas"] = {"canvas": this.selectCanvas, "context":false};
+		this.canvases["sourceCanvas"] = {"canvas": this.sourceImg, "context":false};
+		this.canvases["maskCanvas"] = {"canvas": this.maskCanvas, "context":false};
+		this.canvases["adjustmentCanvas"] = {"canvas": this.adjustmentCanvas, "context":false};
+		this.canvases["samplingCanvas"] = {"canvas": this.samplingImg, "context":false, "excludeResize": true};
+
+
+
+
 		if (canvas.getContext) {
-			//ctx = canvas.getContext('2d');
 			this.fillCtx = this.canvas.getContext('2d');
 			this.imgCtx = this.sourceImg.getContext('2d');
 			this.vertCtx = this.vertCanvas.getContext('2d');
@@ -113,8 +127,14 @@ function mainCtrl(srcImg) {
 			this.samplingCtx = this.samplingImg.getContext('2d');
 			this.maskCtx = this.maskCanvas.getContext('2d');
 			this.adjustmentCtx = this.adjustmentCanvas.getContext('2d');
+
+			for(var can in this.canvases) {
+				var thisCanvas = this.canvases[can];
+				thisCanvas.context = thisCanvas.canvas.getContext('2d');
+			}
 		}
 
+		var x= 1;
 
 		window.onkeyup = function(e){
 		 // Ensure event is not null
@@ -216,9 +236,9 @@ function mainCtrl(srcImg) {
 					mCtrl.selectCtx.clearRect(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y)
 					mCtrl.selectCtx.closePath();
 
-					var imageData = mCtrl.vertCtx.getImageData(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y);
+					var imageData = mCtrl.vertCtx.getImageData(startMousePos.x * mCtrl.zoomLevel, startMousePos.y * mCtrl.zoomLevel, (mousePos.x - startMousePos.x) * mCtrl.zoomLevel, (mousePos.y - startMousePos.y) * mCtrl.zoomLevel);
 					mCtrl.invertVerts(imageData);
-			      	mCtrl.selectCtx.putImageData(imageData, startMousePos.x, startMousePos.y);
+			      	mCtrl.selectCtx.putImageData(imageData, startMousePos.x * mCtrl.zoomLevel, startMousePos.y * mCtrl.zoomLevel);
 					if (!tmpVertFlag) {mCtrl.setShowVertices(false);}
 
 
@@ -444,7 +464,8 @@ function mainCtrl(srcImg) {
 			}			
 		}
 
-		this.adjustmentCtx.putImageData(imgData, 0, 0);
+		this.canvases.adjustmentCanvas.context.putImageData(imgData, 0, 0);
+		//this.adjustmentCtx.putImageData(imgData, 0, 0);
 		console.log("adjusting colors!")
  
 		//this.raiseEvent("settingsChanged", "Settings Changed");
@@ -456,13 +477,24 @@ function mainCtrl(srcImg) {
 		this.canvasHeight = this.originalImage.height * this.zoomLevel;
 
 		this.setUpCanvas();
-		this.imgCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+
+
+		for(var can in this.canvases) {
+			if (!this.canvases[can].excludeResize) {
+				this.canvases[can].context.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+			}
+		}
+
+		/*this.imgCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.fillCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.vertCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.strokeCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.tempCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.selectCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 		this.adjustmentCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+*/
+ 
+
 
 
 		//this.imgCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -508,17 +540,26 @@ function mainCtrl(srcImg) {
 	};
 
 	this.setUpCanvas = function() {
-		this.resizeElement(this.sourceImg, this.canvasWidth, this.canvasHeight);
+/*		this.resizeElement(this.sourceImg, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.canvas, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.vertCanvas, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.strokeCanvas, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.tempCanvas, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.clickLayer, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.selectLayer, this.canvasWidth, this.canvasHeight);
 		this.resizeElement(this.selectCanvas, this.canvasWidth, this.canvasHeight)
 		this.resizeElement(this.maskCanvas, this.canvasWidth, this.canvasHeight)
 		this.resizeElement(this.adjustmentCanvas, this.canvasWidth, this.canvasHeight)
- 
+		this.resizeElement(this.clickLayer, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.selectLayer, this.canvasWidth, this.canvasHeight);
+ */
+
+		for(var can in this.canvases) {
+			if (!this.canvases[can].excludeResize) {
+				this.resizeElement(this.canvases[can].canvas, this.canvasWidth, this.canvasHeight);
+			}
+		}
+		this.resizeElement(this.clickLayer, this.canvasWidth, this.canvasHeight);
+		this.resizeElement(this.selectLayer, this.canvasWidth, this.canvasHeight);
+
 		this.offsetX = this.canvasContainer.offsetLeft + (this.canvas ? this.canvas.offsetLeft : 0);
 		this.offsetY = this.canvasContainer.offsetTop + (this.canvas ? this.canvas.offsetTop : 0);
 
