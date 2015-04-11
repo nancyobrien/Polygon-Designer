@@ -34,6 +34,10 @@
 		<div class="display-controls">
 			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add point mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
 			<div id="tool-selectPoint2" data-tooltip="Select points mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Select Points"  data-activelayer="#selectLayer"><span class="icon-marquee"></span></div>
+			<div id="tool-geoPoints" data-tooltip="Shape Tool" class="tools display-toggle select-tool  tooltip tooltip--right show-delayed-popup" data-popupmenu="#shapeOptionsMenu" data-popuppositionv="middle" data-popuppositionh="right" data-popupclass="arrow-left"  data-toolmode="Shape Tool"  data-activelayer="#shapeLayer"><span class="show-selectShape"></span><span class="delay-indicator"></span></div>
+
+
+  
 			<!-- <div id="tool-selectPoint2" data-tooltip="Masking mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Draw Mask"  data-activelayer="#maskLayer"><span class="icon-brush"></span></div> -->
 
 
@@ -203,16 +207,17 @@
 		</div>
 		<div id="canvasLoading" class="overlay--disabled"></div>
 		<canvas id="sourceImg" width="600" height="600"></canvas>    
-		<!-- <canvas id="canvas" width="600" height="600"></canvas>  -->   
 		<canvas id="adjustmentCanvas" width="600" height="600"></canvas>    
 		<canvas id="strokeCanvas" width="600" height="600"></canvas>   
 		<canvas id="vertCanvas" width="600" height="600"></canvas>   
 		<canvas id="tempCanvas" width="600" height="600"></canvas>   
 		<canvas id="selectCanvas" width="600" height="600"></canvas>   
 		<canvas id="maskCanvas" width="600" height="600"></canvas>   
+		<canvas id="shapeCanvas" width="600" height="600"></canvas>   
 		<div id="clickLayer" class="clicklayer tool-layer canvas-layer overlay overlay--transparent"></div> 
 		<div id="selectLayer" class="selectlayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
 		<div id="maskLayer" class="maskLayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
+		<div id="shapeLayer" class="shapeLayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
 	</div>    
 	<div id="statusBar" class="status-bar">
 			<span class="collapse-trigger"></span><div class="status-content">
@@ -253,6 +258,35 @@
 	</div>
 	
 	<div class="popup-menus">
+
+	<div class="menu popup-menu--shapeoptions hide menu-horizontal" id="shapeOptionsMenu">
+		<ul>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="circle"><span class="check icon-radio-unchecked "></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="triangle"><span class="check icon-triangle"></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="square"><span class="check icon-square"></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="pentagon"><span class="check icon-pentagon"></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="hexagon"><span class="check icon-hexagon"></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="heptagon"><span class="check icon-heptagon"></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="octagon"><span class="check icon-octagon"></span></a>
+			</li>
+			<!-- <li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="star"><span class="check icon-five-pointed-star"></span></a>
+			</li> -->
+		</ul>
+	</div>
 
 		<div class="menu popup-menu--filloptions hide" id="fillOptionsMenu">
 			<ul>
@@ -334,6 +368,27 @@
 			<div class="message">Loading <img src='/images/loader-lightback.gif' /></div>
 		</div>
 	</div>
+
+
+	<div class="modal-background modal-clear">
+		<div class="modal" id="configurePolygonsModal">
+			<div class="modal-close-button modal-close"><span class="icon-cancel"></span></div>
+			<div class="title">Polygon Settings</div>
+			<div class="modal-controls">
+				<div class="modal-ctrl-section modal-full">
+					<div class="modal-control">
+						<span class="label">Number of concentric polygons:</span> <output class="ctrl-display stat-concentric-rings" ></output>
+						<input type="range" min="1" max="5" value="1" step="1" id="concentricRingsSlider"/>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="buttons"><a href="#" id="updatePolygonSettings" class="button modal-close ">Update Polygon Settings</a> <a  href="#" class="button button--cancel modal-close">Cancel</a></div>
+		</div>
+	</div> 
+
+
 
 	<div class="modal-background modal-clear">
 		<div class="modal" id="pointPropsModal">

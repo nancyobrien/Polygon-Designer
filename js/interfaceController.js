@@ -9,6 +9,8 @@ var uploadedImage = false;
 var theSourceImage = false;
 var currentZoom = 1;
 var selectedProject = false;
+var delayedPopupTimer = false;
+var delayedPopupShown = false;
 
 function initInterface() {
 	if (loadProjectID != '') {hideLoadScreen();}
@@ -99,6 +101,71 @@ function initInterface() {
 		hideMenus();
 	})
 
+	$('.selectShape').click(function(e) {
+		e.preventDefault();
+		mainController.shapeMode = $(this).data('setvalue');
+		updateStats();
+		$('#tool-geoPoints').click();
+	})
+
+	$('.show-delayed-popup').mousedown(function(e){
+		e.stopImmediatePropagation();
+		e.preventDefault();
+		e.stopPropagation();
+		var thisElement = this;
+		delayedPopupTimer = setTimeout(function() {showPopup(thisElement);}, 500);
+	})
+	$('.show-delayed-popup').mouseup(function(e){
+		e.stopImmediatePropagation();
+		e.preventDefault();
+		e.stopPropagation();
+		clearTimeout(delayedPopupTimer);
+	})
+
+
+	function showPopup(thisElement) {
+		delayedPopupShown = true;
+		var menuType = $(thisElement).data('popupmenu');
+
+		//Have to show the menu to get the width;
+		$(menuType).removeClass('hide');
+		var menuWidth = $(menuType).width();
+		var menuHeight = $(menuType).height();
+		$(menuType).addClass('hide');
+
+		var popClass = ($(thisElement).data('popupclass') ? $(thisElement).data('popupclass') : '');
+		var borderHeight = 16;// $(thisElement).find(':after').css('border-width');
+		var objSize = {}
+		objSize.width = $(thisElement).width() + parseFloat($(thisElement).css('padding-left')) + parseFloat($(thisElement).css('padding-right'));
+		objSize.height = $(thisElement).height() + parseFloat($(thisElement).css('padding-top')) + parseFloat($(thisElement).css('padding-bottom'));
+		var mousePos = {};
+		mousePos.x = $(thisElement).offset().left ;
+		mousePos.y = $(thisElement).offset().top;
+		var menuPlacement = {'horizontal' : 'left', 'vertical': 'top'};
+		switch ($(thisElement).data('popuppositionh')) {
+			case 'left':
+				mousePos.x -= objSize.width/2;
+				break;
+			case 'center':
+				mousePos.x += (objSize.width - menuWidth)/2;
+				break;
+			case 'right':
+				mousePos.x += objSize.width + borderHeight;
+				break;
+
+		}
+		switch ($(thisElement).data('popuppositionv')) {
+			case 'top':
+				menuPlacement.vertical = 'bottom';
+				mousePos.y = objSize.height + borderHeight;
+				break;
+			case 'middle':
+				mousePos.y +=  (objSize.height - menuHeight)/2
+				break; 
+
+		}
+		showPopupMenu(menuType, mousePos, menuPlacement, popClass);	}
+
 	$('.show-popup').click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -113,6 +180,7 @@ function initInterface() {
 		//Have to show the menu to get the width;
 		$(menuType).removeClass('hide');
 		var menuWidth = $(menuType).width();
+		var menuHeight = $(menuType).height();
 		$(menuType).addClass('hide');
 
 		var popClass = ($(this).data('popupclass') ? $(this).data('popupclass') : '');
@@ -121,8 +189,8 @@ function initInterface() {
 		objSize.width = $(this).width() + parseFloat($(this).css('padding-left')) + parseFloat($(this).css('padding-right'));
 		objSize.height = $(this).height() + parseFloat($(this).css('padding-top')) + parseFloat($(this).css('padding-bottom'));
 		var mousePos = {};
-		mousePos.x = $(this).position().left;
-		mousePos.y = $(this).position().top + borderHeight;
+		mousePos.x = $(this).offset().left ;
+		mousePos.y = $(this).offset().top;
 		var menuPlacement = {'horizontal' : 'left', 'vertical': 'top'};
 		switch ($(this).data('popuppositionh')) {
 			case 'left':
@@ -132,7 +200,7 @@ function initInterface() {
 				mousePos.x += (objSize.width - menuWidth)/2;
 				break;
 			case 'right':
-				mousePos.x += objSize.width;
+				mousePos.x += objSize.width + borderHeight;
 				break;
 
 		}
@@ -142,12 +210,12 @@ function initInterface() {
 				mousePos.y = objSize.height + borderHeight;
 				break;
 			case 'middle':
-				mousePos.x += objSize.height/2;
-				break;
+				mousePos.y +=  (objSize.height - menuHeight)/2
+				break; 
 
 		}
-
 		showPopupMenu(menuType, mousePos, menuPlacement, popClass);
+		var x  =1;
 	})
 
 	$('.toggleVerts').click(function(e) {
@@ -400,6 +468,12 @@ function initInterface() {
 		updateStats();
 	})
 
+	$('#updatePolygonSettings').click(function(e) {
+		mainController.shapeConcentric = $('#concentricRingsSlider').val();
+		updateStats();
+	})
+
+
 	$('.cancelPointSettings').click(function (e) {
 		e.preventDefault();
 
@@ -573,6 +647,10 @@ function initInterface() {
 		$('#transparencyPercent').html(mainController.canvasTransparency * 100 + '%')
 		$('#opacityPercent').val(mainController.canvasTransparency * 100 + '%')
 
+		$("#concentricRingsSlider").on("input change", function() { 
+			tempShapeConcentric = $(this).val();
+			updateStats();
+		});
 
 		$("#opacitySlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
@@ -894,6 +972,15 @@ function hideSaveButton() {
 function updateEdgeVertDisplay(){
 	$('#edgeVertCount').html(mainController.vertsPerSide);
 }
+
+var tempShapeConcentric = 0;
+function showPolyshapeModal() {
+	tempShapeConcentric = mainController.shapeConcentric;
+	$("#concentricRingsSlider").val(mainController.shapeConcentric);
+	updateStats();
+	showModal('#configurePolygonsModal');
+}
+
 function updateGridVertDisplay(){
 	$('#gridVertHozCount').html(mainController.vertsGrid.hor);
 	$('#gridVertVertCount').html(mainController.vertsGrid.vert);
@@ -927,6 +1014,10 @@ function updateStats() {
 //			$("#opacitySlider").val(mainController.globalOpacity);
 
 	setValue($('.stat-zoom'), Math.floor(mainController.zoomLevel * 100) + '%')
+	setValue($('.stat-shape-type'), mainController.shapeMode);
+	setValue($('.stat-concentric-rings'), tempShapeConcentric);
+
+
 
 	setValue($('.stat-adjustColor-red'), mainController.adjustedColor.red);
 	setValue($('.stat-adjustColor-blue'), mainController.adjustedColor.blue);
@@ -963,6 +1054,13 @@ function updateStats() {
 		setValue($('.stat-fillstyle'), 'Solid');
 	}
 
+	for (var shape in mainController.shapeOptions){
+		$('.show-selectShape').removeClass(mainController.shapeOptions[shape]);
+	}
+
+	$('.show-selectShape').addClass(mainController.shapeMode);
+
+
 	$('#colorpickerPoint').colpickSetColor(mainController.pointColor);
 	$('#colorpickerStroke').colpickSetColor(mainController.strokeColor);
 	setColorPointOptions(mainController.pointColor);
@@ -988,13 +1086,22 @@ function setValue(ctrl, value) {
 		var thisCtrl = $(this);
 		if (thisCtrl.hasClass('show-hide')) {
 			thisCtrl.toggleClass('show', !value);
-		} else  if (thisCtrl.hasClass('show-selected')) {
-			if (thisCtrl.hasClass('stat-reverse')) {
-				thisCtrl.toggleClass('selected', !value);
-			} else {
-				thisCtrl.toggleClass('selected', value);
+		} else if (thisCtrl.hasClass('show-selected')) {
+			var setVal = value;
+			if (thisCtrl.hasClass('show-compareValue') && (thisCtrl.data('setvalue') || thisCtrl.find('[data-setvalue]').length > 0)) {
+				if (thisCtrl.data('setvalue')) {
+					setVal = (value === thisCtrl.data('setvalue'));
+				} else {
+					setVal =  (value === thisCtrl.find('[data-setvalue]').data('setvalue'));
+				}
 			}
-		} else {
+			if (thisCtrl.hasClass('stat-reverse')) {
+				thisCtrl.toggleClass('selected', !setVal);
+			} else {
+				thisCtrl.toggleClass('selected', setVal);
+			}
+		} 
+		else {
 			thisCtrl.html(value);
 			if(thisCtrl.is(':checkbox') || thisCtrl.is(':radio')) {
 				thisCtrl.prop('checked', value)
@@ -1199,6 +1306,7 @@ $(document).ready(function() {
 
 	$('.select-tool').click(function(e) {
 		e.preventDefault();
+		if (delayedPopupShown) {return;}
 		$(this).closest('.display-block').find('.select-tool').removeClass('selected');
 		$(this).closest('.display-controls').find('.select-tool').removeClass('selected');
 		$(this).addClass('selected');
@@ -1280,6 +1388,7 @@ function hideContextMenu() {
 	$('.context-menu').addClass('hide');
 }
 function hideMenus() {
+	delayedPopupShown = false;
 	$('.menu').addClass('hide');
 }
 

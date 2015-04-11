@@ -39,6 +39,24 @@
 		}
 	}
 
+	&.arrow-left {
+		background: $color3;
+		&:after {
+			top: 25%;
+			right: 100%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(255, 255, 255, 0);
+			border-right-color: $color3;
+			border-width: 1rem;
+			margin-left: -1rem;
+		}
+	}
+
 	.check {
 		
 		margin-left: -1rem;
@@ -48,6 +66,31 @@
 		&.selected {
 			@extend .icon;
 			@extend .icon-check;
+		}
+	}
+
+	&.menu-horizontal {
+		&.arrow-left {
+			&:after {
+				top: 0;
+				border-width: 1rem;
+				margin-left: -1rem;
+			}
+		}
+
+		ul {
+			li {
+				float:left;
+
+				a {
+					padding: .5em 1em;
+					border-bottom: 0;
+					span {
+						margin: 0;
+						padding: 0;
+					}
+				}
+			}
 		}
 	}
 
@@ -80,6 +123,9 @@
 				background-color:$color2; //tint($colorBackground, 40);
 				color: $color3;
 			}
+
+
+
 		}
 		&:last-of-type {
 			a{

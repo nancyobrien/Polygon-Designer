@@ -1,5 +1,4 @@
 function mainCtrl(srcImg) {
-	//var ctx;
 	var currentIndex= 0;
 	var nearestV = new Array();
 	var lastUndo = false;
@@ -79,6 +78,19 @@ function mainCtrl(srcImg) {
 	this.brightness = 0;
 	this.contrast = 0;
 
+	this.shapeOptions = ['circle', 'triangle', 'square', 'star', 'pentagon', 'hexagon', 'heptagon', 'octagon'];
+	this.shapeMode = 'heptagon';
+	this.shapeConcentric = 4;
+	this.shapeConcentricOffset = 0.0;
+
+	this.shapes =  {'triangle': {'numSides': 3, 'initAngle': -30}, 
+					'square':   {'numSides': 4, 'initAngle':  45}, 
+					'pentagon': {'numSides': 5, 'initAngle':  18}, 
+					'hexagon':  {'numSides': 6, 'initAngle':   0}, 
+					'heptagon': {'numSides': 7, 'initAngle': -13}, 
+					'octagon':  {'numSides': 8, 'initAngle':   0} 
+				   }
+	
 	this.canvases = {};
 
 	this.init = function() {
@@ -87,6 +99,7 @@ function mainCtrl(srcImg) {
 		this.clickLayer = document.getElementById('clickLayer');
 		this.selectLayer = document.getElementById('selectLayer');
 		this.maskLayer = document.getElementById('maskLayer');
+		this.shapeLayer = document.getElementById('shapeLayer');
 
 		this.canvasContainer = document.getElementById('canvasContainer');
 		canvas = document.createElement('canvas');
@@ -111,11 +124,9 @@ function mainCtrl(srcImg) {
 		this.canvases["selectCanvas"] = {"canvas": this.selectCanvas, "context":false};
 		this.canvases["sourceCanvas"] = {"canvas": this.sourceImg, "context":false};
 		this.canvases["maskCanvas"] = {"canvas": this.maskCanvas, "context":false};
+		this.canvases["shapeCanvas"] = {"canvas": document.getElementById('shapeCanvas'), "context":false};
 		this.canvases["adjustmentCanvas"] = {"canvas": this.adjustmentCanvas, "context":false};
 		this.canvases["samplingCanvas"] = {"canvas": this.samplingImg, "context":false, "excludeResize": true};
-
-
-
 
 		if (canvas.getContext) {
 			this.fillCtx = this.canvas.getContext('2d');
@@ -263,6 +274,52 @@ function mainCtrl(srcImg) {
 			}
 		}
 
+		var showShapeModal = true;
+		mCtrl.shapeLayer.onclick = function(e) {
+			if (showShapeModal) showPolyshapeModal();
+			
+		}
+		mCtrl.shapeLayer.onmousedown = function(e) {
+			showShapeModal = true;
+			if (e.which !== 3 && isContextMenuOpen()) {
+				//Left mouse was clicked, but there is a context menu open, so close the menu before continuing
+				hideMenus();
+				//return false;
+			} else if (e.which === 3) {
+				//Right mouse was clicked, don't do anything else.
+				return false;
+			}
+
+			var startMousePos = mCtrl.getRelativeMousePosition(e);
+			var mousePos = false;
+			mCtrl.shapeLayer.onmousemove = function(e) {
+				showShapeModal = false;
+				mousePos = mCtrl.getRelativeMousePosition(e);
+				mCtrl.clearThisCanvas(mCtrl.canvases.shapeCanvas.context);
+				mCtrl.canvases.shapeCanvas.context.beginPath();
+
+				mCtrl.canvases.shapeCanvas.context.moveTo(startMousePos.x, startMousePos.y);
+				mCtrl.canvases.shapeCanvas.context.lineTo(mousePos.x, mousePos.y);
+				mCtrl.canvases.shapeCanvas.context.strokeStyle = 'rgba(255, 255, 255, 1)';
+				mCtrl.canvases.shapeCanvas.context.stroke();   
+
+				mCtrl.canvases.shapeCanvas.context.closePath();
+				mCtrl.addShapedVertices({'xStart': startMousePos.x, 'yStart': startMousePos.y, 'xEnd': mousePos.x, 'yEnd': mousePos.y})
+			}
+			mCtrl.shapeLayer.onmouseup = function(e) {
+				mousePos = mCtrl.getRelativeMousePosition(e);
+				mCtrl.clearThisCanvas(mCtrl.canvases.shapeCanvas.context);
+				if ((mousePos.x != startMousePos.x) && (mousePos.y != startMousePos.y)) {
+					mCtrl.addShapedVertices({'xStart': startMousePos.x, 'yStart': startMousePos.y, 'xEnd': mousePos.x, 'yEnd': mousePos.y}, true)
+				} else {
+					mCtrl.clearSelection();
+				}
+
+				mCtrl.shapeLayer.onmouseup = function(e) {void(0);}
+				mCtrl.shapeLayer.onmousemove = function(e) {void(0);}
+			}
+		}
+
 
 		mCtrl.clickLayer.onmousedown = function(e) {
 			mCtrl.selectionBox = false;
@@ -359,7 +416,6 @@ function mainCtrl(srcImg) {
 			}
 		}
 
-
 		mCtrl.maskLayer.onmousedown = function(e) {
 			if (e.which !== 3 && isContextMenuOpen()) {
 				//Left mouse was clicked, but there is a context menu open, so close the menu before continuing
@@ -392,7 +448,6 @@ function mainCtrl(srcImg) {
 	}
 
 	this.clearSelection = function() {
-		//this.selectCtx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 		this.clearThisCanvas(this.selectCtx);
 		this.selectionBox = false;
 	}
@@ -427,7 +482,6 @@ function mainCtrl(srcImg) {
 
 	}
 
-
 	this.setBrightness = function(newBrightness) {
 		newBrightness = Math.min(Math.max(newBrightness * 1, -150), 150);
 		if (this.brightness != newBrightness) {
@@ -455,9 +509,6 @@ function mainCtrl(srcImg) {
 		if (this.includeColorAdjust) {
 			var tempColor = imgData.data;
 			for (var i = 0; i < tempColor.length;i+=4) {
-				//tempColor[i] += this.adjustedColor.red + this.brightness;
-				//tempColor[i + 1] += this.adjustedColor.green + this.brightness;
-				//tempColor[i + 2] += this.adjustedColor.blue + this.brightness;
 				tempColor[i] = this.getContrastedColor(tempColor[i] + this.adjustedColor.red + this.brightness);
 				tempColor[i + 1] = this.getContrastedColor(tempColor[i + 1] + this.adjustedColor.green + this.brightness);
 				tempColor[i + 2] = this.getContrastedColor(tempColor[i + 2] + this.adjustedColor.blue + this.brightness);
@@ -465,10 +516,6 @@ function mainCtrl(srcImg) {
 		}
 
 		this.canvases.adjustmentCanvas.context.putImageData(imgData, 0, 0);
-		//this.adjustmentCtx.putImageData(imgData, 0, 0);
-		console.log("adjusting colors!")
- 
-		//this.raiseEvent("settingsChanged", "Settings Changed");
 	}
 
 	this.setZoomLevel = function(newZoom) {
@@ -478,26 +525,12 @@ function mainCtrl(srcImg) {
 
 		this.setUpCanvas();
 
-
-		for(var can in this.canvases) {
+		for (var can in this.canvases) {
 			if (!this.canvases[can].excludeResize) {
 				this.canvases[can].context.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
 			}
 		}
 
-		/*this.imgCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-		this.fillCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-		this.vertCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-		this.strokeCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-		this.tempCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-		this.selectCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-		this.adjustmentCtx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
-*/
- 
-
-
-
-		//this.imgCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 		this.imgCtx.drawImage(this.originalImage, 0, 0, this.originalImage.width, this.originalImage.height);
 
 		this.needToDrawTriangles = true;
@@ -540,17 +573,6 @@ function mainCtrl(srcImg) {
 	};
 
 	this.setUpCanvas = function() {
-/*		this.resizeElement(this.sourceImg, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.canvas, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.vertCanvas, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.strokeCanvas, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.tempCanvas, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.selectCanvas, this.canvasWidth, this.canvasHeight)
-		this.resizeElement(this.maskCanvas, this.canvasWidth, this.canvasHeight)
-		this.resizeElement(this.adjustmentCanvas, this.canvasWidth, this.canvasHeight)
-		this.resizeElement(this.clickLayer, this.canvasWidth, this.canvasHeight);
-		this.resizeElement(this.selectLayer, this.canvasWidth, this.canvasHeight);
- */
 
 		for(var can in this.canvases) {
 			if (!this.canvases[can].excludeResize) {
@@ -573,8 +595,6 @@ function mainCtrl(srcImg) {
 			$(element).width(width);
 			$(element).height(height);
 		}
-
-
 	}
 
 	this.setImage = function(sourceImage) {
@@ -606,7 +626,6 @@ function mainCtrl(srcImg) {
 		}
 	    this.reDraw(true);
 	}
-
 
 	this.updateStrokeSize = function(strokeWidth, stopRecursion) {
 		this.strokeWidth = strokeWidth;
@@ -891,6 +910,101 @@ function mainCtrl(srcImg) {
         this.initiateDraw();
 	}
 
+
+
+	this.addShapedVertices = function(boundingBox, makePermanent) {
+		var pntCnt = 20;
+
+ 		switch(this.shapeMode) {
+ 			case "triangle":
+ 				this.drawPolygon(boundingBox, makePermanent);
+ 				break;
+ 			case "square":
+ 				this.drawPolygon(boundingBox, makePermanent);
+ 				break;
+ 			case "pentagon":
+ 				this.drawPolygon(boundingBox, makePermanent);
+ 				break;
+ 			case "hexagon":
+ 				this.drawPolygon(boundingBox, makePermanent);
+ 				break;
+ 			case "heptagon":
+ 				this.drawPolygon(boundingBox, makePermanent);
+ 				break;
+
+ 			case "octagon":
+ 				this.drawPolygon(boundingBox, makePermanent);
+ 				break;
+
+ 			default:
+		 		var rad =  Math.sqrt(Math.pow((boundingBox.xStart - boundingBox.xEnd), 2) +  Math.pow((boundingBox.yStart - boundingBox.yEnd), 2)) ;
+
+		 		if (rad < 10) {return;}
+		 		for (var k = 0; k < this.shapeConcentric; k++) {
+					var widthConSeg = (1-this.shapeConcentricOffset)*rad/this.shapeConcentric * (k+1) + this.shapeConcentricOffset*rad;
+			 		for (var i = 0; i< pntCnt; i++) {
+			 			var angle = (360/pntCnt) * i * Math.PI/180;  
+			 			var Vx = ~~ (widthConSeg * Math.cos(angle)) + boundingBox.xStart; 
+			 			var Vy = ~~ (widthConSeg * Math.sin(angle)) + boundingBox.yStart;
+
+			 			if (makePermanent) {
+			 				this.addVertex(Vx, Vy, true);
+			 				this.raiseEvent("verticesChanged", "Vertices Changed");
+			 		        this.initiateDraw();
+			 			} else {
+			 				var v = new vertex(Vx, Vy);
+			 				v.draw(this.canvases.shapeCanvas.context);
+			 			}
+			  		}	
+		  		}	
+				break;
+ 		}
+
+		if (makePermanent) {
+			this.raiseEvent("verticesChanged", "Vertices Changed");
+		}
+	}
+
+	this.drawPolygon = function(boundingBox, makePermanent) {
+		var numSides = this.shapes[this.shapeMode].numSides;
+		var pntCnt = numSides * 5;
+		var width =  Math.max(Math.abs(boundingBox.xStart - boundingBox.xEnd), Math.abs(boundingBox.yStart - boundingBox.yEnd)) ;
+
+		var pntPerSide = pntCnt/numSides;
+		var degPerSide = (360/numSides) * Math.PI/180;
+		var degPerSeg = (degPerSide / pntPerSide);
+		var compAngle = (Math.PI - degPerSide)/2; 
+
+		if (width < 10) {return;}
+
+		for (var j = 0; j < numSides; j++) {
+			var compAngleSide = (2*Math.PI/numSides * j);
+			var startAngle = ((j-1) * degPerSide) - (this.shapes[this.shapeMode].initAngle * Math.PI/180); //  - degPerSeg*1.25 ;
+			for (var k = 0; k < this.shapeConcentric; k++) {
+				var widthConSeg = (1-this.shapeConcentricOffset)*width/this.shapeConcentric * (k+1) + this.shapeConcentricOffset*width;
+				var sideLength = 2*widthConSeg * Math.sin(Math.PI/numSides);
+				var sideLengthSeg = sideLength / (pntPerSide);
+				var xStart = (widthConSeg * Math.cos(startAngle)) + boundingBox.xStart;
+				var yStart = (widthConSeg * Math.sin(startAngle)) + boundingBox.yStart;
+				for (var i = 0; i < pntPerSide; i++) {
+					var segLength = sideLengthSeg * i;
+		 			var Vx = ~~ (xStart -(segLength * Math.cos(-compAngle + startAngle)))  ; 
+		 			var Vy = ~~ (yStart - (segLength * Math.sin(-compAngle + startAngle)) );
+
+					if (makePermanent) {
+						this.addVertex(Vx, Vy, true);
+				        this.initiateDraw();
+				        //console.log(Vx + ', ' + Vy);
+					} else {
+						var v = new vertex(Vx, Vy);
+						v.draw(this.canvases.shapeCanvas.context);
+					}
+		 		}					
+			}
+			
+	 	}
+	}
+
 	this.reset = function() {
 		//reset everything
 		this.clearVertices();
@@ -997,6 +1111,7 @@ function mainCtrl(srcImg) {
 		if (project) {
 			this.projectID = project.ProjectID;
 			this.projectData = project;
+			transparentMids = {};
 			if (project.activeVersion) {
 				this.globalOpacity = 1;
 				this.brightness = 0;
@@ -1029,10 +1144,13 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.contrast !== undefined) {this.contrast = project.activeVersion.contrast * 1; }
 
 				this.setTransparency(this.globalOpacity);
+
+
 			}
 			this.raiseEvent("projectLoaded", "Project Loaded");
 
 			loadImage(project.ImagePath, project.VertJson);
+
 		}
 	}
 
@@ -1099,7 +1217,6 @@ function mainCtrl(srcImg) {
 	this.cloneVertices = function() {
 		var tempVerts = [];
 		for (var i = 0; i < this.vertices.length; i++){
-			//tempVerts.push(new vertex(~~ (this.vertices[i].x), ~~ (this.vertices[i].y), this.vertices[i].isEdge, this.vertices[i].isGrid, this.vertices[i].isSpiral))
 			tempVerts.push(this.vertices[i].getClone());
 		}
 		return tempVerts;
@@ -1107,7 +1224,6 @@ function mainCtrl(srcImg) {
 
 	this.getImageData = function(xVal, yVal) {
 		if (this.imageData[xVal+'-'+yVal] == undefined ) {
-			//this.imageData[xVal+'-'+yVal] = this.imgCtx.getImageData(xVal * this.zoomLevel, yVal * this.zoomLevel, this.snapSide, this.snapSide).data;
 			this.imageData[xVal+'-'+yVal] = this.samplingCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
 		}
 
@@ -1122,11 +1238,9 @@ function mainCtrl(srcImg) {
 		if (this.solidColors[xVal] == undefined) {
 			this.solidColors[xVal] = [];
 		} 
-		//if (this.solidColors[xVal][yVal] == undefined ) {
-			var tmpVertex = new vertex(xVal, yVal);
-			tmpVertex.avColor();
-			this.solidColors[xVal][yVal] = 'rgb(' + ~~ (tmpVertex.red) + ',' + ~~ (tmpVertex.green) + ',' + ~~ (tmpVertex.blue) + ')';
-		//}
+		var tmpVertex = new vertex(xVal, yVal);
+		tmpVertex.avColor();
+		this.solidColors[xVal][yVal] = 'rgb(' + ~~ (tmpVertex.red) + ',' + ~~ (tmpVertex.green) + ',' + ~~ (tmpVertex.blue) + ')';
 
 		return this.solidColors[xVal][yVal];
 	}
@@ -1150,7 +1264,6 @@ function mainCtrl(srcImg) {
 	}
 
 	this.clearTriangles = function() {
-		//ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.clearThisCanvas(this.fillCtx);
 		this.clearThisCanvas(this.adjustmentCtx);
 	}
@@ -1168,13 +1281,11 @@ function mainCtrl(srcImg) {
 		//create a temporary canvas and then copy it.
 		var m_canvas = document.createElement('canvas');
 		var m_context = m_canvas.getContext('2d');
-		// m_canvas.width = this.canvas.width;
-		// m_canvas.height = this.canvas.height;
 		if (!this.originalImage) {
 			return;
 		}
 		this.resizeElement(m_canvas, this.originalImage.width, this.originalImage.height);
-		//m_context.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, 0, 0);
+
 
 		for (var i in this.triangles) {
 			this.triangles[i].Draw(m_context, i);
@@ -1184,12 +1295,21 @@ function mainCtrl(srcImg) {
 		delete m_canvas;
 		this.adjustColors();
 		this.needToDrawTriangles = false;
+
+		if (this.triangles) {
+			transparentMids = {};
+			for (var i in this.triangles) {
+				if(this.triangles[i].transparent) {
+					transparentMids[this.triangles[i].midPoint.x + '-' + this.triangles[i].midPoint.y] = this.triangles[i].transparent;	
+				}
+			}			
+		}
+
 	}
 
 	this.drawVertices = function(excludeMoving) {
 		//if(!excludeMoving) this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
 		if(!excludeMoving) this.clearThisCanvas(this.tempCtx);
-		//this.vertCtx.clearRect(0, 0, this.vertCanvas.width, this.vertCanvas.height);
 		this.clearThisCanvas(this.vertCtx);
 
 		if (this.showVertices) {
@@ -1199,10 +1319,21 @@ function mainCtrl(srcImg) {
 				}
 			}    	
 		} 
+
+		if (this.showMidPoints && transparentMids) {
+			for (var v in transparentMids) {
+				var tmVert = v.split("-");
+				this.vertCtx.globalCompositeOperation = 'source-over';
+				this.vertCtx.beginPath();
+				this.vertCtx.fillStyle = 'rgba(0, 125, 255, 1)';
+				this.vertCtx.arc(tmVert[0]*1, tmVert[1]*1, 7, 0, 2 * Math.PI, true);
+				this.vertCtx.fill();
+				this.vertCtx.closePath();
+			}
+		}
 	}
 
 	this.drawStrokes = function() {
-		//this.strokeCtx.clearRect(0, 0, this.strokeCanvas.width, this.strokeCanvas.height);
 		this.clearThisCanvas(this.strokeCtx);
 		if (this.showStroke) {
 			if (this.needToDrawTriangles) {
@@ -1327,8 +1458,6 @@ function mainCtrl(srcImg) {
 		tempCtx.drawImage(this.vertCanvas, 0, 0);
 		tempCtx.restore()
 	}
-
-
 
 	this.toggleTriangleFill = function(x, y) {
 		for (var i in this.triangles) {

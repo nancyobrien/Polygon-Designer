@@ -28,6 +28,14 @@
 				color: $color3;
 				border: 1px solid $color2;
 				border-left: none;
+
+				span {
+					&.delay-indicator {
+						&:after {
+							border-color: transparent transparent $color3 transparent;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -64,6 +72,67 @@
 					border: 1px solid $color2;
 					border-left: none;
 				}
+			}
+
+
+			span {
+				&.circle {
+					@extend .icon;
+					@extend .icon-radio-unchecked;
+				}				
+				&.triangle {
+					@extend .icon;
+					@extend .icon-triangle;
+				}
+				&.square {
+					@extend .icon;
+					@extend .icon-square;
+				}
+
+
+
+				&.star {
+					@extend .icon;
+					@extend .icon-five-pointed-star;
+				}
+
+				&.heptagon {
+					@extend .icon;
+					@extend .icon-heptagon;
+				}
+
+				&.hexagon {
+					@extend .icon;
+					@extend .icon-hexagon;
+				}
+
+				&.octagon {
+					@extend .icon;
+					@extend .icon-octagon;
+				}
+
+				&.pentagon {
+					@extend .icon;
+					@extend .icon-pentagon;
+				}
+
+
+				&.delay-indicator {
+					//@extend .icon;
+					//@extend .icon-arrow-right;
+					position: absolute;
+					bottom: 10px;
+					right: 2px;
+					&:after {
+						width: 0px;
+						height: 0px;
+						border-style: solid;
+						border-width: 0 0 10px 10px;
+						border-color: transparent transparent $color2 transparent;
+						content: '';
+
+					}
+				}				
 			}
 
 		}

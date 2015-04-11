@@ -81,7 +81,7 @@
 	    	width: 40rem;
 	    }
 
-	    &#deleteVersionModal, &#archiveProjectModal {
+	    &#deleteVersionModal, &#archiveProjectModal, &#configurePolygonsModal {
 	    	width: 30rem;
 	    	@extend %noselect;
 	    }
