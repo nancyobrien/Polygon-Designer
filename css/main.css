@@ -22,8 +22,8 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?y7d1do");
-  src: url("fonts/icomoon.eot?#iefixy7d1do") format("embedded-opentype"), url("fonts/icomoon.woff?y7d1do") format("woff"), url("fonts/icomoon.ttf?y7d1do") format("truetype"), url("fonts/icomoon.svg?y7d1do#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?x82jx2");
+  src: url("fonts/icomoon.eot?#iefixx82jx2") format("embedded-opentype"), url("fonts/icomoon.woff?x82jx2") format("woff"), url("fonts/icomoon.ttf?x82jx2") format("truetype"), url("fonts/icomoon.svg?x82jx2#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -762,126 +762,131 @@
 }
 
 /* line 602, ../scss/_fonts.scss */
+.icon-arrow-right2:before {
+  content: "\e641";
+}
+
+/* line 606, ../scss/_fonts.scss */
 .icon-check:before, .menu .check.selected:before {
   content: "\f00c";
 }
 
-/* line 606, ../scss/_fonts.scss */
+/* line 610, ../scss/_fonts.scss */
 .icon-close:before {
   content: "\f00d";
 }
 
-/* line 610, ../scss/_fonts.scss */
+/* line 614, ../scss/_fonts.scss */
 .icon-plus-circle:before {
   content: "\f055";
 }
 
-/* line 614, ../scss/_fonts.scss */
+/* line 618, ../scss/_fonts.scss */
 .icon-minus-circle:before {
   content: "\f056";
 }
 
-/* line 618, ../scss/_fonts.scss */
+/* line 622, ../scss/_fonts.scss */
 .icon-exclamation-triangle:before {
   content: "\f071";
 }
 
-/* line 622, ../scss/_fonts.scss */
+/* line 626, ../scss/_fonts.scss */
 .icon-thumbs-o-up:before {
   content: "\f087";
 }
 
-/* line 626, ../scss/_fonts.scss */
+/* line 630, ../scss/_fonts.scss */
 .icon-thumbs-o-down:before {
   content: "\f088";
 }
 
-/* line 630, ../scss/_fonts.scss */
+/* line 634, ../scss/_fonts.scss */
 .icon-caret-down:before {
   content: "\f0d7";
 }
 
-/* line 634, ../scss/_fonts.scss */
+/* line 638, ../scss/_fonts.scss */
 .icon-caret-up:before {
   content: "\f0d8";
 }
 
-/* line 638, ../scss/_fonts.scss */
+/* line 642, ../scss/_fonts.scss */
 .icon-plus-square:before {
   content: "\f0fe";
 }
 
-/* line 642, ../scss/_fonts.scss */
+/* line 646, ../scss/_fonts.scss */
 .icon-angle-double-left:before {
   content: "\f100";
 }
 
-/* line 646, ../scss/_fonts.scss */
+/* line 650, ../scss/_fonts.scss */
 .icon-angle-double-right:before {
   content: "\f101";
 }
 
-/* line 650, ../scss/_fonts.scss */
+/* line 654, ../scss/_fonts.scss */
 .icon-angle-double-up:before {
   content: "\f102";
 }
 
-/* line 654, ../scss/_fonts.scss */
+/* line 658, ../scss/_fonts.scss */
 .icon-angle-double-down:before {
   content: "\f103";
 }
 
-/* line 658, ../scss/_fonts.scss */
+/* line 662, ../scss/_fonts.scss */
 .icon-angle-up:before {
   content: "\f106";
 }
 
-/* line 662, ../scss/_fonts.scss */
+/* line 666, ../scss/_fonts.scss */
 .icon-angle-down:before {
   content: "\f107";
 }
 
-/* line 666, ../scss/_fonts.scss */
+/* line 670, ../scss/_fonts.scss */
 .icon-circle:before {
   content: "\f111";
 }
 
-/* line 670, ../scss/_fonts.scss */
+/* line 674, ../scss/_fonts.scss */
 .icon-chevron-circle-up:before {
   content: "\f139";
 }
 
-/* line 674, ../scss/_fonts.scss */
+/* line 678, ../scss/_fonts.scss */
 .icon-chevron-circle-down:before {
   content: "\f13a";
 }
 
-/* line 678, ../scss/_fonts.scss */
+/* line 682, ../scss/_fonts.scss */
 .icon-bug:before {
   content: "\f188";
 }
 
-/* line 682, ../scss/_fonts.scss */
+/* line 686, ../scss/_fonts.scss */
 .icon-plus-square-o:before {
   content: "\f196";
 }
 
-/* line 686, ../scss/_fonts.scss */
+/* line 690, ../scss/_fonts.scss */
 .icon-paper-plane:before {
   content: "\f1d8";
 }
 
-/* line 690, ../scss/_fonts.scss */
+/* line 694, ../scss/_fonts.scss */
 .icon-paper-plane-o:before {
   content: "\f1d9";
 }
 
-/* line 694, ../scss/_fonts.scss */
+/* line 698, ../scss/_fonts.scss */
 .icon-cloud2:before {
   content: "\e602";
 }
 
-/* line 698, ../scss/_fonts.scss */
+/* line 702, ../scss/_fonts.scss */
 .icon-params:before {
   content: "\e62e";
 }
@@ -2548,10 +2553,61 @@ input[type='range']::-moz-range-thumb {
   width: 500px;
 }
 /* line 99, ../scss/_modal.scss */
+.modal-background .modal#customColorModal {
+  width: 700px;
+}
+/* line 102, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .modal-ctrl-section {
+  vertical-align: top;
+  margin: 5px;
+}
+/* line 107, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .customColorSwatch {
+  border: 1px solid #DC2C2E;
+  width: 120px;
+  display: inline-block;
+  margin: 5px;
+}
+/* line 113, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .customColorSwatch.selected {
+  -webkit-box-shadow: 0px 1px 0px 6px #DC2C2E;
+  -moz-box-shadow: 0px 1px 0px 6px #DC2C2E;
+  -ms-box-shadow: 0px 1px 0px 6px #DC2C2E;
+  box-shadow: 0px 1px 0px 6px #DC2C2E;
+}
+/* line 116, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .customColorSwatch input {
+  display: inline-block;
+  font-size: .75rem;
+  width: 100%;
+  line-height: 1;
+  margin: 0;
+  padding: 0.5em .25em;
+  border: 1px solid #666;
+  color: #666;
+  text-align: center;
+}
+/* line 126, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .customColorSwatch input.colorCode {
+  width: 60%;
+}
+/* line 129, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .customColorSwatch input.colorWeighting {
+  width: 34%;
+  float: right;
+}
+/* line 134, ../scss/_modal.scss */
+.modal-background .modal#customColorModal .customColorSwatch .colorSwatch {
+  width: 100%;
+  height: 4em;
+  display: inline-block;
+  border: 1px solid #666;
+}
+/* line 145, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal {
   width: 500px;
 }
-/* line 101, ../scss/_modal.scss */
+/* line 147, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal input {
   font-size: 150%;
   line-height: 1;
@@ -2562,15 +2618,15 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 111, ../scss/_modal.scss */
+/* line 157, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal input[type=checkbox] {
   margin: 0;
 }
-/* line 115, ../scss/_modal.scss */
+/* line 161, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal input + input {
   margin-top: 0;
 }
-/* line 118, ../scss/_modal.scss */
+/* line 164, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal textarea {
   padding: 0.5em;
   width: 450px;
@@ -2579,25 +2635,25 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 128, ../scss/_modal.scss */
+/* line 174, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal .inline-check {
   text-align: left;
   margin: .5rem 1.5rem;
 }
-/* line 131, ../scss/_modal.scss */
+/* line 177, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal .inline-check .label {
   font-size: 150%;
   padding-right: 1rem;
 }
-/* line 135, ../scss/_modal.scss */
+/* line 181, ../scss/_modal.scss */
 .modal-background .modal#saveProjectModal .inline-check .check-control {
   display: inline-block;
 }
-/* line 141, ../scss/_modal.scss */
+/* line 187, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal {
   width: 500px;
 }
-/* line 143, ../scss/_modal.scss */
+/* line 189, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal input {
   font-size: 150%;
   line-height: 1;
@@ -2608,11 +2664,11 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 154, ../scss/_modal.scss */
+/* line 200, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal input + input {
   margin-top: 0;
 }
-/* line 157, ../scss/_modal.scss */
+/* line 203, ../scss/_modal.scss */
 .modal-background .modal#errorReportModal textarea {
   padding: 0.5em;
   width: 450px;
@@ -2621,7 +2677,7 @@ input[type='range']::-moz-range-thumb {
   border: 1px solid #666;
   color: #666;
 }
-/* line 166, ../scss/_modal.scss */
+/* line 212, ../scss/_modal.scss */
 .modal-background .modal .modal-close-button {
   width: 30px;
   height: 30px;
@@ -2634,15 +2690,15 @@ input[type='range']::-moz-range-thumb {
   right: 0;
   top: 0;
 }
-/* line 178, ../scss/_modal.scss */
+/* line 224, ../scss/_modal.scss */
 .modal-background .modal .modal-close-button:hover {
   color: white;
 }
-/* line 182, ../scss/_modal.scss */
+/* line 228, ../scss/_modal.scss */
 .modal-background .modal .modal-close-button span {
   line-height: 24px;
 }
-/* line 186, ../scss/_modal.scss */
+/* line 232, ../scss/_modal.scss */
 .modal-background .modal .title {
   font-size: 18px;
   color: #ffffff;
@@ -2651,17 +2707,17 @@ input[type='range']::-moz-range-thumb {
   padding: 0.5em;
   text-align: left;
 }
-/* line 195, ../scss/_modal.scss */
+/* line 241, ../scss/_modal.scss */
 .modal-background .modal .message {
   font-size: 25px;
   padding: 2rem .5rem;
 }
-/* line 199, ../scss/_modal.scss */
+/* line 245, ../scss/_modal.scss */
 .modal-background .modal .modal-controls {
   padding: 0.5em;
   text-align: left;
 }
-/* line 202, ../scss/_modal.scss */
+/* line 248, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section {
   display: block;
   clear: both;
@@ -2669,50 +2725,55 @@ input[type='range']::-moz-range-thumb {
   display: inline-table;
   position: relative;
 }
-/* line 209, ../scss/_modal.scss */
+/* line 255, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-left {
   float: left;
 }
-/* line 212, ../scss/_modal.scss */
+/* line 258, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-right {
   float: right;
 }
-/* line 215, ../scss/_modal.scss */
+/* line 261, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-half {
   width: 49%;
   margin: 0;
 }
-/* line 220, ../scss/_modal.scss */
+/* line 266, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-sixtyfive {
   width: 65%;
   margin: 0;
 }
-/* line 224, ../scss/_modal.scss */
+/* line 270, ../scss/_modal.scss */
+.modal-background .modal .modal-controls .modal-ctrl-section.modal-sixtyone {
+  width: 61%;
+  margin: 0;
+}
+/* line 274, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section.modal-full {
   width: 100%;
   margin: 0;
 }
-/* line 229, ../scss/_modal.scss */
+/* line 279, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control {
   width: 100%;
   margin-bottom: 1.5em;
 }
-/* line 232, ../scss/_modal.scss */
+/* line 282, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .pointShapes {
   margin-top: 1em;
 }
-/* line 236, ../scss/_modal.scss */
+/* line 286, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .editable-input {
   margin: auto 5px;
   padding: 2px;
   min-width: 3em;
   display: inline-block;
 }
-/* line 242, ../scss/_modal.scss */
+/* line 292, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .editable-input:focus {
   outline: 1px dotted #DC2C2E;
 }
-/* line 247, ../scss/_modal.scss */
+/* line 297, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.resetButton {
   position: absolute;
   top: 0;
@@ -2720,28 +2781,28 @@ input[type='range']::-moz-range-thumb {
   width: auto;
   font-size: 100%;
 }
-/* line 253, ../scss/_modal.scss */
+/* line 303, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.resetButton a {
   padding: .25em;
   font-size: .9rem;
   font-weight: normal;
 }
-/* line 261, ../scss/_modal.scss */
+/* line 311, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-check .check-control {
   display: inline-block;
   float: none;
 }
-/* line 265, ../scss/_modal.scss */
+/* line 315, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-check .check-control.squaredThree {
   margin: 0;
   margin-left: 5px;
 }
-/* line 272, ../scss/_modal.scss */
+/* line 322, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control {
   display: inline-block;
   float: left;
 }
-/* line 278, ../scss/_modal.scss */
+/* line 328, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control.roundedOne label:after {
   background: #DC2C2E;
   background: -webkit-linear-gradient(top, #F43537 0%, #DC2C2E 100%);
@@ -2751,7 +2812,7 @@ input[type='range']::-moz-range-thumb {
   background: linear-gradient(to bottom, #f43537 0%, #dc2c2e 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=0 );
 }
-/* line 286, ../scss/_modal.scss */
+/* line 336, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group {
   display: inline-block;
   width: 30%;
@@ -2759,11 +2820,11 @@ input[type='range']::-moz-range-thumb {
   padding: 13px 10px 20px 10px;
   border: 1px solid #DC2C2E;
 }
-/* line 292, ../scss/_modal.scss */
+/* line 342, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group.last {
   margin-right: 0;
 }
-/* line 296, ../scss/_modal.scss */
+/* line 346, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label {
   font-size: 24px;
   height: 28px;
@@ -2773,34 +2834,34 @@ input[type='range']::-moz-range-thumb {
   vertical-align: middle;
   cursor: pointer;
 }
-/* line 305, ../scss/_modal.scss */
+/* line 355, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.custom-point-color {
   color: #DC2C2E;
 }
-/* line 309, ../scss/_modal.scss */
+/* line 359, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-triangle {
   font-size: 100px;
   line-height: 35px;
   text-indent: -30px;
 }
-/* line 315, ../scss/_modal.scss */
+/* line 365, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-circle {
   font-size: 46px;
   line-height: 33px;
   text-indent: 2px;
 }
-/* line 321, ../scss/_modal.scss */
+/* line 371, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-square {
   font-size: 53px;
   line-height: 32px;
   text-indent: -4px;
 }
-/* line 332, ../scss/_modal.scss */
+/* line 382, ../scss/_modal.scss */
 .modal-background .modal .buttons {
   padding: 0.5em;
   clear: both;
 }
-/* line 336, ../scss/_modal.scss */
+/* line 386, ../scss/_modal.scss */
 .modal-background .modal .verts {
   width: 90%;
   color: black;
@@ -2812,7 +2873,7 @@ input[type='range']::-moz-range-thumb {
   overflow: auto;
   max-height: 400px;
 }
-/* line 348, ../scss/_modal.scss */
+/* line 398, ../scss/_modal.scss */
 .modal-background .modal textarea {
   width: 90%;
   height: 300px;
@@ -2943,9 +3004,21 @@ input[type='range']::-moz-range-thumb {
   background-color: #DC2C2E;
   color: #ffffff;
 }
-/* line 131, ../scss/_contextmenu.scss */
+/* line 127, ../scss/_contextmenu.scss */
+.menu li a .right-align {
+  position: absolute;
+  right: .5em;
+}
+/* line 134, ../scss/_contextmenu.scss */
 .menu li:last-of-type a {
   border-bottom: none;
+}
+
+/* line 143, ../scss/_contextmenu.scss */
+.customColorSwatch .colorSwatch {
+  display: block;
+  width: 2em;
+  height: 2em;
 }
 
 /* line 2, ../scss/_stats.scss */

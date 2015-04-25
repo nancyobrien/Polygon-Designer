@@ -424,7 +424,7 @@ function triangle(v0, v1, v2) {
 		if(!this.transparent) {
 			var fillStyle;
 
-			if (mainController.useGradient && !this.transparent) {
+			if (mainController.fillStyle == 'Gradient' && !this.transparent) {
 				var rgbPts = this.getGradient();
 				var grad = document.createElementNS(ns, 'linearGradient');
 				grad.setAttributeNS(null, 'id', 'gr' + id);
@@ -452,14 +452,30 @@ function triangle(v0, v1, v2) {
 
 				defs.appendChild(grad);
 				fillStyle = 'url(#gr' + id + ')';
-			} else {
+			} else if (mainController.fillStyle == 'CustomRandom') {
+				fillRGB = hexToRGB(mainController.customPalette.getCustomColor(this.midVertex.x, this.midVertex.y));
+				if (mainController.includeColorAdjust) {
+					fillStyle = 'rgb(' + ~~ mainController.getContrastedColor(fillRGB.r + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.g + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.b + mainController.adjustedColor.blue + mainController.brightness) + ')'
+				} else {
+					fillStyle = 'rgb(' + ~~ fillRGB.r + ',' + ~~ fillRGB.g + ',' + ~~ fillRGB.b + ')';
+				}
+
+			} else if (mainController.fillStyle == 'CustomMatched') {
+				var matchedColor = mainController.customPalette.getMatchColor({'red': this.midVertex.red, 'green': this.midVertex.green, 'blue': this.midVertex.blue});
+				fillRGB = hexToRGB(matchedColor);	
+				if (mainController.includeColorAdjust) {
+					fillStyle = 'rgb(' + ~~ mainController.getContrastedColor(fillRGB.r + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.g + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.b + mainController.adjustedColor.blue + mainController.brightness) + ')'
+				} else {
+					fillStyle = 'rgb(' + ~~ fillRGB.r + ',' + ~~ fillRGB.g + ',' + ~~ fillRGB.b + ')';
+				}
+
+			} else { 
 
 				fillStyle = this.getColor(); 
 				if (mainController.includeColorAdjust) {
 					fillStyle = 'rgb(' + ~~ mainController.getContrastedColor(this.midVertex.red + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(this.midVertex.green + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(this.midVertex.blue + mainController.adjustedColor.blue + mainController.brightness) + ')'
 				}
 			}
-
 
 			svg.appendChild(defs);
 
@@ -575,9 +591,19 @@ function triangle(v0, v1, v2) {
 		ctx.beginPath();
 
 		if (!excludeFill) {
-			if (mainController.useGradient) {
+			if (!this.midVertex) {
+				this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
+				this.midVertex.avColor();	
+			}
+
+			if (mainController.fillStyle == 'Gradient') {
 				ctx.fillStyle = this.getGradient(mainController.fillCtx); 
-			} else {
+			} else if (mainController.fillStyle == 'CustomRandom') {
+				ctx.fillStyle = hexToRGBString(mainController.customPalette.getCustomColor(this.midVertex.x, this.midVertex.y));	
+			} else if (mainController.fillStyle == 'CustomMatched') {
+				var matchedColor = mainController.customPalette.getMatchColor({'red': this.midVertex.red, 'green': this.midVertex.green, 'blue': this.midVertex.blue});
+				ctx.fillStyle = hexToRGBString(matchedColor);	
+			} else { 
 				ctx.fillStyle = this.getColor(); 
 			}
 		}

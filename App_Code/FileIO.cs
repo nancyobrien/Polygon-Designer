@@ -15,6 +15,7 @@ public class FileIO {
     //private static string versionStructure = "{\"versions\": [{\"name\": \"xx\", \"date\": \"xxx\"}]}";
     //private static string versionRecord = "{\"name\": \"{%versionName%}\", \"date\": \"{%versionDate%}\"}";
     public static String UploadPath = "~/uploads/";
+    public static String TempPath = "~/uploads/tmpfiles/";
     public static String ArchivePath = "~/uploads/archive/";
     public static string ArchiveMapPath {
         get {
@@ -217,7 +218,7 @@ public class FileIO {
 
             this.WriteProjectData();
         }
-        
+   
 
         public string AddImage(HttpPostedFile image) {
             this.ImageName = image.FileName;
@@ -261,8 +262,10 @@ public class FileIO {
             this.WriteProjectData();
         }
 
+
         private void CreateThumbnail() {
-            if (File.Exists(this.MapPath + this.ImageName)) {
+            SaveSmallImage(this.MapPath + this.ImageName, this.MapPath + "thumbnail.png");
+            /*if (File.Exists(this.MapPath + this.ImageName)) {
                 Image tempImage = Image.FromFile(this.MapPath + this.ImageName);
                 double imgRatio = Convert.ToDouble(tempImage.Height) / Convert.ToDouble(tempImage.Width);
                 double width = 300;
@@ -276,6 +279,27 @@ public class FileIO {
                 tempImage.Dispose();
                 thumb.Dispose();
                 
+            }*/
+
+        }
+
+
+
+        private static void SaveSmallImage(string inputFilePath, string outputFilename) {
+            if (File.Exists(inputFilePath)) {
+                Image tempImage = Image.FromFile(inputFilePath);
+                double imgRatio = Convert.ToDouble(tempImage.Height) / Convert.ToDouble(tempImage.Width);
+                double width = 300;
+                double height = imgRatio * width;
+                if (height > 300) {
+                    height = 300;
+                    width = height / imgRatio;
+                }
+                Image thumb = tempImage.GetThumbnailImage(Convert.ToInt32(width), Convert.ToInt32(height), () => false, IntPtr.Zero);
+                thumb.Save(outputFilename, System.Drawing.Imaging.ImageFormat.Png);
+                tempImage.Dispose();
+                thumb.Dispose();
+
             }
 
         }

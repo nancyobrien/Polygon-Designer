@@ -11,10 +11,16 @@ var currentZoom = 1;
 var selectedProject = false;
 var delayedPopupTimer = false;
 var delayedPopupShown = false;
+var tempShapeConcentric = 0;
+var customPalette = false;
 
 function initInterface() {
 	if (loadProjectID != '') {hideLoadScreen();}
 
+
+	$('#shareImage').click(function(e) {
+		uploadPNG();
+	})
 
 	$('input.point-shape-select').click(function(e) {
 		mainController.setPointShape($(this).val());
@@ -175,7 +181,7 @@ function initInterface() {
 			return;
 		}
 
-		hideMenus();
+		//hideMenus();
 
 		//Have to show the menu to get the width;
 		$(menuType).removeClass('hide');
@@ -223,12 +229,21 @@ function initInterface() {
 		updateStats();
 	})
 
-	$('.toggleGradient').click(function(e) {
+	/*$('.toggleGradient').click(function(e) {
 		var setvalue;
 		if ($(this).data('setvalue') !== undefined) {
 			setvalue = $(this).data('setvalue');
 		}
 		mainController.toggleGradientDisplay(setvalue);
+		updateStats();
+	})*/
+
+	$('.setFillStyle').click(function(e) {
+		var setvalue;
+		if ($(this).data('setvalue') !== undefined) {
+			setvalue = $(this).data('setvalue');
+		}
+		mainController.setFillStyle(setvalue);
 		updateStats();
 	})
 
@@ -250,6 +265,10 @@ function initInterface() {
 
 	$('.resetSolidGradient').click(function(e) {
 		mainController.resetSolidGradient();
+		updateStats();
+	})
+	$('.resetCustomColors').click(function(e) {
+		mainController.resetCustomColors();
 		updateStats();
 	})
 
@@ -564,6 +583,49 @@ function initInterface() {
 		closeModal(this);
 	})
 
+	$('#showCustomColorModal').click(function (e) {
+		e.preventDefault();
+		var colorSwatchTemplate = $('#color-swatch-template').text();
+
+		//create swatches
+		var index = 0;
+		$('#customColorSwatches').empty();
+		for (var col in mainController.customPalette.colors) {
+			index++;
+			var thisColor = mainController.customPalette.colors[col];
+			thisColor.colorLabel = 'Color ' + index;
+			var colorSwatch = fileManager.applyTemplate(thisColor, colorSwatchTemplate);
+			$('#customColorSwatches').append(colorSwatch);
+		}
+
+		updateStats();
+		$('#customColorSwatches').find('.customColorSwatch').first().find('.colorSwatchTrigger').first().click();
+		showModal('#customColorModal');
+	})
+
+	$('#updateCustomColorSettings').click(function (e) {
+		e.preventDefault();
+
+		var totalWeighting = 0;
+		var colorArr = [];
+
+		$('#customColorSwatches').find('.customColorSwatch').each(function(key, value) {
+			var hex = $(this).find('.colorCode').val();
+			var weighting = $(this).find('.colorWeighting').val() * 1;
+			totalWeighting += weighting;
+			colorArr.push({'color': hex, 'weighting': weighting});
+		})
+		totalWeighting = Math.ceil(totalWeighting*100)/100;
+		if (totalWeighting == 1) {
+			mainController.customPalette.setPalette(colorArr);
+			if ($('#rerandomizeColorsCheck').prop('checked')) {
+				mainController.resetCustomColors();
+			}
+			closeModal(this);
+		} else {
+			alert("Total Weighting must total 1");
+		}
+	})
 	
 
 	$('#showColorAdjustModal').click(function (e) {
@@ -646,6 +708,7 @@ function initInterface() {
 		//$('#transparencyPercent').html($('#canvas').css('opacity') * 100 + '%')
 		$('#transparencyPercent').html(mainController.canvasTransparency * 100 + '%')
 		$('#opacityPercent').val(mainController.canvasTransparency * 100 + '%')
+
 
 		$("#concentricRingsSlider").on("input change", function() { 
 			tempShapeConcentric = $(this).val();
@@ -820,6 +883,22 @@ function initInterface() {
 		$("#brightnessSlider").val(mainController.brightness);
 
 
+
+
+		$('#customColorModal').on("click", '.colorSwatchTrigger', function(e) { 
+			e.preventDefault();
+			var swatch = $(this).closest('.customColorSwatch');
+			var modal = $(this).closest('#customColorModal');
+			modal.find('.customColorSwatch').removeClass('selected');
+			swatch.addClass('selected');
+			var colorCode = swatch.find('.colorCode').val();
+			var colPicker = modal.find('#colorpickerSwatch');
+			var colPickerLabel = modal.find('.colorpickerSwatchLabel');
+
+			colPicker.colpickSetColor(colorCode);
+
+		});
+
 		$('.details-list').on("click", '.detail-ctrl--delete', function(e) { 
 			e.preventDefault();
 			var row = $(this).closest('.details-list--row');
@@ -973,7 +1052,6 @@ function updateEdgeVertDisplay(){
 	$('#edgeVertCount').html(mainController.vertsPerSide);
 }
 
-var tempShapeConcentric = 0;
 function showPolyshapeModal() {
 	tempShapeConcentric = mainController.shapeConcentric;
 	$("#concentricRingsSlider").val(mainController.shapeConcentric);
@@ -1045,14 +1123,19 @@ function updateStats() {
 
 	setValue($('.stat-vertex-state'), mainController.showVertices);
 	setValue($('.stat-fill-state'), mainController.showFill);
-	setValue($('.stat-gradient-state'), mainController.useGradient);
+	//setValue($('.stat-gradient-state'), mainController.useGradient);
 	setValue($('.stat-solidgradient-state'), mainController.useSolidGradient);
 
-	if (mainController.useGradient) {
+	/*if (mainController.useGradient) {
 		setValue($('.stat-fillstyle'), 'Gradient');
 	} else {
 		setValue($('.stat-fillstyle'), 'Solid');
-	}
+	}*/
+
+	setValue($('.stat-fillstyle'), mainController.fillStyle);
+	setValue($('.stat-fillstyle-label'), mainController.fillOptions[mainController.fillStyle]);
+
+
 
 	for (var shape in mainController.shapeOptions){
 		$('.show-selectShape').removeClass(mainController.shapeOptions[shape]);
@@ -1081,6 +1164,13 @@ function setColorPointOptions(colorCode){
 	//$('.custom-point-color').closest('.check-control-group').css('background-color', backColor);
 }
 
+function setColorSwatch(colorCode) {
+	var modal = $('#customColorModal');
+	var selectedSwatch = modal.find('.customColorSwatch.selected');
+	selectedSwatch.find('.colorSwatch').css('background-color', colorCode);
+	selectedSwatch.find('.colorCode').val(colorCode);
+}
+
 function setValue(ctrl, value) {
 	$(ctrl).each(function(){
 		var thisCtrl = $(this);
@@ -1088,11 +1178,15 @@ function setValue(ctrl, value) {
 			thisCtrl.toggleClass('show', !value);
 		} else if (thisCtrl.hasClass('show-selected')) {
 			var setVal = value;
-			if (thisCtrl.hasClass('show-compareValue') && (thisCtrl.data('setvalue') || thisCtrl.find('[data-setvalue]').length > 0)) {
+			if (thisCtrl.hasClass('show-compareValue') && (thisCtrl.data('setvalue') || thisCtrl.find('[data-setvalue]').length > 0 || thisCtrl.parent('[data-setvalue]').length > 0)) {
 				if (thisCtrl.data('setvalue')) {
 					setVal = (value === thisCtrl.data('setvalue'));
 				} else {
-					setVal =  (value === thisCtrl.find('[data-setvalue]').data('setvalue'));
+					var compVal = thisCtrl.find('[data-setvalue]').data('setvalue');
+					if (thisCtrl.find('[data-setvalue]').length == 0) {
+						compVal = thisCtrl.parent().data('setvalue');
+					}
+					setVal =  (value === compVal);
 				}
 			}
 			if (thisCtrl.hasClass('stat-reverse')) {
@@ -1238,6 +1332,7 @@ $(document).ready(function() {
 
 
 	mainController = new mainCtrl(false);
+
 	fileManager = new fileMngr();
 	fileManager.getProjects();
 	initInterface();
@@ -1260,6 +1355,15 @@ $(document).ready(function() {
 			setColorPointOptions('#'+hex);
 			mainController.updatePointColor('#'+hex);
 			//updateStats();
+		}
+	});
+
+	$('#colorpickerSwatch').colpick({
+		flat:true,
+		layout:'hex',
+		submit:0,
+		onChange:function(hsb,hex,rgb,el,bySetColor) {
+			setColorSwatch('#'+hex);
 		}
 	});
 
@@ -1513,6 +1617,10 @@ function showPlaceholderError(inputElement, message) {
 		$(inputElement).prop('placeholder', defPlaceholderText);
 		$(inputElement).removeClass('placeholder-error');
 	}, 2500)
+}
+
+function uploadPNG() {
+	fileManager.uploadSharedImage(mainController.generatePNG());
 }
 
 function savePNG() {

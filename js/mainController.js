@@ -25,6 +25,10 @@ function mainCtrl(srcImg) {
 	this.lastVertices = new Array();
 	this.triangles = new Array();
 	this.showVertices = true;
+
+	this.fillOptions = {'Gradient': 'Gradient', 'Solid': 'Solid', 'CustomRandom': 'Random', 'CustomMatched': 'Matched'};
+	this.fillStyle = 'Gradient';
+
 	this.useGradient = true;
 	this.showFill = true;
 	this.showCircles = false; 
@@ -92,6 +96,9 @@ function mainCtrl(srcImg) {
 				   }
 	
 	this.canvases = {};
+
+	this.useCustomPalette = true;
+	this.customPalette = new CustomPalette();
 
 	this.init = function() {
 		var mCtrl = this;
@@ -240,16 +247,28 @@ function mainCtrl(srcImg) {
 					mCtrl.selectCtx.fill();
 					mCtrl.selectCtx.stroke();
 
-					mCtrl.selectCtx.rect(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y)
+					var boxWidth = mousePos.x - startMousePos.x;
+					var boxHeight = mousePos.y - startMousePos.y;
+					var initX = startMousePos.x;
+					var initY = startMousePos.y;
+					if (startMousePos.x > mousePos.x){
+						boxWidth = 1 * (startMousePos.x - mousePos.x);
+						initX = mousePos.x;
+					}
+					if (startMousePos.y > mousePos.y){
+						boxHeight = 1 * (startMousePos.y - mousePos.y);
+						initY = mousePos.y;
+					}
+					mCtrl.selectCtx.rect(initX, initY, boxWidth, boxHeight)
 					mCtrl.selectCtx.strokeStyle = 'rgba(255, 255, 255, 1)';
 					mCtrl.selectCtx.stroke();
 
-					mCtrl.selectCtx.clearRect(startMousePos.x, startMousePos.y, mousePos.x - startMousePos.x, mousePos.y - startMousePos.y)
+					mCtrl.selectCtx.clearRect(initX, initY, boxWidth, boxHeight)
 					mCtrl.selectCtx.closePath();
 
-					var imageData = mCtrl.vertCtx.getImageData(startMousePos.x * mCtrl.zoomLevel, startMousePos.y * mCtrl.zoomLevel, (mousePos.x - startMousePos.x) * mCtrl.zoomLevel, (mousePos.y - startMousePos.y) * mCtrl.zoomLevel);
+					var imageData = mCtrl.vertCtx.getImageData(initX * mCtrl.zoomLevel, initY * mCtrl.zoomLevel, boxWidth * mCtrl.zoomLevel, boxHeight * mCtrl.zoomLevel);
 					mCtrl.invertVerts(imageData);
-			      	mCtrl.selectCtx.putImageData(imageData, startMousePos.x * mCtrl.zoomLevel, startMousePos.y * mCtrl.zoomLevel);
+			      	mCtrl.selectCtx.putImageData(imageData, initX * mCtrl.zoomLevel, initY * mCtrl.zoomLevel);
 					if (!tmpVertFlag) {mCtrl.setShowVertices(false);}
 
 
@@ -293,8 +312,8 @@ function mainCtrl(srcImg) {
 			var startMousePos = mCtrl.getRelativeMousePosition(e);
 			var mousePos = false;
 			mCtrl.shapeLayer.onmousemove = function(e) {
-				showShapeModal = false;
 				mousePos = mCtrl.getRelativeMousePosition(e);
+				if ((mousePos.x != startMousePos.x) && (mousePos.y != startMousePos.y)) {showShapeModal = false;}
 				mCtrl.clearThisCanvas(mCtrl.canvases.shapeCanvas.context);
 				mCtrl.canvases.shapeCanvas.context.beginPath();
 
@@ -745,12 +764,17 @@ function mainCtrl(srcImg) {
 		this.setShowVertices(!this.showVertices);
 	}
 
-	this.toggleGradientDisplay = function(gradFlag) {
+	/*this.toggleGradientDisplay = function(gradFlag) {
 		if (gradFlag === undefined) {
 			this.useGradient = !this.useGradient;
 		} else {
 			this.useGradient = gradFlag;
 		}
+		this.reDraw();
+	}
+*/
+	this.setFillStyle = function(fillStyle) {
+		this.fillStyle = fillStyle;
 		this.reDraw();
 	}
 
@@ -790,6 +814,10 @@ function mainCtrl(srcImg) {
 	this.resetSolidGradient = function() {
 		midGrads = [];
 		this.redrawTriangles = true;
+		this.reDraw();			
+	}
+	this.resetCustomColors = function() {
+		this.customPalette.resetRandomColors();
 		this.reDraw();			
 	}
 
@@ -1117,7 +1145,8 @@ function mainCtrl(srcImg) {
 				this.brightness = 0;
 				this.contrast = 0;
 				this.showVertices = project.activeVersion.showVertices;
-				this.useGradient = project.activeVersion.useGradient;
+				//this.useGradient = project.activeVersion.useGradient;
+				this.fillStyle = project.activeVersion.fillStyle;
 				this.showFill = project.activeVersion.showFill;
 				this.showCircles = project.activeVersion.showCircles;
 				this.showStroke = project.activeVersion.showStroke;
@@ -1125,7 +1154,8 @@ function mainCtrl(srcImg) {
 				if (project.activeVersion.solidGradients) {midGrads = project.activeVersion.solidGradients;}
 				if (project.activeVersion.transparentMidpoints) {transparentMids = project.activeVersion.transparentMidpoints;}
 				if (project.activeVersion.adjustedColor) {this.adjustedColor = project.activeVersion.adjustedColor;}
-
+				if (project.activeVersion.customColors) {this.customPalette.setColors(project.activeVersion.customColors);}
+				if (project.activeVersion.colorPalette) {this.customPalette.setPalette(project.activeVersion.colorPalette);}
 					
 				if (project.activeVersion.strokeWidth !== undefined) {this.strokeWidth = project.activeVersion.strokeWidth; }
 				if (project.activeVersion.strokeOpacity !== undefined) {this.strokeOpacity = project.activeVersion.strokeOpacity; }
@@ -1551,7 +1581,8 @@ function mainCtrl(srcImg) {
 		}
 		responseString = '{';
 		responseString += '"showVertices":' + this.showVertices + ",";
-		responseString += '"useGradient":' + this.useGradient + ",";
+		//responseString += '"useGradient":' + this.useGradient + ",";
+		responseString += '"fillStyle":"' + this.fillStyle + '",';
 		responseString += '"showFill":' + this.showFill + ",";
 		responseString += '"showCircles":' + this.showCircles + ",";
 		responseString += '"showStroke":' + this.showStroke + ",";
@@ -1580,6 +1611,9 @@ function mainCtrl(srcImg) {
 		if (midGrads.length > 0) {
 			responseString += '"solidGradients":' + JSON.stringify(midGrads) + ",";
 		}
+
+		responseString += '"colorPalette":' + JSON.stringify(this.customPalette.colors) + ",";
+		responseString += '"customColors":' + this.customPalette.getColorJSON() + ",";
 
 		if (transparentMids != undefined) {
 			responseString += '"transparentMidpoints":' + JSON.stringify(transparentMids) + ",";

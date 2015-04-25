@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="/js/history.js"></script>              
 	<script type="text/javascript" src="/js/canvas-toBlob.js"></script>
 	<script type="text/javascript" src="/js/helper.js"></script>
+	<script type="text/javascript" src="/js/custom-palette.js"></script>
 	<script type="text/javascript" src="/js/fileManager.js"></script>
 	<script type="text/javascript" src="/js/mainController.js"></script>
 	<script type="text/javascript" src="/js/vertexController.js"></script>
@@ -66,13 +67,13 @@
 
 
 
-				<div class="display-section">
+				<!-- <div class="display-section">
 					<span class="label">Gradient Color:</span> 
 					<div class="check-control squaredThree">
 						<input type="checkbox" value="None" id="colorGradients" name="gradColorCheck" checked="checked"  class="toggleGradient stat-gradient-state" />
 						<label for="colorGradients"></label>
 					</div> 
-				</div>
+				</div> -->
 				<div class="display-section">
 					<span class="label">Show Fill:</span> 
 					<div class="check-control squaredThree">
@@ -101,6 +102,9 @@
 				</div>
 				<div class="display-section toolbar-button">
 					<a href="#" title="Adjust Color" id="showColorAdjustModal"><span class="tool-icon icon-palette"></span> <span class="label">Adjust Color</span></a>									
+				</div>
+				<div class="display-section toolbar-button">
+					<a href="#" title="Adjust Custom Colors" id="showCustomColorModal"><span class="tool-icon icon-palette"></span> <span class="label">Custom Colors</span></a>									
 				</div>
 
 			</div>
@@ -172,14 +176,20 @@
 						<a href="#" class="toggleVerts"><span class="show-hide stat-vertex-state"></span> Vertices</a>
 					</li>
 					<li class="spacer"></li>
-					<li>
+					<!-- <li>
 						<a href="#" class="toggleGradient"><span class="show-hide gradient stat-gradient-state"></span></a>
-					</li>
+					</li> -->
 					<li>
 						<a href="#" class="toggleSolidGradient"><span class="show-hide solidgradient stat-solidgradient-state"></span></a>
 					</li>
 					<li>
+						<a href="#" class="resetCustomColors">Rerandomize Colors</a>
+					</li>
+					<li>
 						<a href="#" class="resetSolidGradient">Regradiate Image</a>
+					</li>
+					<li>
+						<a href="#" class="pickCustomColor show-popup" data-popupmenu="#customColorsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-left">Select Custom Color <span class="icon-arrow-right2 right-align"></span></a>
 					</li>
 					<li>
 						<a href="#" class="toggleFill"><span class="show-hide stat-fill-state"></span> Fill</a>
@@ -232,7 +242,7 @@
 			</div>
 			<div class="status-section show-popup" data-popupmenu="#fillOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
 				<span class="popup-indicator icon-arrow-up2"></span>
-				<span class="label">Fill Style:</span> <span class="stat stat-fillstyle"></span> 
+				<span class="label">Fill Style:</span> <span class="stat stat-fillstyle-label"></span> 
 			</div>
 			<div class="status-section show-popup" data-popupmenu="#zoomOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
 				<span class="popup-indicator icon-arrow-up2"></span>
@@ -248,6 +258,10 @@
 			<div class="status-section download-button toolbar-button js-clear-onchange" id="PNGDownload">
 				
 			</div>
+
+			<!-- <div class="status-section toolbar-button">
+				<a href="#" title="Share" id="shareImage"><span class="icon-share"></span> <span class="label">Share this image</span> </a>
+			</div> -->
 
 			<div class="status-section toolbar-button">
 				<a href="#" title="Comments" id="showErrorReport"><span class="icon-paper-plane"></span> <span class="label">Comments</span> </a>
@@ -289,12 +303,29 @@
 	</div>
 
 		<div class="menu popup-menu--filloptions hide" id="fillOptionsMenu">
-			<ul>
+			<!-- <ul>
 				<li class=" show-selected stat-gradient-state">
 					<a href="#" class="toggleGradient" data-setvalue="true"><span class="check show-selected stat-gradient-state"></span>Gradient Fill</a>
 				</li>
 				<li class=" show-selected stat-gradient-state stat-reverse">
 					<a href="#" class="toggleGradient" data-setvalue="false"><span class="check show-selected stat-gradient-state stat-reverse"></span>Solid Fill</a>
+				</li>
+				<li>
+					<a href="#" class="toggleFill" data-setvalue="true"><span class="show-hide stat-fill-state"></span> Fill</span></a>
+				</li>
+			</ul> -->
+			<ul>
+				<li class=" show-selected stat-fillstyle show-compareValue">
+					<a href="#" class="setFillStyle" data-setvalue="Gradient"><span class="check show-selected stat-fillstyle show-compareValue"></span>Gradient Fill</a>
+				</li>
+				<li class=" show-selected stat-fillstyle show-compareValue">
+					<a href="#" class="setFillStyle" data-setvalue="Solid"><span class="check show-selected stat-fillstyle show-compareValue"></span>Solid Fill</a>
+				</li>
+				<li class=" show-selected stat-fillstyle show-compareValue">
+					<a href="#" class="setFillStyle" data-setvalue="CustomRandom"><span class="check show-selected stat-fillstyle show-compareValue"></span>Random Fill</a>
+				</li>
+				<li class=" show-selected stat-fillstyle show-compareValue">
+					<a href="#" class="setFillStyle" data-setvalue="CustomMatched"><span class="check show-selected stat-fillstyle show-compareValue"></span>Matched Color Fill</a>
 				</li>
 				<li>
 					<a href="#" class="toggleFill" data-setvalue="true"><span class="show-hide stat-fill-state"></span> Fill</span></a>
@@ -320,7 +351,37 @@
 				</li>
 			</ul>
 		</div>
-
+		<div class="menu popup-menu--customColors hide" id="customColorsMenu">
+			<ul class="customColorSwatches">
+				<li class="menu-float customColorSwatch">
+					<span class="colorSwatch" style="background-color: rgb(255, 255, 255);"></span>
+				</li>
+			
+				<li class="menu-float customColorSwatch">
+					<span class="colorSwatch" style="background-color:#50FF03"></span>
+				</li>
+			
+				<li class="menu-float customColorSwatch">
+					<span class="colorSwatch" style="background-color:#523800"></span>
+					
+				</li>
+			
+				<li class="menu-float customColorSwatch">
+					<span class="colorSwatch" style="background-color:#FF0000"></span>
+					
+				</li>
+			
+				<li class="menu-float customColorSwatch">
+					<span class="colorSwatch" style="background-color:#300CE8"></span>
+					
+				</li>
+			
+				<li class="menu-float customColorSwatch">
+					<span class="colorSwatch" style="background-color:#43b50e"></span>
+					
+				</li>
+			</ul>
+		</div>
 	</div>
 
 	<div id="wrapper">
@@ -529,6 +590,36 @@
 	</div> 
 
 	<div class="modal-background modal-clear">
+		<div class="modal" id="customColorModal">
+
+			<div class="modal-close-button cancelCustomColorSettings  modal-close"><span class="icon-cancel"></span></div>
+			<div class="title modal-mover">Custom Colors</div>
+			<div class="modal-controls">
+				<div class="modal-ctrl-section modal-sixtyone" id="customColorSwatches">
+					
+				</div>
+				<div class="modal-ctrl-section">
+					<div class="modal-control">
+						<!-- <span class="label colorpickerSwatchLabel">Color X:</span> -->
+						<div id="colorpickerSwatch"></div>
+					</div>
+					<div class="modal-control inline-check">
+						<span class="label">Rerandomize Colors:</span> 
+						<div class="check-control squaredThree">
+							<input type="checkbox" value="check-sync" id="rerandomizeColorsCheck" checked="checked" />
+							<label for="rerandomizeColorsCheck"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="buttons"><a href="#" id="updateCustomColorSettings" class="button">Update Custom Color</a> <a  href="#" class="cancelCustomColorSettings button button--cancel modal-close">Cancel</a></div>
+		</div>
+	</div> 
+
+
+
+	<div class="modal-background modal-clear">
 		<div class="modal" id="ColorAdjustModal">
 			<input type="hidden" id="colorAdjustRedInit" value="0" />
 			<input type="hidden" id="colorAdjustBlueInit" value="0" />
@@ -713,6 +804,15 @@
 
 		<div class="details-list--row {favoriteFlag}" data-version="{Date}" data-projectid="{ProjectID}">
 			<span class="data-type--date row-element" data-details="date">{DateDisplay}</span><span class="row-element data-type--favorite icon-star2" ><a href="#" title="Mark as favorite"></a></span><a href="/v/{ProjectID}/{Date}" class="row-element data-type--text js-load-version" data-details="note" title="Load this version">{Name}</a><span class="row-element data-type-ctrls" data-details="controls"> <a href="#" class="detail-ctrl detail-ctrl--delete icon-cross" title="Delete this version"></a> </span>
+		</div>
+	</script>
+
+	<script type="text/template" id="color-swatch-template">
+		<div class="modal-control customColorSwatch" >
+			<span class="colorSwatch colorSwatchTrigger" style="background-color:{color}"></span>
+			<input type="text" maxlength="6"  class="colorCode colorSwatchTrigger" value="{color}"/>
+			<input type="number" min="0" max="1"   step=".1" class="colorWeighting" value="{weighting}"/>
+			
 		</div>
 	</script>
 

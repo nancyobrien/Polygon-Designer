@@ -1,5 +1,6 @@
 function fileMngr() {
 	this.uploadPath = "/FileHandler.ashx";
+	this.uploadSharedPath = "/imageUploader.ashx";
 	this.getPath = "/GetProjects.ashx";
 	this.getVersionPath = "/GetVersion.ashx";
 	this.deletePath = "/DeleteVersion.ashx";
@@ -82,6 +83,36 @@ function fileMngr() {
 			thisVersion.HTML = fm.applyTemplate(this, fm.versionListTemplate);
 			thisProject.VersionList += thisVersion.HTML ;
 		})
+	}
+
+	this.uploadSharedImage = function(imgData) {
+		var fm = this;
+		var srcImg = false;
+		var srcImgName = 'sharethis.png';
+		if (imgData) {
+			srcImg = imgData;
+		} 
+		var data = new FormData();
+
+		if(srcImg) {data.append(srcImgName, srcImg);}
+
+		showModalWaitMessage();
+
+		$.ajax({
+			type: "POST",
+			url: fm.uploadSharedPath,
+			contentType: 'application/upload',
+			processData: false,
+			data: data,
+			success: function (result) {
+				var link = result;
+				
+				errorMessage(link);
+			},
+			error: function () {
+			  errorMessage("There was error uploading files!");
+			}
+		});		
 	}
 
 
@@ -248,13 +279,28 @@ function fileMngr() {
 				data: null,
 				success: function (result) {
 					//var data = $.parseJSON( result );
+					var x =1;
 					if (result.vertices) {
 						selectedVersion.showVertices = result.showVertices;
-						selectedVersion.useGradient = result.useGradient;
+						//selectedVersion.useGradient = result.useGradient;
 						selectedVersion.showFill = result.showFill;
 						selectedVersion.showCircles = result.showCircles;
 						selectedVersion.showStroke = result.showStroke;
 						selectedVersion.useSolidGradient = (result.useSolidGradient === undefined) ? true : result.useSolidGradient;
+
+
+						selectedVersion.fillStyle = 'Gradient';
+						if (result.useGradient !== undefined) {
+							if (result.useGradient == true) {
+								selectedVersion.fillStyle = 'Gradient';
+							} else {
+								selectedVersion.fillStyle = 'Solid';
+							}
+						}
+
+						if (result.fillStyle !== undefined) {selectedVersion.fillStyle = result.fillStyle;}
+						if (result.customColors !== undefined) {selectedVersion.customColors = result.customColors;}
+						if (result.colorPalette !== undefined) {selectedVersion.colorPalette = result.colorPalette;}
 
 						if (result.globalOpacity !== undefined) {selectedVersion.globalOpacity = result.globalOpacity; }
 						if (result.strokeWidth !== undefined) {selectedVersion.strokeWidth = result.strokeWidth; }
@@ -280,7 +326,8 @@ function fileMngr() {
 						thisProject.VertJson = JSON.stringify(result.vertices);
 					} else {
 						selectedVersion.showVertices = true;
-						selectedVersion.useGradient = true;
+						//selectedVersion.useGradient = true;
+						selectedVersion.fillStyle = 'Gradient';
 						selectedVersion.showFill = true;
 						selectedVersion.showCircles = false;
 						selectedVersion.showStroke = false;

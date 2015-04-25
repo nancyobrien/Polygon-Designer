@@ -124,7 +124,10 @@
 				color: $color3;
 			}
 
-
+			.right-align {
+				position: absolute;
+				right: .5em;
+			}
 
 		}
 		&:last-of-type {
@@ -134,4 +137,12 @@
 		}
 	}
 
+}
+
+.customColorSwatch {
+	.colorSwatch {
+		display: block;
+		width: 2em;
+		height: 2em;
+	}	
 }
