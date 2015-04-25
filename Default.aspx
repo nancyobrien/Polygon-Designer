@@ -276,6 +276,9 @@
 	<div class="menu popup-menu--shapeoptions hide menu-horizontal" id="shapeOptionsMenu">
 		<ul>
 			<li class="stat-shape-type show-selected show-compareValue">
+				<a href="#" class="selectShape" data-setvalue="line"><span class="check icon-line "></span></a>
+			</li>
+			<li class="stat-shape-type show-selected show-compareValue">
 				<a href="#" class="selectShape" data-setvalue="circle"><span class="check icon-radio-unchecked "></span></a>
 			</li>
 			<li class="stat-shape-type show-selected show-compareValue">

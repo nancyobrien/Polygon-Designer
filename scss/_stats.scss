@@ -76,6 +76,10 @@
 
 
 			span {
+				&.line {
+					@extend .icon;
+					@extend .icon-line;
+				}				
 				&.circle {
 					@extend .icon;
 					@extend .icon-radio-unchecked;

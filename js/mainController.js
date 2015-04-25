@@ -82,12 +82,13 @@ function mainCtrl(srcImg) {
 	this.brightness = 0;
 	this.contrast = 0;
 
-	this.shapeOptions = ['circle', 'triangle', 'square', 'star', 'pentagon', 'hexagon', 'heptagon', 'octagon'];
-	this.shapeMode = 'heptagon';
+	this.shapeOptions = ['line', 'circle', 'triangle', 'square', 'star', 'pentagon', 'hexagon', 'heptagon', 'octagon'];
+	this.shapeMode = 'line';
 	this.shapeConcentric = 4;
 	this.shapeConcentricOffset = 0.0;
 
-	this.shapes =  {'triangle': {'numSides': 3, 'initAngle': -30}, 
+	this.shapes =  {'line': {'numSides': 1, 'initAngle': 0}, 
+					'triangle': {'numSides': 3, 'initAngle': -30}, 
 					'square':   {'numSides': 4, 'initAngle':  45}, 
 					'pentagon': {'numSides': 5, 'initAngle':  18}, 
 					'hexagon':  {'numSides': 6, 'initAngle':   0}, 
@@ -944,6 +945,9 @@ function mainCtrl(srcImg) {
 		var pntCnt = 20;
 
  		switch(this.shapeMode) {
+ 			case "line":
+ 				this.drawLine(boundingBox, makePermanent);
+ 				break;
  			case "triangle":
  				this.drawPolygon(boundingBox, makePermanent);
  				break;
@@ -993,6 +997,47 @@ function mainCtrl(srcImg) {
 		}
 	}
 
+	this.drawLine = function(boundingBox, makePermanent) {
+		var numSides = this.shapes[this.shapeMode].numSides;
+		var pntCnt = 3;
+		var width =  Math.sqrt(Math.pow(boundingBox.xStart - boundingBox.xEnd, 2) +  Math.pow(boundingBox.yStart - boundingBox.yEnd, 2)) ;
+
+		var pntPerSide = pntCnt/numSides;
+		var degPerSide = (360/numSides) * Math.PI/180;
+		var degPerSeg = (degPerSide / pntPerSide);
+		var compAngle = (Math.PI - degPerSide)/2; 
+
+		if (width < 10) {return;}
+
+		var sinAngle = (boundingBox.yEnd - boundingBox.yStart) / width
+		var cosAngle = (boundingBox.xEnd - boundingBox.xStart) / width
+
+		var startAngle = Math.asin(sinAngle);
+		var concentricPts = this.shapeConcentric * pntCnt;
+		for (var k = 0; k < concentricPts; k++) {
+			var widthConSeg = (1-this.shapeConcentricOffset)*width/(concentricPts - 1) * (k) + this.shapeConcentricOffset*width;
+			var sideLength = 2*widthConSeg * Math.sin(Math.PI/numSides);
+			var sideLengthSeg = sideLength / (pntPerSide);
+			var xStart = (widthConSeg * cosAngle) + boundingBox.xStart;
+			var yStart = (widthConSeg * sinAngle) + boundingBox.yStart;
+			for (var i = 0; i < pntPerSide; i++) {
+				var segLength = sideLengthSeg * i;
+	 			var Vx = ~~ (xStart -(segLength * Math.cos(-compAngle + startAngle)))  ; 
+	 			var Vy = ~~ (yStart - (segLength * Math.sin(-compAngle + startAngle)) );
+
+				if (makePermanent) {
+					this.addVertex(Vx, Vy, true);
+	 				this.raiseEvent("verticesChanged", "Vertices Changed");
+			        this.initiateDraw();
+			        //console.log(Vx + ', ' + Vy);
+				} else {
+					var v = new vertex(Vx, Vy);
+					v.draw(this.canvases.shapeCanvas.context);
+				}
+	 		}					
+		}
+			
+	}
 	this.drawPolygon = function(boundingBox, makePermanent) {
 		var numSides = this.shapes[this.shapeMode].numSides;
 		var pntCnt = numSides * 5;
@@ -1021,6 +1066,7 @@ function mainCtrl(srcImg) {
 
 					if (makePermanent) {
 						this.addVertex(Vx, Vy, true);
+		 				this.raiseEvent("verticesChanged", "Vertices Changed");
 				        this.initiateDraw();
 				        //console.log(Vx + ', ' + Vy);
 					} else {
