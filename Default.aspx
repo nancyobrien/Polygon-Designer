@@ -783,6 +783,14 @@
 		</div>
 	</div> 
 
+	<div class="modal-background">
+		<div class="modal messageModal" id="fatalErrorMessage">
+			<div class="title">Error</div>
+			<div class="message"></div>
+			<div class="buttons"><a href="/" class="button">Load New Project</a></div>
+		</div>
+	</div> 
+
 	<div class="modal-background modal-close">
 		<div class="modal messageModal" id="infoMessage">
 			<div class="modal-close modal-close-button">X</div>

@@ -344,7 +344,7 @@ function fileMngr() {
 					}
 				},
 				error: function (e) {
-				  fm.raiseEvent("projectsLoadError", "Projects Loaded Error");
+				  fm.raiseEvent("projectsLoadError", "Error reading project data.<br>Data file appears to be corrupted.");
 				}
 			});	
 		} else {

@@ -1311,6 +1311,11 @@ function canvasChanged() {
 	mainController.clearSelection();
 }
 
+function generalError(e) {
+	fatalErrorMessage(e.detail.message, false);
+	//setTimeout(function() {window.location = "/";}, 3000);
+}
+
 $(document).ready(function() {
 	document.addEventListener("vertsPerSideChanged", updateEdgeVertDisplay, false);
 	document.addEventListener("vertsGridChanged", updateGridVertDisplay, false);
@@ -1329,6 +1334,7 @@ $(document).ready(function() {
 	document.addEventListener("activeProjectLoaded", versionLoaded, false);
 	document.addEventListener("zoomChanged", updateStats, false);
 	document.addEventListener("settingsChanged", updateStats, false);
+	document.addEventListener("projectsLoadError", generalError, false);
 
 
 	mainController = new mainCtrl(false);
@@ -1545,8 +1551,15 @@ function infoMessage(title, message) {
 }
 function errorMessage(errMsg) {
 	$('#errorMessage').find('.message').html(errMsg);
+ 
 	showModal('#errorMessage');
 }
+function fatalErrorMessage(errMsg) {
+	$('#fatalErrorMessage').find('.message').html(errMsg);
+ 
+	showModal('#fatalErrorMessage');
+}
+
 
 function showModalWaitMessage(){
 	$('.modal-background').filter(":visible").find('.modal').addClass('wait');
