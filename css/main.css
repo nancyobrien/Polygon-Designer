@@ -2955,44 +2955,51 @@ input[type='range']::-moz-range-thumb {
   width: 1rem;
   display: inline-block;
 }
-/* line 74, ../scss/_contextmenu.scss */
-.menu.menu-horizontal.arrow-left:after {
-  top: 0;
-  border-width: 1rem;
-  margin-left: -1rem;
+/* line 73, ../scss/_contextmenu.scss */
+.menu.menu-horizontal.popup-menu--shapeoptions {
+  width: 92px;
 }
-/* line 82, ../scss/_contextmenu.scss */
-.menu.menu-horizontal ul li {
-  float: left;
+/* line 77, ../scss/_contextmenu.scss */
+.menu.menu-horizontal.arrow-left:after {
+  top: .75rem;
+  border-width: .5rem;
+  margin-left: -.5rem;
 }
 /* line 85, ../scss/_contextmenu.scss */
+.menu.menu-horizontal ul li {
+  float: left;
+  border: 1px solid #eee;
+  border-top: none;
+  border-left: none;
+}
+/* line 88, ../scss/_contextmenu.scss */
 .menu.menu-horizontal ul li a {
   padding: .5em 1em;
   border-bottom: 0;
 }
-/* line 88, ../scss/_contextmenu.scss */
+/* line 91, ../scss/_contextmenu.scss */
 .menu.menu-horizontal ul li a span {
   margin: 0;
   padding: 0;
 }
-/* line 98, ../scss/_contextmenu.scss */
+/* line 107, ../scss/_contextmenu.scss */
 .menu li {
   list-style: none;
 }
-/* line 100, ../scss/_contextmenu.scss */
+/* line 109, ../scss/_contextmenu.scss */
 .menu li.spacer {
   background-color: #707070;
   height: 2px;
 }
-/* line 104, ../scss/_contextmenu.scss */
+/* line 113, ../scss/_contextmenu.scss */
 .menu li.selected {
   background-color: #c42022;
 }
-/* line 107, ../scss/_contextmenu.scss */
+/* line 116, ../scss/_contextmenu.scss */
 .menu li.selected a {
   color: #ffffff;
 }
-/* line 111, ../scss/_contextmenu.scss */
+/* line 120, ../scss/_contextmenu.scss */
 .menu li a {
   display: block;
   border: 0;
@@ -3004,22 +3011,22 @@ input[type='range']::-moz-range-thumb {
   text-align: left;
   white-space: nowrap;
 }
-/* line 121, ../scss/_contextmenu.scss */
+/* line 130, ../scss/_contextmenu.scss */
 .menu li a:hover {
   background-color: #DC2C2E;
   color: #ffffff;
 }
-/* line 127, ../scss/_contextmenu.scss */
+/* line 136, ../scss/_contextmenu.scss */
 .menu li a .right-align {
   position: absolute;
   right: .5em;
 }
-/* line 134, ../scss/_contextmenu.scss */
+/* line 143, ../scss/_contextmenu.scss */
 .menu li:last-of-type a {
   border-bottom: none;
 }
 
-/* line 143, ../scss/_contextmenu.scss */
+/* line 152, ../scss/_contextmenu.scss */
 .customColorSwatch .colorSwatch {
   display: block;
   width: 2em;

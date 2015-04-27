@@ -156,7 +156,7 @@ function initInterface() {
 				mousePos.x += (objSize.width - menuWidth)/2;
 				break;
 			case 'right':
-				mousePos.x += objSize.width + borderHeight;
+				mousePos.x += objSize.width + borderHeight/2;
 				break;
 
 		}
@@ -164,6 +164,9 @@ function initInterface() {
 			case 'top':
 				menuPlacement.vertical = 'bottom';
 				mousePos.y = objSize.height + borderHeight;
+				break;
+			case 'top-offset': 
+				mousePos.y += 0;
 				break;
 			case 'middle':
 				mousePos.y +=  (objSize.height - menuHeight)/2
@@ -206,7 +209,7 @@ function initInterface() {
 				mousePos.x += (objSize.width - menuWidth)/2;
 				break;
 			case 'right':
-				mousePos.x += objSize.width + borderHeight;
+				mousePos.x += objSize.width + borderHeight/2;
 				break;
 
 		}
@@ -214,6 +217,9 @@ function initInterface() {
 			case 'top':
 				menuPlacement.vertical = 'bottom';
 				mousePos.y = objSize.height + borderHeight;
+				break;
+			case 'top-offset': 
+				mousePos.y +=  0;
 				break;
 			case 'middle':
 				mousePos.y +=  (objSize.height - menuHeight)/2

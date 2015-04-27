@@ -70,11 +70,14 @@
 	}
 
 	&.menu-horizontal {
+		&.popup-menu--shapeoptions{
+			width: 92px;
+		}
 		&.arrow-left {
 			&:after {
-				top: 0;
-				border-width: 1rem;
-				margin-left: -1rem;
+				top: .75rem;
+				border-width: .5rem;
+				margin-left: -.5rem;
 			}
 		}
 
@@ -87,9 +90,14 @@
 					border-bottom: 0;
 					span {
 						margin: 0;
-						padding: 0;
+						padding: 0; 
 					}
 				}
+
+				border: 1px solid #eee;
+				border-top: none;
+				border-left: none;
+				 
 			}
 		}
 	}
