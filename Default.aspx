@@ -437,12 +437,19 @@
 	<div class="modal-background modal-clear">
 		<div class="modal" id="configurePolygonsModal">
 			<div class="modal-close-button modal-close"><span class="icon-cancel"></span></div>
-			<div class="title">Polygon Settings</div>
+			<div class="title">Geometric Shape Settings</div>
 			<div class="modal-controls">
 				<div class="modal-ctrl-section modal-full">
 					<div class="modal-control">
-						<span class="label">Number of concentric polygons:</span> <output class="ctrl-display stat-concentric-rings" ></output>
+						<span class="label">Number of concentric shapes:</span> <output class="ctrl-display stat-concentric-rings" ></output>
 						<input type="range" min="1" max="5" value="1" step="1" id="concentricRingsSlider"/>
+						
+					</div>
+				</div>
+				<div class="modal-ctrl-section modal-full">
+					<div class="modal-control">
+						<span class="label">Number of points per shape:</span> <output class="ctrl-display stat-shapeptsperside" ></output>
+						<input type="range" min="1" max="50" value="1" step="1" id="shapePointsPerSideSlider"/>
 						
 					</div>
 				</div>

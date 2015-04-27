@@ -12,6 +12,7 @@ var selectedProject = false;
 var delayedPopupTimer = false;
 var delayedPopupShown = false;
 var tempShapeConcentric = 0;
+var tempShapePointsPerSide = 0;
 var customPalette = false;
 
 function initInterface() {
@@ -495,6 +496,9 @@ function initInterface() {
 
 	$('#updatePolygonSettings').click(function(e) {
 		mainController.shapeConcentric = $('#concentricRingsSlider').val();
+		//this.shapes[this.shapeMode].numSides
+
+		mainController.shapePtsPerSide = $('#shapePointsPerSideSlider').val()/mainController.shapes[mainController.shapeMode].numSides;
 		updateStats();
 	})
 
@@ -720,6 +724,13 @@ function initInterface() {
 			tempShapeConcentric = $(this).val();
 			updateStats();
 		});
+
+		$("#shapePointsPerSideSlider").on("input change", function() { 
+			tempShapePointsPerSide = $(this).val();
+			updateStats();
+		});
+
+
 
 		$("#opacitySlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
@@ -1059,8 +1070,18 @@ function updateEdgeVertDisplay(){
 }
 
 function showPolyshapeModal() {
+
+	var minPts = mainController.shapes[mainController.shapeMode].minPtsPerSide ? mainController.shapes[mainController.shapeMode].minPtsPerSide : 1;
+	var maxPts = mainController.shapes[mainController.shapeMode].maxPtsPerSide ? mainController.shapes[mainController.shapeMode].maxPtsPerSide : 10;
+	var numSides = mainController.shapes[mainController.shapeMode].numSides;
+	minPts = Math.max(mainController.shapes[mainController.shapeMode].numSides, minPts);
 	tempShapeConcentric = mainController.shapeConcentric;
+	tempShapePointsPerSide = Math.min(mainController.shapePtsPerSide * numSides, maxPts * numSides);
 	$("#concentricRingsSlider").val(mainController.shapeConcentric);
+	$("#shapePointsPerSideSlider").attr('step', numSides);
+	$("#shapePointsPerSideSlider").attr('min', minPts);
+	$("#shapePointsPerSideSlider").attr('max', maxPts * numSides);
+	$("#shapePointsPerSideSlider").val(tempShapePointsPerSide);
 	updateStats();
 	showModal('#configurePolygonsModal');
 }
@@ -1100,7 +1121,7 @@ function updateStats() {
 	setValue($('.stat-zoom'), Math.floor(mainController.zoomLevel * 100) + '%')
 	setValue($('.stat-shape-type'), mainController.shapeMode);
 	setValue($('.stat-concentric-rings'), tempShapeConcentric);
-
+	setValue($('.stat-shapeptsperside'), tempShapePointsPerSide);
 
 
 	setValue($('.stat-adjustColor-red'), mainController.adjustedColor.red);

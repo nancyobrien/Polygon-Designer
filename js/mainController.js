@@ -84,10 +84,12 @@ function mainCtrl(srcImg) {
 
 	this.shapeOptions = ['line', 'circle', 'triangle', 'square', 'star', 'pentagon', 'hexagon', 'heptagon', 'octagon'];
 	this.shapeMode = 'line';
+	this.shapePtsPerSide = 5;
 	this.shapeConcentric = 4;
 	this.shapeConcentricOffset = 0.0;
 
-	this.shapes =  {'line': {'numSides': 1, 'initAngle': 0}, 
+	this.shapes =  {'line': {'numSides': 1, 'initAngle': 0, minPtsPerSide: 2, maxPtsPerSide: 30}, 
+					'circle': {'numSides': 1, 'initAngle': 0, minPtsPerSide: 4, maxPtsPerSide: 30}, 
 					'triangle': {'numSides': 3, 'initAngle': -30}, 
 					'square':   {'numSides': 4, 'initAngle':  45}, 
 					'pentagon': {'numSides': 5, 'initAngle':  18}, 
@@ -974,8 +976,8 @@ function mainCtrl(srcImg) {
 		 		if (rad < 10) {return;}
 		 		for (var k = 0; k < this.shapeConcentric; k++) {
 					var widthConSeg = (1-this.shapeConcentricOffset)*rad/this.shapeConcentric * (k+1) + this.shapeConcentricOffset*rad;
-			 		for (var i = 0; i< pntCnt; i++) {
-			 			var angle = (360/pntCnt) * i * Math.PI/180;  
+			 		for (var i = 0; i< this.shapePtsPerSide; i++) {
+			 			var angle = (360/this.shapePtsPerSide) * i * Math.PI/180;  
 			 			var Vx = ~~ (widthConSeg * Math.cos(angle)) + boundingBox.xStart; 
 			 			var Vy = ~~ (widthConSeg * Math.sin(angle)) + boundingBox.yStart;
 
@@ -1002,7 +1004,7 @@ function mainCtrl(srcImg) {
 		var pntCnt = 3;
 		var width =  Math.sqrt(Math.pow(boundingBox.xStart - boundingBox.xEnd, 2) +  Math.pow(boundingBox.yStart - boundingBox.yEnd, 2)) ;
 
-		var pntPerSide = pntCnt/numSides;
+		var pntPerSide = 1; // pntCnt/numSides;
 		var degPerSide = (360/numSides) * Math.PI/180;
 		var degPerSeg = (degPerSide / pntPerSide);
 		var compAngle = (Math.PI - degPerSide)/2; 
@@ -1013,7 +1015,7 @@ function mainCtrl(srcImg) {
 		var cosAngle = (boundingBox.xEnd - boundingBox.xStart) / width
 
 		var startAngle = Math.asin(sinAngle);
-		var concentricPts = this.shapeConcentric * pntCnt;
+		var concentricPts = this.shapePtsPerSide; // this.shapeConcentric * pntCnt;
 		for (var k = 0; k < concentricPts; k++) {
 			var widthConSeg = (1-this.shapeConcentricOffset)*width/(concentricPts - 1) * (k) + this.shapeConcentricOffset*width;
 			var sideLength = 2*widthConSeg * Math.sin(Math.PI/numSides);
@@ -1040,7 +1042,7 @@ function mainCtrl(srcImg) {
 	}
 	this.drawPolygon = function(boundingBox, makePermanent) {
 		var numSides = this.shapes[this.shapeMode].numSides;
-		var pntCnt = numSides * 5;
+		var pntCnt = numSides * this.shapePtsPerSide;
 		var width =  Math.max(Math.abs(boundingBox.xStart - boundingBox.xEnd), Math.abs(boundingBox.yStart - boundingBox.yEnd)) ;
 
 		var pntPerSide = pntCnt/numSides;
