@@ -33,7 +33,7 @@
 	<div class="display-pane open">
 
 		<div class="display-controls">
-			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add point mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
+			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add points mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
 			<div id="tool-selectPoint2" data-tooltip="Select points mode" class="tools display-toggle select-tool  tooltip tooltip--right"  data-toolmode="Select Points"  data-activelayer="#selectLayer"><span class="icon-marquee"></span></div>
 			<div id="tool-geoPoints" data-tooltip="Shape Tool" class="tools display-toggle select-tool  tooltip tooltip--right show-delayed-popup" data-popupmenu="#shapeOptionsMenu" data-popuppositionv="top-offset" data-popuppositionh="right" data-popupclass="arrow-left"  data-toolmode="Shape Tool"  data-activelayer="#shapeLayer"><span class="show-selectShape"></span><span class="delay-indicator"></span></div>
 

@@ -270,16 +270,29 @@ function triangle(v0, v1, v2) {
 		return midGrad;
 	}
 
+	this.getMidVertex = function() {
+		if (!this.midVertex) {
+			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
+			this.midVertex.avColor();	//Need to get the true color either way, because we need the transparency state.
+			this.transparent = this.isTransparent();			
+		}
+	}
+
+	this.isTransparent = function() {
+		if (this.midVertex.alpha == 0 || mainController.isInMask(this.midVertex.x ,this.midVertex.y))	{
+			return true;
+		}
+		return false;
+	}
+
 	this.getGradient = function(ctx) {
 		if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
 			this.transparent = true;
 			return false;
 		}
 		this.transparent = false;
-		if (!this.midVertex) {
-			this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-			this.midVertex.avColor();	//Need to get the true color either way, because we need the transparency state.			
-		}		
+		this.getMidVertex();
+		
 		if (this.isSolidColored()) {
 			var tmpColor = this.v0;
 
@@ -591,10 +604,7 @@ function triangle(v0, v1, v2) {
 		ctx.beginPath();
 
 		if (!excludeFill) {
-			if (!this.midVertex) {
-				this.midVertex = new vertex(this.midPoint.x, this.midPoint.y);
-				this.midVertex.avColor();	
-			}
+			this.getMidVertex();
 
 			if (mainController.fillStyle == 'Gradient') {
 				ctx.fillStyle = this.getGradient(mainController.fillCtx); 
