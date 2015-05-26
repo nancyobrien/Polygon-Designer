@@ -783,7 +783,6 @@ function initInterface() {
 		$("#colorAdjustRedSlider").on("input change", function() { 
 			var sliderVal = Math.ceil($(this).val());
 			if (mainController.adjustedColor.red != sliderVal) {
-				console.log(mainController.adjustedColor.red + " : " + sliderVal)
 				var newColor = {'red': sliderVal, 'blue': mainController.adjustedColor.blue, 'green': mainController.adjustedColor.green};
 				mainController.setColorAdjustment(mainController.includeColorAdjust, newColor);
 				updateStats();

@@ -94,7 +94,7 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 	    this.avColor();  
 	    ctx.beginPath();
 	    //ctx.fillStyle = 'rgba(' + this.red + ',' + this.green + ',' + this.blue + ',1)';
-	    ctx.fillStyle = 'rgba(' + rgb.r + "," + rgb.g + "," + rgb.b + ','+ mainController.pointOpacity +')';
+	    ctx.fillStyle = 'rgba(' + rgb.red + "," + rgb.green + "," + rgb.blue + ','+ mainController.pointOpacity +')';
 
 	    //ctx.shadowOffsetX = 0;
 	    //ctx.shadowOffsetY = 0;
@@ -118,7 +118,7 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 	    }
 
 	    ctx.fill();
-	    ctx.strokeStyle = "rgba(" + rgbStroke.r + "," + rgbStroke.g + "," + rgbStroke.b + ','+ mainController.pointStrokeOpacity +')';
+	    ctx.strokeStyle = "rgba(" + rgbStroke.red + "," + rgbStroke.green + "," + rgbStroke.blue + ','+ mainController.pointStrokeOpacity +')';
 	    ctx.lineWidth = mainController.pointStrokeWidth;
 		//ctx.strokeStyle = "rgba(255,255,255,0.5)";
 		ctx.stroke();    

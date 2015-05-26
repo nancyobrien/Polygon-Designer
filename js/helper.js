@@ -1,4 +1,4 @@
-function hexToRGB(h) {return {r: hexToR(h), g: hexToG(h), b: hexToB(h)};}
+function hexToRGB(h) {return {red: hexToR(h), green: hexToG(h), blue: hexToB(h)};}
 function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
 function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
 function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
@@ -15,13 +15,13 @@ function hexToRGBString(h) {
 		var y = 1;
 	}
 	var rgb = hexToRGB(h);
-	return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+	return 'rgb(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ')';
 }
 
 
 function hexToLAB(hexColor) {
 	var rgb = hexToRGB(hexColor);
-	var xyz = rgbToXyz(rgb.r, rgb.g, rgb.b);
+	var xyz = rgbToXyz(rgb.red, rgb.green, rgb.blue);
 	var lab = xyzToLab(xyz[0], xyz[1], xyz[2]);
 	return lab;
 };

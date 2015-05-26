@@ -383,7 +383,7 @@ function triangle(v0, v1, v2) {
 		ctx.moveTo(ptA.x, ptA.y);
 		ctx.lineTo(ptB.x, ptB.y);
 		var rgb = hexToRGB(mainController.strokeColor);
-		ctx.strokeStyle = "rgba("+rgb.r+","+rgb.g+","+rgb.b+"," + mainController.strokeOpacity + ")";
+		ctx.strokeStyle = "rgba("+rgb.red+","+rgb.green+","+rgb.blue+"," + mainController.strokeOpacity + ")";
 		ctx.stroke();    
 		ctx.closePath();
 	}
@@ -423,6 +423,13 @@ function triangle(v0, v1, v2) {
 	}
 
 
+	this.getAdjustedColor = function(rbgColor) {
+		var thisColor = {'red': ~~ mainController.getContrastedColor(rbgColor.red + mainController.adjustedColor.red + mainController.brightness) ,
+					     'green': ~~ mainController.getContrastedColor(rbgColor.green + mainController.adjustedColor.green + mainController.brightness) ,
+					     'blue': ~~ mainController.getContrastedColor(rbgColor.blue + mainController.adjustedColor.blue + mainController.brightness) };
+	    return thisColor;
+	}
+
 
 	this.drawSVG = function(svg, id){
 		/*
@@ -456,8 +463,10 @@ function triangle(v0, v1, v2) {
 				var rgbStart = rgbPts.start;
 				var rgbStop = rgbPts.stop;
 				if (mainController.includeColorAdjust) {
-					rgbStart = 'rgb(' + ~~ mainController.getContrastedColor(rgbPts.startColors.red + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(rgbPts.startColors.green + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(rgbPts.startColors.blue + mainController.adjustedColor.blue + mainController.brightness) + ')';
-					rgbStop = 'rgb(' + ~~ mainController.getContrastedColor(rgbPts.stopColors.red + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(rgbPts.stopColors.green + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(rgbPts.stopColors.blue + mainController.adjustedColor.blue + mainController.brightness) + ')';
+					var thisStart = this.getAdjustedColor(rgbPts.startColors);
+					var thisStop = this.getAdjustedColor(rgbPts.stopColors);
+					rgbStart = 'rgb(' + thisStart.red + ',' + thisStart.green + ',' + thisStart.blue  + ')';
+					rgbStop = 'rgb(' + thisStop.red + ',' + thisStop.green + ',' + thisStop.blue  + ')';
 				}
 
 				stopTop.setAttributeNS(null, 'stop-color', rgbStart);
@@ -472,25 +481,28 @@ function triangle(v0, v1, v2) {
 			} else if (mainController.fillStyle == 'CustomRandom') {
 				fillRGB = hexToRGB(mainController.customPalette.getCustomColor(this.midVertex.x, this.midVertex.y));
 				if (mainController.includeColorAdjust) {
-					fillStyle = 'rgb(' + ~~ mainController.getContrastedColor(fillRGB.r + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.g + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.b + mainController.adjustedColor.blue + mainController.brightness) + ')'
+					var adjColor = this.getAdjustedColor(fillRGB);
+					fillStyle = 'rgb(' + adjColor.red + ',' + adjColor.green + ',' + adjColor.blue  + ')';
 				} else {
-					fillStyle = 'rgb(' + ~~ fillRGB.r + ',' + ~~ fillRGB.g + ',' + ~~ fillRGB.b + ')';
+					fillStyle = 'rgb(' + ~~ fillRGB.red + ',' + ~~ fillRGB.green + ',' + ~~ fillRGB.blue + ')';
 				}
 
 			} else if (mainController.fillStyle == 'CustomMatched') {
 				var matchedColor = mainController.customPalette.getMatchColor({'red': this.midVertex.red, 'green': this.midVertex.green, 'blue': this.midVertex.blue});
 				fillRGB = hexToRGB(matchedColor);	
 				if (mainController.includeColorAdjust) {
-					fillStyle = 'rgb(' + ~~ mainController.getContrastedColor(fillRGB.r + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.g + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(fillRGB.b + mainController.adjustedColor.blue + mainController.brightness) + ')'
+					var adjColor = this.getAdjustedColor(fillRGB);
+					fillStyle = 'rgb(' + adjColor.red + ',' + adjColor.green + ',' + adjColor.blue  + ')';
 				} else {
-					fillStyle = 'rgb(' + ~~ fillRGB.r + ',' + ~~ fillRGB.g + ',' + ~~ fillRGB.b + ')';
+					fillStyle = 'rgb(' + ~~ fillRGB.red + ',' + ~~ fillRGB.green + ',' + ~~ fillRGB.blue + ')';
 				}
 
 			} else { 
 
 				fillStyle = this.getColor(); 
 				if (mainController.includeColorAdjust) {
-					fillStyle = 'rgb(' + ~~ mainController.getContrastedColor(this.midVertex.red + mainController.adjustedColor.red + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(this.midVertex.green + mainController.adjustedColor.green + mainController.brightness) + ',' + ~~ mainController.getContrastedColor(this.midVertex.blue + mainController.adjustedColor.blue + mainController.brightness) + ')'
+					var adjColor = this.getAdjustedColor(this.midVertex);
+					fillStyle = 'rgb(' + adjColor.red + ',' + adjColor.green + ',' + adjColor.blue  + ')';
 				}
 			}
 
@@ -656,14 +668,6 @@ function triangle(v0, v1, v2) {
 
 	} 
 
-
-
-
-
-
-
-	
-	
 
 	this.Circumcircle();
 
