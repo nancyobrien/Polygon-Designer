@@ -282,6 +282,11 @@ function triangle(v0, v1, v2) {
 		if (this.midVertex.alpha == 0 || mainController.isInMask(this.midVertex.x ,this.midVertex.y))	{
 			return true;
 		}
+		if (transparentMids[this.midPoint.x + '-' + this.midPoint.y]) {
+			return true;
+		}
+
+		if (this.transparent !== undefined) {return this.transparent;}
 		return false;
 	}
 
@@ -351,7 +356,6 @@ function triangle(v0, v1, v2) {
 					this.midVertex.blue = this.midVertex.gradientColor.blue; 
 				}
 			}	
-
 		}
 		if (mainController.togglingSolidGradient) {
 			if (mainController.useSolidGradient && this.isSolidColored()) {
