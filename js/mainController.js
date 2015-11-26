@@ -11,7 +11,7 @@ function mainCtrl(srcImg) {
 	this.canvasContainer = false;
 	this.selectedVertex = false;
 	this.dataStack = [];
-	this.DELTA = 1.0e-5;
+	this.DELTA = 1.0 / 1048576.0;
 	this.imgCtx = false;
 	this.canvas = false;
 	this.vertCanvas = false;
@@ -33,6 +33,7 @@ function mainCtrl(srcImg) {
 	this.showFill = true;
 	this.showCircles = false; 
 	this.showStroke = false;
+	this.showAllStrokes = false;
 	this.useSolidGradient = true;
 	this.maxUndos = 25;
 	this.vertsPerSide = 5;
@@ -56,7 +57,12 @@ function mainCtrl(srcImg) {
 	this.canvasHeight = 300;
 	this.spiralSettings = {repeat: 1, xshift: 0, yshift: 0, scale: 1, direction: 1, degIncrements: 5}
 
+	this.sampleData = false;
 	this.imageData = new Array();
+	this.inMask = new Array();
+	this.maskData = new Array();
+	this.completeMask = new Array();
+
 	this.drawTimer = 0;
 
 	this.samplingCtx = false;
@@ -66,7 +72,7 @@ function mainCtrl(srcImg) {
 	this.tempCtx = false;
 	this.selectCtx = false;
 	this.canvasTransparency = 1;
-	this.largeVertexThreshold = 100;
+	this.largeVertexThreshold = 1000;
 	this.gradients = [];
 	this.solidColors = [];
 	this.offsetX = 0;
@@ -76,6 +82,7 @@ function mainCtrl(srcImg) {
 	this.selectionBox = false;
 	this.includeOriginalImageInPNG = true;
 	this.zoomLevel = 1;
+
 
 	this.includeColorAdjust = true;
 	this.adjustedColor = {'red': 0, 'blue': 0, 'green': 0};
@@ -155,6 +162,7 @@ function mainCtrl(srcImg) {
 			}
 		}
 
+		this.completeMask = this.maskCtx.getImageData(0, 0,  this.samplingImg.width, this.samplingImg.height).data;
 		var x= 1;
 
 		window.onkeyup = function(e){
@@ -171,6 +179,7 @@ function mainCtrl(srcImg) {
 						mCtrl.needToDrawTriangles = true;
 						mCtrl.redrawTriangles = true;
 						mCtrl.draw();
+						mCtrl.raiseEvent("verticesChanged", "Vertices Changed");
 					} 
 					mCtrl.needToDrawTriangles = true;
 					mCtrl.reDraw();
@@ -184,6 +193,7 @@ function mainCtrl(srcImg) {
 						mCtrl.needToDrawTriangles = true;
 						mCtrl.redrawTriangles = true;
 						mCtrl.draw();
+						mCtrl.raiseEvent("verticesChanged", "Vertices Changed");
 					}
 					mCtrl.needToDrawTriangles = true;
 					 mCtrl.reDraw();
@@ -462,6 +472,7 @@ function mainCtrl(srcImg) {
 			}
 			mCtrl.maskLayer.onmouseup = function(e) {
 				mCtrl.maskCtx.closePath();
+				mCtrl.completeMask = mCtrl.maskCtx.getImageData(0, 0,  mCtrl.samplingImg.width, mCtrl.samplingImg.height).data;
 
 				mCtrl.maskLayer.onmouseup = function(e) {void(0);}
 				mCtrl.maskLayer.onmousemove = function(e) {void(0);}
@@ -635,6 +646,9 @@ function mainCtrl(srcImg) {
 		this.resizeElement(this.samplingImg, this.canvasWidth, this.canvasHeight);
 		this.samplingCtx.drawImage(this.originalImage, 0, 0, this.canvasWidth, this.canvasHeight); //Save the original image in an unscaled canvas to sample colors later.
 
+
+		this.sampleData = this.samplingCtx.getImageData(0, 0,  this.samplingImg.width, this.samplingImg.height).data;
+
 		this.draw();
 	}
 	this.updateVertexSize = function(vertexSize, stopRecursion) {
@@ -735,11 +749,18 @@ function mainCtrl(srcImg) {
 		return relPos;
 	}
 
+	this.isVertexOutOfBounds = function(Vx, Vy) {
+		return (Vx < 0 || Vy < 0 || Vx > this.originalSize.width || Vy > this.originalSize.height);
+	}
+
 
 	this.addVertex = function(Vx,Vy, supressDraw) {
 		this.needToDrawTriangles = true;
 
 		var v = false;
+		if (this.isVertexOutOfBounds(Vx,Vy)) {
+			return v;
+		}
 		if (!this.isVertex(Vx,Vy)) {
 			v = new vertex(Vx, Vy);
 			v.avColor();
@@ -757,7 +778,8 @@ function mainCtrl(srcImg) {
 		this.showVertices = vertFlag;
 		if (this.showVertices) {
 			$(this.vertCanvas).show();
-			this.reDraw();
+			this.drawVertices();
+			//this.reDraw();
 		} else {
 			$(this.vertCanvas).hide();
 		}
@@ -796,14 +818,26 @@ function mainCtrl(srcImg) {
 		this.showStroke = strokeFlag;
 		if (this.showStroke) {
 			$(this.strokeCanvas).show();
-			this.reDraw();
+			this.drawStrokes();
+			//this.reDraw();
 		} else {
 			$(this.strokeCanvas).hide();
 		}	
 	}
 
+	this.setShowStrokeAlways = function(strokeAllFlag) {
+		this.showAllStrokes = strokeAllFlag;
+		if (this.showStroke) {  //Don't redraw the strokes if generally strokes aren't shown.
+			$(this.strokeCanvas).show();
+			this.drawStrokes();
+		} 	
+	}
 	this.toggleStrokeDisplay = function() {
 		this.setShowStroke(!this.showStroke);
+	}
+
+	this.toggleStrokeAlwaysDisplay = function() {
+		this.setShowStrokeAlways(!this.showAllStrokes);
 	}
 
 	this.toggleSolidGradientDisplay = function() {
@@ -819,6 +853,7 @@ function mainCtrl(srcImg) {
 		this.redrawTriangles = true;
 		this.reDraw();			
 	}
+
 	this.resetCustomColors = function() {
 		this.customPalette.resetRandomColors();
 		this.reDraw();			
@@ -849,7 +884,6 @@ function mainCtrl(srcImg) {
 
 	this.addEdgeVertices = function(edgeCnt) {
 		if (edgeCnt) {this.vertsPerSide = edgeCnt;}
-
 
 		var xtmp = 0;
 		var ytmp = 0;
@@ -1189,37 +1223,39 @@ function mainCtrl(srcImg) {
 			this.projectData = project;
 			transparentMids = {};
 			if (project.activeVersion) {
+				var activeProject = project.activeVersion
 				this.globalOpacity = 1;
 				this.brightness = 0;
 				this.contrast = 0;
-				this.showVertices = project.activeVersion.showVertices;
-				//this.useGradient = project.activeVersion.useGradient;
-				this.fillStyle = project.activeVersion.fillStyle;
-				this.showFill = project.activeVersion.showFill;
-				this.showCircles = project.activeVersion.showCircles;
-				this.showStroke = project.activeVersion.showStroke;
-				this.useSolidGradient = project.activeVersion.useSolidGradient;
-				if (project.activeVersion.solidGradients) {midGrads = project.activeVersion.solidGradients;}
-				if (project.activeVersion.transparentMidpoints) {transparentMids = project.activeVersion.transparentMidpoints;}
-				if (project.activeVersion.adjustedColor) {this.adjustedColor = project.activeVersion.adjustedColor;}
-				if (project.activeVersion.customColors) {this.customPalette.setColors(project.activeVersion.customColors);}
-				if (project.activeVersion.colorPalette) {this.customPalette.setPalette(project.activeVersion.colorPalette);}
+				this.showVertices = activeProject.showVertices;
+				//this.useGradient = activeProject.useGradient;
+				this.fillStyle = activeProject.fillStyle;
+				this.showFill = activeProject.showFill;
+				this.showCircles = activeProject.showCircles;
+				this.showStroke = activeProject.showStroke;
+				this.showAllStrokes = activeProject.showAllStrokes;
+				this.useSolidGradient = activeProject.useSolidGradient;
+				if (activeProject.solidGradients) {midGrads = activeProject.solidGradients;}
+				if (activeProject.transparentMidpoints) {transparentMids = activeProject.transparentMidpoints;}
+				if (activeProject.adjustedColor) {this.adjustedColor = activeProject.adjustedColor;}
+				if (activeProject.customColors) {this.customPalette.setColors(activeProject.customColors);}
+				if (activeProject.colorPalette) {this.customPalette.setPalette(activeProject.colorPalette);}
 					
-				if (project.activeVersion.strokeWidth !== undefined) {this.strokeWidth = project.activeVersion.strokeWidth; }
-				if (project.activeVersion.strokeOpacity !== undefined) {this.strokeOpacity = project.activeVersion.strokeOpacity; }
-				if (project.activeVersion.strokeColor !== undefined) {this.strokeColor = project.activeVersion.strokeColor; }
-				if (project.activeVersion.syncPointStrokeSizes !== undefined) {this.syncPointStrokeSizes = project.activeVersion.syncPointStrokeSizes; }
-				if (project.activeVersion.snapSide !== undefined) {this.snapSide = project.activeVersion.snapSide; }
-				if (project.activeVersion.pointOpacity !== undefined) {this.pointOpacity = project.activeVersion.pointOpacity; }
-				if (project.activeVersion.pointStrokeOpacity !== undefined) {this.pointStrokeOpacity = project.activeVersion.pointStrokeOpacity; }
-				if (project.activeVersion.pointStrokeWidth !== undefined) {this.pointStrokeWidth = project.activeVersion.pointStrokeWidth; }
-				if (project.activeVersion.pointShape !== undefined) {this.pointShape = project.activeVersion.pointShape; }
-				if (project.activeVersion.pointColor !== undefined) {this.pointColor = project.activeVersion.pointColor; }
-				if (project.activeVersion.pointStrokeColor !== undefined) {this.pointStrokeColor = project.activeVersion.pointStrokeColor; }
-				if (project.activeVersion.globalOpacity !== undefined) {this.globalOpacity = project.activeVersion.globalOpacity; }
-				if (project.activeVersion.includeColorAdjust !== undefined) {this.includeColorAdjust = project.activeVersion.includeColorAdjust; }
-				if (project.activeVersion.brightness !== undefined) {this.brightness = project.activeVersion.brightness * 1; }
-				if (project.activeVersion.contrast !== undefined) {this.contrast = project.activeVersion.contrast * 1; }
+				if (activeProject.strokeWidth !== undefined) {this.strokeWidth = activeProject.strokeWidth; }
+				if (activeProject.strokeOpacity !== undefined) {this.strokeOpacity = activeProject.strokeOpacity; }
+				if (activeProject.strokeColor !== undefined) {this.strokeColor = activeProject.strokeColor; }
+				if (activeProject.syncPointStrokeSizes !== undefined) {this.syncPointStrokeSizes = activeProject.syncPointStrokeSizes; }
+				if (activeProject.snapSide !== undefined) {this.snapSide = activeProject.snapSide; }
+				if (activeProject.pointOpacity !== undefined) {this.pointOpacity = activeProject.pointOpacity; }
+				if (activeProject.pointStrokeOpacity !== undefined) {this.pointStrokeOpacity = activeProject.pointStrokeOpacity; }
+				if (activeProject.pointStrokeWidth !== undefined) {this.pointStrokeWidth = activeProject.pointStrokeWidth; }
+				if (activeProject.pointShape !== undefined) {this.pointShape = activeProject.pointShape; }
+				if (activeProject.pointColor !== undefined) {this.pointColor = activeProject.pointColor; }
+				if (activeProject.pointStrokeColor !== undefined) {this.pointStrokeColor = activeProject.pointStrokeColor; }
+				if (activeProject.globalOpacity !== undefined) {this.globalOpacity = activeProject.globalOpacity; }
+				if (activeProject.includeColorAdjust !== undefined) {this.includeColorAdjust = activeProject.includeColorAdjust; }
+				if (activeProject.brightness !== undefined) {this.brightness = activeProject.brightness * 1; }
+				if (activeProject.contrast !== undefined) {this.contrast = activeProject.contrast * 1; }
 
 				this.setTransparency(this.globalOpacity);
 
@@ -1301,17 +1337,28 @@ function mainCtrl(srcImg) {
 	}
 
 	this.getImageData = function(xVal, yVal) {
-		if (this.imageData[xVal+'-'+yVal] == undefined ) {
-			this.imageData[xVal+'-'+yVal] = this.samplingCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
+		var xyString = xVal+'-'+yVal;
+		if (this.imageData[xyString] == undefined ) {
+			//this.imageData[xyString] = this.samplingCtx.getImageData(xVal, yVal, this.snapSide, this.snapSide).data;
+			//var startVal = 4 * (xVal + (yVal * this.samplingImg.width ));
+			//var colorArray = this.sampleData.subarray(startVal, startVal + (this.snapSide*this.snapSide) * 4) ;
+			//var completeArray = this.samplingCtx.getImageData(0, 0,  this.samplingImg.width, this.samplingImg.height).data;
+			this.imageData[xyString] = [];
+			var startVal = 4 * (xVal + ((yVal-1) * this.samplingImg.width ));
+			var sampWidth = 4 * this.samplingImg.width;
+			var side4 = this.snapSide * 4;
+			for (var iy = 0; iy < this.snapSide; iy++) {
+				Array.prototype.push.apply(this.imageData[xyString], this.sampleData.subarray(startVal, startVal + side4) );
+				startVal += sampWidth;
+			}
 		}
-
-		return this.imageData[xVal+'-'+yVal];
+		return this.imageData[xyString];
 	}
 
 	this.getColor = function(triangle) {
 
-		var xVal = ~~ ((triangle.v0.x + triangle.v1.x + triangle.v2.x) / 3);
-		var yVal = ~~ ((triangle.v0.y + triangle.v1.y + triangle.v2.y) / 3);
+		var xVal = triangle.midPoint.x;// ~~ ((triangle.v0.x + triangle.v1.x + triangle.v2.x) / 3);
+		var yVal = triangle.midPoint.y;//~~ ((triangle.v0.y + triangle.v1.y + triangle.v2.y) / 3);
 
 		if (this.solidColors[xVal] == undefined) {
 			this.solidColors[xVal] = [];
@@ -1326,15 +1373,14 @@ function mainCtrl(srcImg) {
 	this.initiateDraw = function() {
 		var mCtrl = this;
 		mCtrl.cancelDraw();
-		//mCtrl.draw(true);
 		var timedelay = Math.min(mCtrl.redrawDelayFactor * mCtrl.vertices.length, 500);
+
 		mCtrl.drawTimer = setTimeout(function() {		
-			//mCtrl.raiseEvent("drawing", "Draw");
 			mCtrl.showProcessing();
 			var timedelay2 = Math.min(mCtrl.redrawDelayFactor * mCtrl.vertices.length, 250);
-			//console.log('time delay ' + timedelay2);
 			setTimeout(function() {mCtrl.draw();}, timedelay2);
 		}, timedelay);
+
 	}
 
 	this.cancelDraw = function() {
@@ -1355,13 +1401,14 @@ function mainCtrl(srcImg) {
 	}
 
 	this.drawTriangles = function() {
+		if (!this.originalImage) {
+			return;
+		}
 
 		//create a temporary canvas and then copy it.
 		var m_canvas = document.createElement('canvas');
 		var m_context = m_canvas.getContext('2d');
-		if (!this.originalImage) {
-			return;
-		}
+
 		this.resizeElement(m_canvas, this.originalImage.width, this.originalImage.height);
 
 
@@ -1377,7 +1424,7 @@ function mainCtrl(srcImg) {
 		if (this.triangles) {
 			transparentMids = {};
 			for (var i in this.triangles) {
-				if(this.triangles[i].transparent) {
+				if (this.triangles[i].transparent) {
 					transparentMids[this.triangles[i].midPoint.x + '-' + this.triangles[i].midPoint.y] = this.triangles[i].transparent;	
 				}
 			}			
@@ -1386,20 +1433,20 @@ function mainCtrl(srcImg) {
 	}
 
 	this.drawVertices = function(excludeMoving) {
-		//if(!excludeMoving) this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
-		if(!excludeMoving) this.clearThisCanvas(this.tempCtx);
+		if (!excludeMoving) {this.clearThisCanvas(this.tempCtx);}
 		this.clearThisCanvas(this.vertCtx);
 
 		if (this.showVertices) {
 			for (var i in this.vertices) {
 				if (!excludeMoving || !this.vertices[i].isMoving) {
-					this.vertices[i].DrawNum(this.vertCtx);	
+					this.vertices[i].draw(this.vertCtx);	
 				}
 			}    	
 		} 
 
-		if (this.showMidPoints && transparentMids) {
+		/*if (this.showMidPoints && transparentMids) {
 			for (var v in transparentMids) {
+				console.log('How did I get here?');
 				var tmVert = v.split("-");
 				this.vertCtx.globalCompositeOperation = 'source-over';
 				this.vertCtx.beginPath();
@@ -1408,7 +1455,7 @@ function mainCtrl(srcImg) {
 				this.vertCtx.fill();
 				this.vertCtx.closePath();
 			}
-		}
+		}*/
 	}
 
 	this.drawStrokes = function() {
@@ -1419,14 +1466,15 @@ function mainCtrl(srcImg) {
 				this.drawTriangles();	
 			}
 
+
 			for (var i in this.triangles) {
-				var thisTriangle = this.triangles[i];
-				thisTriangle.drawStrokes(this.strokeCtx);
+				this.triangles[i].drawStrokes(this.strokeCtx);
 			}
 		}
 	}
 
-	this.drawStroke = function(ptA, ptB, ctx) {
+	/*this.drawStroke = function(ptA, ptB, ctx) {
+		console.log('How did I get here?');
 		ctx.beginPath();
 		ctx.lineWidth = this.strokeWidth;
 		ctx.moveTo(ptA.x, ptA.y);
@@ -1435,7 +1483,7 @@ function mainCtrl(srcImg) {
 		ctx.strokeStyle = "rgba("+rgb.r+","+rgb.g+","+rgb.b+"," + this.strokeOpacity + ")";
 		ctx.stroke();    
 		ctx.closePath();
-	}
+	}*/
 
 	this.updateStrokeColor = function(strokeColor) {
 		if (this.strokeColor != strokeColor) {
@@ -1448,7 +1496,8 @@ function mainCtrl(srcImg) {
 		if (this.pointColor != pointColor || this.pointStrokeColor != pointColor) {
 			this.pointColor = pointColor;
 			this.pointStrokeColor = pointColor;
-			this.reDraw(true);
+			this.drawVertices();
+			//this.reDraw(true);
 		}
 	}
 
@@ -1460,7 +1509,9 @@ function mainCtrl(srcImg) {
 
 		if (!this.showFill || this.redrawTriangles) {this.clearTriangles(); }
 		if (!vertsOnly && (this.showFill || this.redrawTriangles)) {
-			if (!suppressRedrawTriangles && this.needToDrawTriangles) this.triangles = triangulate(this.vertices);
+			if (!suppressRedrawTriangles && this.needToDrawTriangles) {
+				this.triangles = triangulate(this.vertices);
+			}
 
 			this.drawTriangles();	
 		}
@@ -1507,7 +1558,6 @@ function mainCtrl(srcImg) {
 			}			
 		}
 
-		
 		return (new XMLSerializer()).serializeToString(svg);
 	}
 
@@ -1552,22 +1602,35 @@ function mainCtrl(srcImg) {
 	}
 
 	this.isInMask = function(x, y) {
-		
-		var tempColor = this.maskCtx.getImageData(x - 2, y - 2,  this.snapSide, this.snapSide).data;
-		var result = [0,0,0,0];
-		for (var i = 0; i < tempColor.length;i+=4) {
-			result[0] += tempColor[i];
-			result[1] += tempColor[i + 1];
-			result[2] += tempColor[i + 2];
-			result[3] += tempColor[i + 3];
-		}
-		var ptCnt = tempColor.length/4;
+		var xyString = x+'-'+y;
 
-	   // var tempR = ~~ (result[0] / ptCnt);
-	   // var tempG = ~~ (result[1] / ptCnt);
-	   // var tempB = ~~ (result[2] / ptCnt);
-	    var tempAlpha = ~~ (result[3] / ptCnt);
-	    return (tempAlpha > 0);
+		if (this.inMask[xyString] == undefined) {
+			if (this.maskData[xyString] == undefined ) {
+				//this.maskData[xyString] = this.maskCtx.getImageData(x - 2, y - 2,  this.snapSide, this.snapSide).data;
+				
+				var startVal = 4 * ((x-2) + ((y-2) * this.samplingImg.width ));
+				this.maskData[xyString] = this.completeMask.subarray(startVal, startVal + (this.snapSide*this.snapSide) * 4)
+
+			}
+
+
+			var tempColor = this.maskData[xyString];
+			var result = [0,0,0,0];
+			for (var i = 0; i < tempColor.length;i+=4) {
+				//result[0] += tempColor[i];
+				//result[1] += tempColor[i + 1];
+				//result[2] += tempColor[i + 2];
+				result[3] += tempColor[i + 3];
+			}
+			var ptCnt = tempColor.length/4;
+
+		   // var tempR = ~~ (result[0] / ptCnt);
+		   // var tempG = ~~ (result[1] / ptCnt);
+		   // var tempB = ~~ (result[2] / ptCnt);
+		    var tempAlpha = ~~ (result[3] / ptCnt);
+		    this.inMask[xyString] = (tempAlpha > 0);		
+		}
+		return this.inMask[xyString];
 	}
 
 
@@ -1634,6 +1697,7 @@ function mainCtrl(srcImg) {
 		responseString += '"showFill":' + this.showFill + ",";
 		responseString += '"showCircles":' + this.showCircles + ",";
 		responseString += '"showStroke":' + this.showStroke + ",";
+		responseString += '"showAllStrokes":' + this.showAllStrokes + ",";
 		responseString += '"useSolidGradient":' + this.useSolidGradient + ",";
 
 

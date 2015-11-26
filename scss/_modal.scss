@@ -295,7 +295,7 @@
 					}
 
 					&.resetButton {
-						position: absolute;
+						position: absolute; 
 						top: 0;
 						right: 0;
 						width: auto;
@@ -306,7 +306,10 @@
 							font-weight: normal;
 						}
 					}
-
+					&.inline-control {
+						width: 48%;
+						display: inline-block;
+					}
 					&.inline-check {
 						.check-control {
 							display: inline-block;

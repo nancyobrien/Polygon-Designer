@@ -90,24 +90,29 @@ function fileMngr() {
 		var srcImg = false;
 		var srcImgName = 'sharethis.png';
 		if (imgData) {
-			srcImg = imgData;
-		} 
-		var data = new FormData();
 
-		if(srcImg) {data.append(srcImgName, srcImg);}
+			//srcImg = JSON.stringify(imgData.replace(/^data:image\/(png|jpg);base64,/, "")).replace('"', '');
+			srcImg =  imgData.replace(/^data:image\/(png|jpg);base64,/, "").replace('"', '');
+		} 
+		//var data = new FormData();
+
+		//if(srcImg) {data.append(srcImgName, srcImg);}
 
 		showModalWaitMessage();
 
 		$.ajax({
 			type: "POST",
 			url: fm.uploadSharedPath,
-			contentType: 'application/upload',
+			contentType: 'json',
 			processData: false,
-			data: data,
+			data: srcImg,
 			success: function (result) {
 				var link = result;
-				
-				errorMessage(link);
+				var shareLink = $('<a></a>')
+				shareLink.attr('href', link).attr('target', '_blank').html('share this');
+				$('body').append(shareLink);
+				infoMessage("Image link", link);
+				shareLink.click();
 			},
 			error: function () {
 			  errorMessage("There was error uploading files!");
@@ -286,6 +291,7 @@ function fileMngr() {
 						selectedVersion.showFill = result.showFill;
 						selectedVersion.showCircles = result.showCircles;
 						selectedVersion.showStroke = result.showStroke;
+						selectedVersion.showAllStrokes = result.showAllStrokes;
 						selectedVersion.useSolidGradient = (result.useSolidGradient === undefined) ? true : result.useSolidGradient;
 
 

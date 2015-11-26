@@ -69,6 +69,39 @@
 		}
 	}
 
+	.menu-float {
+		float: left;
+	}
+
+	&.popup-menu--customColors{
+		max-width: 6.2rem;
+		text-align: center;
+		&.arrow-left {
+			&:after {
+				top: 20%;
+				border-width: .5rem;
+				margin-left: -.5rem;
+			}
+		}
+
+		.customColorSwatch {
+			.colorSwatch {
+			    width: 2rem;
+			    height: 2rem;
+			    cursor: pointer;
+			    &.dark {
+			    	&:hover {
+			    		@include box-shadow(inset 0 0 .5rem .25rem rgba(255, 255, 255, 0.5));
+			    	}
+			    }
+				&:hover {
+					@include box-shadow(inset 0 0 .5rem .25rem rgba(128, 128, 128, 0.75));
+				}
+
+			}
+		}
+	}
+
 	&.menu-horizontal {
 		&.popup-menu--shapeoptions{
 			width: 92px;

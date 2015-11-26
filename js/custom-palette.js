@@ -48,7 +48,17 @@ function CustomPalette() {
 	}
 
 	this.setCustomColor = function(x, y, customColor) {
-		this.customColors.push({'x': x, 'y': y, 'color': customColor});
+		var currentColor = false;
+		for (var i = 0; i < this.customColors.length; i++) {
+			if (this.customColors[i].x === x && this.customColors[i].y === y) {
+				currentColor = this.customColors[i];
+			}
+		}
+		if (currentColor) {
+			currentColor.color = customColor;
+		} else {
+			this.customColors.push({'x': x, 'y': y, 'color': customColor});			
+		}
 	}
 
 	this.getCustomColor = function(x,y) {

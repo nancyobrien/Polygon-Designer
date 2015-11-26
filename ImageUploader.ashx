@@ -2,33 +2,30 @@
 
 using System;
 using System.Web;
+using System.IO;
 
 public class ImageUploader : IHttpHandler {
 
     public void ProcessRequest(HttpContext context) {
-        //string projectID = Stepframe.Common.GetRequestVar("projectID");
         string fileLink = String.Empty;
 
-        
-        //Yeah this doesn't work
         if (context.Request.InputStream.Length > 0) {
             Boolean generateThumbnail = (Stepframe.Common.GetRequestVar("thumb") != String.Empty);
             Boolean publicViewLink = (Stepframe.Common.GetRequestVar("public") != String.Empty);
-            HttpFileCollection files = context.Request.Files;
-            foreach (string key in files) {
-                HttpPostedFile file = files[key];
-          
-                string imageName = Guid.NewGuid().ToString("N") + ".png";
-               
-                file.SaveAs(context.Server.MapPath(FileIO.TempPath) + imageName);
+            
+            string imageName = Guid.NewGuid().ToString("N") + ".png";
 
-                fileLink = context.Request.Url.Host.ToString() + FileIO.TempPath.Replace("~", String.Empty).Replace("\\", "/") + imageName;
-            }
+            string fileNameWitPath = context.Server.MapPath(FileIO.TempPath) + imageName;
+
+            byte[] buffer = new byte[context.Request.InputStream.Length];
+            context.Request.InputStream.Read(buffer, 0, buffer.Length);
+            string data = System.Text.Encoding.Default.GetString(buffer);
+
+            byte[] image = Convert.FromBase64String(data);
+
+            File.WriteAllBytes(fileNameWitPath, image);
+            fileLink = S3Upload.UploadFile(image, imageName);
         }
-
- 
-    
-
 
         context.Response.ContentType = "text/plain";
         context.Response.Write(fileLink);

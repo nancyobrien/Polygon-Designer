@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="no-js ltie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+
+<head>
+	<meta charset="UTF-8">
+
+	<link href="/css/main.css?x=09222014" type="text/css" rel="stylesheet">
+	<!--fix viewport issue on some windows 8 machines http://mattstow.com/responsive-design-in-ie10-on-windows-phone-8.html#the-fix-->
+	<script src="/scripts/viewport-fix.js"></script> 
+	<script src="/scripts/vendor/modernizr.min.js"></script> 
+	<title>Covidien Benefits Segmentation Image Upload</title>
+	
+
+
+
+<!-- Fine Uploader template
+====================================================================== -->
+<script type="text/template" id="simple-previews-template">
+    <div class="qq-uploader-selector qq-uploader">
+        <div class="qq-upload-button-selector qq-upload-button">
+                                    <div>Select your photo</div>
+        </div>
+                                <div class="usePhoto photoButton">Use this photo</div><div class="cancelPhoto photoButton">Cancel</div>
+        <ul class="qq-upload-list-selector qq-upload-list">
+            <li>
+
+                <img class="qq-thumbnail-selector qq-hide" qq-max-size="500" qq-server-scale style="display:none">
+            </li>
+        </ul>
+    </div>
+</script>
+
+
+
+</head>
+
+<body class="main">
+
+<div id="image-upload" class='overlay'>
+    <div class="upload-screen">
+        <div id="fine-uploader" class="fineUploader"></div>
+        <img class="tempDisplayImage" src="/images/elements/photoupload/placeholder-image.png">
+    </div>
+</div>
+
+
+
+	<!-- SCRIPTS ============================================ -->
+
+    <script src="/scripts/vendor/exif.js"></script>
+    <script src="/scripts/vendor/jquery-1.11.1.min.js"></script>
+	<script src="/scripts/vendor/custom.fineuploader/custom.fineuploader-5.0.7.js"></script>
+
+	<script type="text/javascript">
+        var uploadImgName = "/scripts/vendor/custom.fineuploader/placeholders/not_available-generic.png";
+		$(document).ready(function () {
+		        $("#fine-uploader").fineUploaderS3({
+        			debug:false,
+        			request: {
+        				endpoint: 'covidienbenefits.s3.amazonaws.com',
+        				accessKey: 'AKIAIMQAOQBDECQZX5JQ' 
+        			},
+        			objectProperties: {
+        				acl: 'public-read',
+        				key: function(fileID) {
+        					if (currentUUID == '') {
+        						currentUUID = $("#fine-uploader").fineUploader("getUuid",fileID);
+        					}
+        					var regEx = /(?:\.([^.]+))?$/;
+        					var fileName = $("#fine-uploader").fineUploader("getName",fileID);
+        					var extension = regEx.exec(fileName)[1];
+        					if (extension == 'jpeg') {extension = "jpg"}
+        					uploadImgName = currentUUID + '.' + extension;
+        					window.console && console.log(uploadImgName);
+        					return uploadImgName;
+        				}
+        			},
+        			listElement: $('#tempList'),
+        			multiple: false,
+        			validation: {
+        			   	allowedExtensions: ['jpeg', 'jpg', 'gif', 'png', 'bmp']
+        		   },
+        		   messages: {
+        			   noFilesError: "noFilesError"
+        		   },
+                   template: "simple-previews-template",
+        			signature: {
+        				endpoint: '/imageUpload/S3Policy.ashx'
+        			},
+        			uploadSuccess: {
+        				endpoint: '/imageUpload/UploadSuccess.ashx'
+        			},
+        			retry: {
+        				enableAuto: true
+        			},
+        			chunking: {
+        				enabled: true
+        			},
+        			resume: {
+        				enabled: true
+        			},
+                    thumbnails: {
+                        placeholders: {
+                            notAvailablePath: "/scripts/vendor/custom.fineuploader/placeholders/not_available-generic.png",
+                            waitingPath: "/scripts/vendor/custom.fineuploader/placeholders/waiting-generic.png"
+                        }
+                    },
+        			cors: {
+        				//all requests are expected to be cross-domain requests
+        				expected: true
+        			},
+        			iframeSupport: {
+        				localBlankPagePath: '/imageProcessing/success.html'
+        			}/*,
+        			scaling: {
+        				sendOriginal: false,
+        				hideScaled: false,
+        				defaultType: "image/jpeg", 
+        				sizes: [
+				        	{name: "fullsize", maxSize: 301}
+				        ]
+        			}*/
+		        		}).on('submit', function (event, id, name) {
+		        			currentUUID = '';
+		        			window.console && console.log("call submit");
+		        		}).on('upload', function (event, id, name) {
+		        			window.console && console.log("call upload");
+		        		}).on('error', function (event, id, name, errorReason, xhrOrXdr) {
+		        			alert(qq.format("Error on file number {} - {}.  Reason: {}", id, name, errorReason));
+		        		}).on('complete', function(event, id, name, response) {
+                            var $fileEl = $(this).fineUploaderS3("getItemByFileId", id)
+                            var $viewBtn = $fileEl.find(".view-btn");
+                            var $thumb = $fileEl.find('.qq-thumbnail-selector');
+
+                            if (response.success) {
+                                var http = new XMLHttpRequest();
+                                http.open("GET", response.tempLink, true);
+                                http.responseType = "blob";
+                                http.onload = function(e) {
+                                    if (this.status === 200) {
+
+                                        EXIF.getData(http.response, function() {
+                                            if (this.exifdata && this.exifdata.Orientation) {
+                                                $('#imgHolder').addClass('exif' + this.exifdata.Orientation);
+
+                                            }
+
+                                            //alert(EXIF.pretty(this));
+
+                                            /*
+                                            Orientation Cheatsheet
+                                             1) transform="";
+                                             2) transform="-flip horizontal";;
+                                             3) transform="-rotate 180";;
+                                             4) transform="-flip vertical";;
+                                             5) transform="-transpose";;
+                                             6) transform="-rotate 90";;
+                                             7) transform="-transverse";;
+                                             8) transform="-rotate 270";;
+                                             *) transform="";;
+
+
+                                            */
+                                        });
+                                    }
+                                };
+                                http.send();
+
+                                //$('#imgHolder').removeClass('exif3');
+                               // $('#imgHolder').removeClass('exif6');
+                               // $('#imgHolder').removeClass('exif8');
+
+                               // $viewBtn.show();
+                               // $('#imgHolder').css('background-image', 'url("' + response.tempLink + '")' )
+                               // $viewBtn.attr("href", response.tempLink);
+                               $('.tempDisplayImage').attr('src', $('.qq-thumbnail-selector').attr('src'));
+                            }
+		        		});		  
+
+
+		          });
+		          
+		</script>
+
+
+
+	<!-- END SCRIPTS  -->
+
+
+
+</body>
+</html>

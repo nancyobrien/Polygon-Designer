@@ -51,6 +51,18 @@
 			color: $color3;
 		}
 
+		.stat-opacity {
+			display: inline-block;
+			width: 2.2em;
+			text-align: right;
+		}
+
+		.stat-num-points {
+			display: inline-block;
+			min-width: 2.3em;
+			text-align: right;
+		}
+
 		&.toolbar-button {
 			a {text-decoration: none;}
 		}

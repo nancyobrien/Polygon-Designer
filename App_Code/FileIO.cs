@@ -351,6 +351,7 @@ public class FileIO {
 
         public Boolean ShowVertices { get; set; }
         public Boolean ShowStroke { get; set; }
+        public Boolean ShowAllStrokes { get; set; }
         public Boolean ShowFill { get; set; }
         public Boolean UseGradientFill { get; set; }
 

@@ -14,9 +14,10 @@ var delayedPopupShown = false;
 var tempShapeConcentric = 0;
 var tempShapePointsPerSide = 0;
 var customPalette = false;
+var activeTriangle = false;
 
 function initInterface() {
-	if (loadProjectID != '') {hideLoadScreen();}
+	if (loadProjectID != '') {hideLoadScreen(); showModal('#loadingMessage');}
 
 
 	$('#shareImage').click(function(e) {
@@ -174,13 +175,21 @@ function initInterface() {
 				break; 
 
 		}
-		showPopupMenu(menuType, mousePos, menuPlacement, popClass);	}
+		showPopupMenu(menuType, mousePos, menuPlacement, popClass);	
+	}
 
-	$('.show-popup').click(function(e) {
+	$('.show-popup[data-popuptrigger="hover"]').hover(getPopupMenu);
+
+	$('.show-popup').click(getPopupMenu);
+
+	function getPopupMenu(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		var isHover = ($(this).data('popuptrigger') === 'hover');
 		var menuType = $(this).data('popupmenu');
-		if (!$(menuType).hasClass('hide')) {
+		console.log(menuType + ' checking menus');
+		if (!$(menuType).hasClass('hide') && !isHover) {
+			console.log(menuType + ' hiding menus');
 			hideMenus();
 			return;
 		}
@@ -229,7 +238,7 @@ function initInterface() {
 		}
 		showPopupMenu(menuType, mousePos, menuPlacement, popClass);
 		var x  =1;
-	})
+	}
 
 	$('.toggleVerts').click(function(e) {
 		mainController.toggleVertices();
@@ -262,6 +271,11 @@ function initInterface() {
 
 	$('.toggleStroke').click(function(e) {
 		mainController.toggleStrokeDisplay();
+		updateStats();
+	})
+
+	$('.toggleStrokeAlways').click(function(e) {
+		mainController.toggleStrokeAlwaysDisplay();
 		updateStats();
 	})
 
@@ -574,6 +588,7 @@ function initInterface() {
 
 		var syncVal = ($('#strokePointSyncInit').val() === 'true')
 		var showStrokeVal = ($('#strokeShowStrokeInit').val() === 'true')
+		var showStrokeAlwaysVal = ($('#strokeShowStrokeAlwaysInit').val() === 'true')
 
 		if ($('#stroke-point-sync').is(":checked") != syncVal ) {
 			mainController.setSyncPointStrokeSizes(syncVal);
@@ -582,6 +597,10 @@ function initInterface() {
 
 		if ($('#showStrokeModalCheck').is(":checked") != showStrokeVal ) {
 			mainController.setShowStroke(showStrokeVal);
+		}
+
+		if ($('#showStrokeAlwaysModalCheck').is(":checked") != showStrokeAlwaysVal ) {
+			mainController.setShowStrokeAlways(showStrokeAlwaysVal);
 		}
 
 		mainController.setStrokeTransparency($('#strokeOpacityInit').val())
@@ -628,6 +647,7 @@ function initInterface() {
 		totalWeighting = Math.ceil(totalWeighting*100)/100;
 		if (totalWeighting == 1) {
 			mainController.customPalette.setPalette(colorArr);
+			updateCustomColorPopup();
 			if ($('#rerandomizeColorsCheck').prop('checked')) {
 				mainController.resetCustomColors();
 			}
@@ -635,8 +655,11 @@ function initInterface() {
 		} else {
 			alert("Total Weighting must total 1");
 		}
+
+		updateCustomColorPopup();
 	})
 	
+
 
 	$('#showColorAdjustModal').click(function (e) {
 		e.preventDefault();
@@ -899,6 +922,14 @@ function initInterface() {
 		$("#brightnessSlider").val(mainController.brightness);
 
 
+		$('#customColorSwatchPopup').on("click", '.colorSwatch', function(e) { 
+			e.preventDefault();
+			var colorCode = $(this).data('customcolor');
+			activeTriangle.setCustomColor(colorCode);
+			mainController.draw();
+			hideMenus();
+		});
+
 
 
 		$('#customColorModal').on("click", '.colorSwatchTrigger', function(e) { 
@@ -1146,6 +1177,7 @@ function updateStats() {
 	setValue($('.stat-strokesize'), mainController.strokeWidth);
 
 	setValue($('.stat-stroke-state'), mainController.showStroke);
+	setValue($('.stat-strokealways-state'), mainController.showAllStrokes);
 
 	setValue($('.stat-vertex-state'), mainController.showVertices);
 	setValue($('.stat-fill-state'), mainController.showFill);
@@ -1157,6 +1189,8 @@ function updateStats() {
 	} else {
 		setValue($('.stat-fillstyle'), 'Solid');
 	}*/
+	$('.stat-display-regradiateSolid').toggle(mainController.useSolidGradient);
+	$('.stat-display-randomizeColors').toggle(mainController.fillStyle ===  'CustomRandom');
 
 	setValue($('.stat-fillstyle'), mainController.fillStyle);
 	setValue($('.stat-fillstyle-label'), mainController.fillOptions[mainController.fillStyle]);
@@ -1342,6 +1376,23 @@ function generalError(e) {
 	//setTimeout(function() {window.location = "/";}, 3000);
 }
 
+function updateCustomColorPopup() {
+	var colorSwatchTemplate = $('#popup-color-swatch-template').text();
+
+	//create swatches
+	var index = 0;
+	$('#customColorSwatchPopup').empty();
+	for (var col in mainController.customPalette.colors) {
+		index++;
+		var thisColor = mainController.customPalette.colors[col];
+		thisColor.darkOrLight = darkOrLight(thisColor.color);
+		var colorSwatch = fileManager.applyTemplate(thisColor, colorSwatchTemplate);
+		$('#customColorSwatchPopup').append(colorSwatch);
+	}
+
+}
+
+
 $(document).ready(function() {
 	document.addEventListener("vertsPerSideChanged", updateEdgeVertDisplay, false);
 	document.addEventListener("vertsGridChanged", updateGridVertDisplay, false);
@@ -1378,6 +1429,7 @@ $(document).ready(function() {
 
 
 	updateStats();
+	updateCustomColorPopup();
 
 	$('#colorpickerPoint').colpick({
 		flat:true,
@@ -1468,6 +1520,7 @@ $(document).ready(function() {
 		}, false);
 	} else {
 		$('body').on('contextmenu', '.clicklayer', function(e) {
+			activeTriangle = false;
 			var mousePos = mainController.getRelativeMousePosition(e);
 			var menuType = "notvalid";
 			var inTriangle = false;
@@ -1477,6 +1530,7 @@ $(document).ready(function() {
 				menuType = "#zoomMenu"
 				inTriangle = mainController.isInTriangle(~~ (mousePos.x), ~~ (mousePos.y));
 				if (inTriangle !== false) {
+					activeTriangle = inTriangle;
 					$('.toggleTriangleFill').data('triangleX',  ~~ (mousePos.x));
 					$('.toggleTriangleFill').data('triangleY', ~~ (mousePos.y));
 					if (inTriangle.transparent) {
@@ -1537,7 +1591,10 @@ function showPopupMenu(menuType, menuPosition, menuPlacement, menuClass) {
 		menuPlacement.vertical = 'top';
 		menuPlacement.horizontal = 'left';
 	}
-	hideContextMenu();	//Hide all context menus before showing a new one.
+	if ($(menuType).data('popuptype') !== 'hover') {
+		hideContextMenu();	//Hide all context menus before showing a new one.
+	}
+
 	var menuElement = $(menuType);
 	if (menuClass) {menuElement.addClass(menuClass);}
 	menuElement.removeClass('hide');  

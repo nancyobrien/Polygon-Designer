@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="/js/fileManager.js"></script>
 	<script type="text/javascript" src="/js/mainController.js"></script>
 	<script type="text/javascript" src="/js/vertexController.js"></script>
-	<script type="text/javascript" src="/js/triangulatorController.js"></script>
+	<script type="text/javascript" src="/js/tri2.js"></script>
 	<script type="text/javascript" src="/js/interfaceController.js"></script>
 	<script type="text/javascript" src="/js/colpick.js"></script>
 
@@ -175,24 +175,24 @@
 					<li>
 						<a href="#" class="toggleVerts"><span class="show-hide stat-vertex-state"></span> Vertices</a>
 					</li>
+					<li>
+						<a href="#" class="toggleFill"><span class="show-hide stat-fill-state"></span> Fill</a>
+					</li>
+					<li>
+						<a href="#" class="toggleSolidGradient"><span class="show-hide solidgradient stat-solidgradient-state"></span></a>
+					</li>
 					<li class="spacer"></li>
 					<!-- <li>
 						<a href="#" class="toggleGradient"><span class="show-hide gradient stat-gradient-state"></span></a>
 					</li> -->
-					<li>
-						<a href="#" class="toggleSolidGradient"><span class="show-hide solidgradient stat-solidgradient-state"></span></a>
-					</li>
-					<li>
+					<li class="stat-display-randomizeColors">
 						<a href="#" class="resetCustomColors">Rerandomize Colors</a>
 					</li>
-					<li>
+					<li class="stat-display-regradiateSolid">
 						<a href="#" class="resetSolidGradient">Regradiate Image</a>
 					</li>
-					<li>
-						<a href="#" class="pickCustomColor show-popup" data-popupmenu="#customColorsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-left">Select Custom Color <span class="icon-arrow-right2 right-align"></span></a>
-					</li>
-					<li>
-						<a href="#" class="toggleFill"><span class="show-hide stat-fill-state"></span> Fill</a>
+					<li class="stat-display-randomizeColors">
+						<a href="#" class="pickCustomColor show-popup" data-popupmenu="#customColorsMenu" data-popuptrigger="hover" data-popuppositionv="top-offset" data-popuppositionh="right" data-popupclass="arrow-left">Select Custom Color <span class="icon-arrow-right2 right-align"></span></a>
 					</li>
 					<li>
 						<a href="#" class="toggleTriangleFill">Clear Triangle Fill</a>
@@ -259,9 +259,9 @@
 				
 			</div>
 
-			<!-- <div class="status-section toolbar-button">
+			<div class="status-section toolbar-button">
 				<a href="#" title="Share" id="shareImage"><span class="icon-share"></span> <span class="label">Share this image</span> </a>
-			</div> -->
+			</div>
 
 			<div class="status-section toolbar-button">
 				<a href="#" title="Comments" id="showErrorReport"><span class="icon-paper-plane"></span> <span class="label">Comments</span> </a>
@@ -354,35 +354,35 @@
 				</li>
 			</ul>
 		</div>
-		<div class="menu popup-menu--customColors hide" id="customColorsMenu">
-			<ul class="customColorSwatches">
-				<li class="menu-float customColorSwatch">
+		<div class="menu popup-menu--customColors hide" id="customColorsMenu" data-popuptype='hover'>
+			<ul id="customColorSwatchPopup" class="customColorSwatches">
+				<!-- <li class="menu-float customColorSwatch">
 					<span class="colorSwatch" style="background-color: rgb(255, 255, 255);"></span>
 				</li>
-			
+							
 				<li class="menu-float customColorSwatch">
 					<span class="colorSwatch" style="background-color:#50FF03"></span>
 				</li>
-			
+							
 				<li class="menu-float customColorSwatch">
-					<span class="colorSwatch" style="background-color:#523800"></span>
+					<span class="colorSwatch dark" style="background-color:#523800"></span>
 					
 				</li>
-			
+							
 				<li class="menu-float customColorSwatch">
 					<span class="colorSwatch" style="background-color:#FF0000"></span>
 					
 				</li>
-			
+							
 				<li class="menu-float customColorSwatch">
 					<span class="colorSwatch" style="background-color:#300CE8"></span>
 					
 				</li>
-			
+							
 				<li class="menu-float customColorSwatch">
 					<span class="colorSwatch" style="background-color:#43b50e"></span>
 					
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</div>
@@ -559,15 +559,23 @@
 			<input type="hidden" id="strokePointSyncInit" value="0" />
 			<input type="hidden" id="strokePointSizeInit" value="0" />
 			<input type="hidden" id="strokeShowStrokeInit" value="0" />
+			<input type="hidden" id="strokeShowStrokeAlwaysInit" value="0" />
 			<div class="modal-close-button cancelStrokeSettings"><span class="icon-cancel"></span></div>
 			<div class="title modal-mover">Stroke Properties</div>
 			<div class="modal-controls">
 				<div class="modal-ctrl-section modal-sixtyfive">
-					<div class="modal-control inline-check">
+					<div class="modal-control inline-check inline-control">
 						<span class="label">Show Stroke:</span> 
 						<div class="check-control squaredThree">
 							<input type="checkbox" value="None" id="showStrokeModalCheck"  class="toggleStroke stat-stroke-state" />
 							<label for="showStrokeModalCheck"></label>
+						</div>
+					</div>
+					<div class="modal-control inline-check inline-control">
+						<span class="label">Show Hidden Strokes:</span> 
+						<div class="check-control squaredThree">
+							<input type="checkbox" value="None" id="showStrokeAlwaysModalCheck"  class="toggleStrokeAlways stat-strokealways-state" />
+							<label for="showStrokeAlwaysModalCheck"></label>
 						</div>
 					</div>
 					<div class="modal-control">
@@ -834,6 +842,11 @@
 		</div>
 	</script>
 
+	<script type="text/template" id="popup-color-swatch-template">
+		<li class="menu-float customColorSwatch">
+			<span class="colorSwatch {darkOrLight}" style="background-color: {color};" data-customcolor="{color}"></span>
+		</li>
+	</script>
 
 
 

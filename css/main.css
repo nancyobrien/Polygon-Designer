@@ -1736,17 +1736,29 @@ input[type='range']::-moz-range-thumb {
   background: #DC2C2E;
   color: #ffffff;
 }
-/* line 55, ../scss/_status.scss */
+/* line 54, ../scss/_status.scss */
+#statusBar .status-section .stat-opacity {
+  display: inline-block;
+  width: 2.2em;
+  text-align: right;
+}
+/* line 60, ../scss/_status.scss */
+#statusBar .status-section .stat-num-points {
+  display: inline-block;
+  min-width: 2.3em;
+  text-align: right;
+}
+/* line 67, ../scss/_status.scss */
 #statusBar .status-section.toolbar-button a {
   text-decoration: none;
 }
-/* line 58, ../scss/_status.scss */
+/* line 70, ../scss/_status.scss */
 #statusBar .status-section.download-button {
   border: none;
   padding: 0;
   text-align: center;
 }
-/* line 62, ../scss/_status.scss */
+/* line 74, ../scss/_status.scss */
 #statusBar .status-section.download-button a {
   display: inline-block;
   width: 100px;
@@ -2792,22 +2804,27 @@ input[type='range']::-moz-range-thumb {
   font-size: .9rem;
   font-weight: normal;
 }
-/* line 311, ../scss/_modal.scss */
+/* line 309, ../scss/_modal.scss */
+.modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-control {
+  width: 48%;
+  display: inline-block;
+}
+/* line 314, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-check .check-control {
   display: inline-block;
   float: none;
 }
-/* line 315, ../scss/_modal.scss */
+/* line 318, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control.inline-check .check-control.squaredThree {
   margin: 0;
   margin-left: 5px;
 }
-/* line 322, ../scss/_modal.scss */
+/* line 325, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control {
   display: inline-block;
   float: left;
 }
-/* line 328, ../scss/_modal.scss */
+/* line 331, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control.roundedOne label:after {
   background: #DC2C2E;
   background: -webkit-linear-gradient(top, #F43537 0%, #DC2C2E 100%);
@@ -2817,7 +2834,7 @@ input[type='range']::-moz-range-thumb {
   background: linear-gradient(to bottom, #f43537 0%, #dc2c2e 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=0 );
 }
-/* line 336, ../scss/_modal.scss */
+/* line 339, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group {
   display: inline-block;
   width: 30%;
@@ -2825,11 +2842,11 @@ input[type='range']::-moz-range-thumb {
   padding: 13px 10px 20px 10px;
   border: 1px solid #DC2C2E;
 }
-/* line 342, ../scss/_modal.scss */
+/* line 345, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group.last {
   margin-right: 0;
 }
-/* line 346, ../scss/_modal.scss */
+/* line 349, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label {
   font-size: 24px;
   height: 28px;
@@ -2839,34 +2856,34 @@ input[type='range']::-moz-range-thumb {
   vertical-align: middle;
   cursor: pointer;
 }
-/* line 355, ../scss/_modal.scss */
+/* line 358, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.custom-point-color {
   color: #DC2C2E;
 }
-/* line 359, ../scss/_modal.scss */
+/* line 362, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-triangle {
   font-size: 100px;
   line-height: 35px;
   text-indent: -30px;
 }
-/* line 365, ../scss/_modal.scss */
+/* line 368, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-circle {
   font-size: 46px;
   line-height: 33px;
   text-indent: 2px;
 }
-/* line 371, ../scss/_modal.scss */
+/* line 374, ../scss/_modal.scss */
 .modal-background .modal .modal-controls .modal-ctrl-section .modal-control .check-control-group .select-label.select-square {
   font-size: 53px;
   line-height: 32px;
   text-indent: -4px;
 }
-/* line 382, ../scss/_modal.scss */
+/* line 385, ../scss/_modal.scss */
 .modal-background .modal .buttons {
   padding: 0.5em;
   clear: both;
 }
-/* line 386, ../scss/_modal.scss */
+/* line 389, ../scss/_modal.scss */
 .modal-background .modal .verts {
   width: 90%;
   color: black;
@@ -2878,7 +2895,7 @@ input[type='range']::-moz-range-thumb {
   overflow: auto;
   max-height: 400px;
 }
-/* line 398, ../scss/_modal.scss */
+/* line 401, ../scss/_modal.scss */
 .modal-background .modal textarea {
   width: 90%;
   height: 300px;
@@ -2955,51 +2972,86 @@ input[type='range']::-moz-range-thumb {
   width: 1rem;
   display: inline-block;
 }
-/* line 73, ../scss/_contextmenu.scss */
+/* line 72, ../scss/_contextmenu.scss */
+.menu .menu-float {
+  float: left;
+}
+/* line 76, ../scss/_contextmenu.scss */
+.menu.popup-menu--customColors {
+  max-width: 6.2rem;
+  text-align: center;
+}
+/* line 80, ../scss/_contextmenu.scss */
+.menu.popup-menu--customColors.arrow-left:after {
+  top: 20%;
+  border-width: .5rem;
+  margin-left: -.5rem;
+}
+/* line 88, ../scss/_contextmenu.scss */
+.menu.popup-menu--customColors .customColorSwatch .colorSwatch {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+/* line 93, ../scss/_contextmenu.scss */
+.menu.popup-menu--customColors .customColorSwatch .colorSwatch.dark:hover {
+  -webkit-box-shadow: inset 0 0 0.5rem 0.25rem rgba(255, 255, 255, 0.5);
+  -moz-box-shadow: inset 0 0 0.5rem 0.25rem rgba(255, 255, 255, 0.5);
+  -ms-box-shadow: inset 0 0 0.5rem 0.25rem rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 0.5rem 0.25rem rgba(255, 255, 255, 0.5);
+}
+/* line 97, ../scss/_contextmenu.scss */
+.menu.popup-menu--customColors .customColorSwatch .colorSwatch:hover {
+  -webkit-box-shadow: inset 0 0 0.5rem 0.25rem rgba(128, 128, 128, 0.75);
+  -moz-box-shadow: inset 0 0 0.5rem 0.25rem rgba(128, 128, 128, 0.75);
+  -ms-box-shadow: inset 0 0 0.5rem 0.25rem rgba(128, 128, 128, 0.75);
+  box-shadow: inset 0 0 0.5rem 0.25rem rgba(128, 128, 128, 0.75);
+}
+/* line 106, ../scss/_contextmenu.scss */
 .menu.menu-horizontal.popup-menu--shapeoptions {
   width: 92px;
 }
-/* line 77, ../scss/_contextmenu.scss */
+/* line 110, ../scss/_contextmenu.scss */
 .menu.menu-horizontal.arrow-left:after {
   top: .75rem;
   border-width: .5rem;
   margin-left: -.5rem;
 }
-/* line 85, ../scss/_contextmenu.scss */
+/* line 118, ../scss/_contextmenu.scss */
 .menu.menu-horizontal ul li {
   float: left;
   border: 1px solid #eee;
   border-top: none;
   border-left: none;
 }
-/* line 88, ../scss/_contextmenu.scss */
+/* line 121, ../scss/_contextmenu.scss */
 .menu.menu-horizontal ul li a {
   padding: .5em 1em;
   border-bottom: 0;
 }
-/* line 91, ../scss/_contextmenu.scss */
+/* line 124, ../scss/_contextmenu.scss */
 .menu.menu-horizontal ul li a span {
   margin: 0;
   padding: 0;
 }
-/* line 107, ../scss/_contextmenu.scss */
+/* line 139, ../scss/_contextmenu.scss */
 .menu li {
   list-style: none;
 }
-/* line 109, ../scss/_contextmenu.scss */
+/* line 141, ../scss/_contextmenu.scss */
 .menu li.spacer {
   background-color: #707070;
   height: 2px;
 }
-/* line 113, ../scss/_contextmenu.scss */
+/* line 145, ../scss/_contextmenu.scss */
 .menu li.selected {
   background-color: #c42022;
 }
-/* line 116, ../scss/_contextmenu.scss */
+/* line 148, ../scss/_contextmenu.scss */
 .menu li.selected a {
   color: #ffffff;
 }
-/* line 120, ../scss/_contextmenu.scss */
+/* line 152, ../scss/_contextmenu.scss */
 .menu li a {
   display: block;
   border: 0;
@@ -3011,22 +3063,22 @@ input[type='range']::-moz-range-thumb {
   text-align: left;
   white-space: nowrap;
 }
-/* line 130, ../scss/_contextmenu.scss */
+/* line 162, ../scss/_contextmenu.scss */
 .menu li a:hover {
   background-color: #DC2C2E;
   color: #ffffff;
 }
-/* line 136, ../scss/_contextmenu.scss */
+/* line 168, ../scss/_contextmenu.scss */
 .menu li a .right-align {
   position: absolute;
   right: .5em;
 }
-/* line 143, ../scss/_contextmenu.scss */
+/* line 175, ../scss/_contextmenu.scss */
 .menu li:last-of-type a {
   border-bottom: none;
 }
 
-/* line 152, ../scss/_contextmenu.scss */
+/* line 184, ../scss/_contextmenu.scss */
 .customColorSwatch .colorSwatch {
   display: block;
   width: 2em;

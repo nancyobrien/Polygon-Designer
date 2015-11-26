@@ -1,19 +1,23 @@
-function hexToRGB(h) {return {red: hexToR(h), green: hexToG(h), blue: hexToB(h)};}
+var rgbCodes = {};
+function hexToRGB(h) {
+	var rgb = {};
+	if (rgbCodes[h]) {
+		rgb = rgbCodes[h];
+	} else {
+		rgb = {red: hexToR(h), green: hexToG(h), blue: hexToB(h)};
+	}
+	return rgb;
+}
 function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
 function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
 function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
 function cutHex(h) {
-	var x = 1;
-	if (!h) {
-		var y = 1;
-	}
+	if (!h) {return;}
 	return (h.charAt(0)=="#") ? h.substring(1,7) : h;
 }
 
 function hexToRGBString(h) {
-	if (!h) {
-		var y = 1;
-	}
+	if (!h) {return;}
 	var rgb = hexToRGB(h);
 	return 'rgb(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ')';
 }
@@ -386,4 +390,16 @@ function LightenDarkenColor(red, green, blue, amt) {
 
 	return {'red': r, 'green': g, 'blue': b};
   
+}
+
+function darkOrLight(hexcolor){
+	var thisColor = hexcolor;
+	if (thisColor[0] === '#') {
+		thisColor = thisColor.substr(1,thisColor.length-1);
+	}
+    var r = parseInt(thisColor.substr(0,2),16);
+    var g = parseInt(thisColor.substr(2,2),16);
+    var b = parseInt(thisColor.substr(4,2),16);
+    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? 'light' : 'dark';
 }

@@ -82,11 +82,11 @@ function vertex(x, y, isEdgeVar, isGridVar, isSpiralVar) {
 	    ctx.closePath();
     }
 
-    this.draw = function(ctx) {
-    	this.DrawNum(ctx);
+    this.DrawNum  = function(ctx) {
+    	this.draw(ctx);
     }
 
-	this.DrawNum = function(ctx) {
+	this.draw = function(ctx) {
 		ctx.globalCompositeOperation = 'source-over';
 
 		var rgb = hexToRGB(mainController.pointColor);
