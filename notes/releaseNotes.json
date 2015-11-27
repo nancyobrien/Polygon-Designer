@@ -1,0 +1,7 @@
+[
+	{
+		"version": "0.8",
+		"releaseDate": "11/26/2015",
+		"notes":"<ul><li>Hide stroke on empty triangles</li> <li>Amazon S3 cloud storage</li> <li>improved performance</li><li>Release notes :)</li></ul>"
+	}
+]

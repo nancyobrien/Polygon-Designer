@@ -81,6 +81,38 @@
 	    	width: 40rem;
 	    }
 
+		&#releaseNotesModal {
+			width: 30rem;
+			#releaseNoteDisplay {
+				max-height: 15rem;
+				overflow-y: auto;
+			}
+			.release-note {
+				border-bottom: 1px solid #ccc;
+				padding: 1rem 2rem;
+				text-align: left;
+				h1 {
+					font-size: 1.5rem;
+					padding: 0;
+					display: inline-block;
+					color: #333;
+				}
+				h2 {
+					font-size: 1rem;
+					font-style: italic;
+					display: inline-block;
+					margin-left: .5rem;
+					color: #999;
+				}
+				.notes {
+					margin-top: .5rem;
+					li {
+						list-style: inside;
+					}
+				}
+			}
+		}
+
 	    &#deleteVersionModal, &#archiveProjectModal, &#configurePolygonsModal {
 	    	width: 30rem;
 	    	@extend %noselect;

@@ -458,6 +458,53 @@ function initInterface() {
 		showModal('#errorReportModal');
 	})
 
+	$('#showReleaseNotes').click(function (e) {
+		e.preventDefault();
+
+		$('#releaseNoteDisplay').val('');
+		var releaseNoteTemplate = $('#release-note-template').text();
+		showModal('#releaseNotesModal');
+
+		$.ajax({
+			type: "GET",
+			url: "/notes/releaseNotes.json",
+			contentType: false,
+			processData: false,
+			data: null,
+			success: function (result) {
+				var releaseNotes = result;
+				for (var rn in releaseNotes) {
+					var thisNote = releaseNotes[rn];
+					var note = fileManager.applyTemplate(thisNote, releaseNoteTemplate);
+					$('#releaseNoteDisplay').append(note);
+				}
+
+			},
+			error: function (e) {
+			  $('#releaseNoteDisplay').html('Unable to load release notes at this time.')
+			}
+		});	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	})
+
 	$('#sendErrorReport').click(function (e) {
 		e.preventDefault();
 		var bugReport = {};

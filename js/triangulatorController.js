@@ -1,5 +1,9 @@
 	var midGrads = [];
 	var transparentMids = {};
+	var cachedTriangles = {};
+	var leftTri = [];
+	var midTri = [];
+	var rightTri = [];
 
 	//------------------------------------------------------------
 	// Triangulate
@@ -11,14 +15,13 @@
 	// returns: Array of Triangles
 	//------------------------------------------------------------
 	function triangulate(vertices) {
-		var triangles = [];
+		if (vertices.length < 3) {return;}
+		console.log ("triangulate")
+		/*for (var it in mainController.triangles) {
+			cachedTriangles[mainController.triangles[it].pointsString] = mainController.triangles[it]
+		}*/
 
-
-
-		//
-		// First, create a "supertriangle" that bounds all vertices
-		//
-		if (vertices.length == 0) {return;}
+		var triangles = []; // mainController.triangles ? mainController.triangles : []; //
 
 		vertices.sort(function(a, b) {
 			if (a.y > b.y) {
@@ -27,7 +30,10 @@
 				return -1
 			}
 		});
-		var miny = vertices[0].y, maxy = vertices[vertices.length-1].y;
+
+		var miny = vertices[0].y;
+		var maxy = vertices[vertices.length-1].y;
+
 		vertices.sort(function(a, b) {
 			if (a.x > b.x) {
 				return 1
@@ -36,14 +42,19 @@
 			}
 		});
 
-		var minx = vertices[0].x,  maxx = vertices[vertices.length-1].x;
+		var minx = vertices[0].x;
+		var maxx = vertices[vertices.length-1].x;
 
-
+		//
+		// First, create a "supertriangle" that bounds all vertices
+		//
 		var st = createBoundingTriangle(vertices, minx, miny, maxx, maxy);
 
 		triangles.push(st);
 
 
+		var x1 = minx + (maxx - minx)/3
+		var x2 = 2 * (maxx - minx)/3
 
 		//
 		// Next, begin the triangulation one vertex at a time
@@ -54,33 +65,28 @@
 			// along the x-axis and only considering triangles that have
 			// potentially overlapping circumcircles
 
-
 			addVertex(vertices[i], triangles);
+			
 			/*triangles.sort(function(a, b) {
 				return (a.center.x - b.center.x)
 			});*/
-
 		}
 
 		//
 		// Remove triangles that shared edges with "supertriangle"
 		//
-		var tempArray = new Array();
+		var tempArray = [];
 		for (var i in triangles) {
 			var triangle = triangles[i];
 			
 			if (triangles[i]) {
-				if(triangle.OnEdge(st)) {
-					delete triangles[i];
-				} else {
+				if(!triangle.OnEdge(st)) {
 					tempArray.push(triangles[i]);  //Get a clean array of non-null triangles
 				}
 			}
 		}
 
-		triangles = tempArray;
-		delete tempArray;
-		return triangles;
+		return tempArray;
 
 	}  
 
@@ -107,6 +113,7 @@
 
 	// Internal: update triangulation with a vertex
 	function addVertex(vertex, triangles) {
+		var tempTris = [];
 		var edges = [];
 		var edgeHash = {};
 		// Remove triangles with circumcircles containing the vertex
@@ -116,6 +123,7 @@
 				var edge1 = new edge(triangle_.v0, triangle_.v1);
 				var edge2 = new edge(triangle_.v1, triangle_.v2);
 				var edge3 = new edge(triangle_.v2, triangle_.v0);
+
 				edges.push(edge1); 
 				edgeHash[edge1.hashCode] = (edgeHash[edge1.hashCode] ? edgeHash[edge1.hashCode] + 1 : 1);
 				edges.push(edge2); 
@@ -130,11 +138,13 @@
 
 		// Create new triangles from the unique edges and new vertex
 		for (var i in edges) {
-			triangles.push(new triangle(edges[i].v0, edges[i].v1, vertex));
+			var tempTri = new triangle(edges[i].v0, edges[i].v1, vertex);
+			//if (cachedTriangles[tempTri.pointsString]) {tempTri = cachedTriangles[tempTri.pointsString];}
+			triangles.push(tempTri);
 		}
 	}  
 
-	function isUniqueEdge(edges, newEdge) {
+	/*function isUniqueEdge(edges, newEdge) {
 		var unique = true;
 		for (var i in edges) { 
 			if (edges[i].hashCode == newEdge.hashCode) {
@@ -143,23 +153,22 @@
 			}
 		}
 		return unique;
-	}
+	}*/
 
 	// Internal: remove duplicate edges from an array
 	function uniqueEdges(edges, edgeHash) {
 		var uniqueEdgesArr = [];
-		
+
 		for (var i in edges) {      
 			if (edgeHash[edges[i].hashCode] == 1) {
 				uniqueEdgesArr.push(edges[i]);
 			}
 		}
 
-		return uniqueEdgesArr; 
-
+		return uniqueEdgesArr;
 	}
 
-	function uniqueEdgesOld(edges) { 
+	/*function uniqueEdgesOld(edges) { 
 		var uniqueEdgesArr = [];
 		var prevHash;
 		edges.sort(function(a, b) {
@@ -188,7 +197,7 @@
 
 		return uniqueEdgesArr;
 
-	}
+	}*/
 
 	function edge(v0, v1) {
 		if (v1.x > v0.x) {
@@ -211,6 +220,7 @@ function triangle(v0, v1, v2) {
 	this.v0 = v0;
 	this.v1 = v1;
 	this.v2 = v2;
+	this.vertices = [this.v0, this.v1, this.v2];
 	this.minx = Math.min(this.v0.x, this.v1.x, this.v2.x);
 	this.miny = Math.min(this.v0.y, this.v1.y, this.v2.y);
 	this.maxx = Math.max(this.v0.x, this.v1.x, this.v2.x);
@@ -222,6 +232,20 @@ function triangle(v0, v1, v2) {
 	this.midPoint = {x: ~~ ((this.v0.x + this.v1.x + this.v2.x) / 3), y: ~~ ((this.v0.y + this.v1.y + this.v2.y) / 3)};
 	this.pointsString = this.v0.x + ',' + this.v0.y + ' ' + this.v1.x + ',' + this.v1.y + ' ' + this.v2.x + ',' + this.v2.y;
 	this.midVertex = false;
+
+
+	/*this.vertices.sort(function(a,b){
+		if (a.x != b.x){
+			return (b.y - a.y);
+		} else {
+			return (a.x - b.x);
+		}
+	});
+	this.edges = {};
+	this.edges[this.vertices[0].id + '-' + this.vertices[1].id];
+	this.edges[this.vertices[0].id + '-' + this.vertices[2].id];
+	this.edges[this.vertices[1].id + '-' + this.vertices[2].id];*/
+
 
 	this.OnEdge = function(otherTriangle) {
 		if (this.v0 == otherTriangle.v0 || this.v0 == otherTriangle.v1 || this.v0 == otherTriangle.v2 || this.v1 == otherTriangle.v0 || this.v1 == otherTriangle.v1 || this.v1 == otherTriangle.v2 || this.v2 == otherTriangle.v0 || this.v2 == otherTriangle.v1 || this.v2 == otherTriangle.v2) {
@@ -377,6 +401,8 @@ function triangle(v0, v1, v2) {
 
 
 	this.drawStroke = function(ptA, ptB, ctx) {
+		this.getColor();
+		if (this.transparent) {return;}
 		ctx.beginPath();
 		ctx.lineWidth = mainController.strokeWidth;
 
@@ -389,6 +415,7 @@ function triangle(v0, v1, v2) {
 	}
 
 	this.drawStrokeSVG = function(ptA, ptB, svg) {
+		if (this.transparent) {return;}
 		//<line id="line725-8051093-245" fill="#E11E26" stroke="#B72625" stroke-width="5" stroke-miterlimit="10" x1="725" y1="805" x2="1093" y2="245"/>
 
 		var id= ptA.id() + "" + ptB.id();
@@ -520,6 +547,11 @@ function triangle(v0, v1, v2) {
 		if (mainController.showStroke) {
 			this.drawStrokes(svg, true);
 		}
+	}
+
+
+	this.init = function() {
+		this.Circumcircle();
 	}
 
 	this.Circumcircle = function() {
@@ -669,7 +701,7 @@ function triangle(v0, v1, v2) {
 	} 
 
 
-	this.Circumcircle();
+	this.init();
 
 
 }

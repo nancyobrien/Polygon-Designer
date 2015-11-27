@@ -267,6 +267,10 @@
 				<a href="#" title="Comments" id="showErrorReport"><span class="icon-paper-plane"></span> <span class="label">Comments</span> </a>
 			</div>
 
+			<div class="status-section toolbar-button">
+				<a href="#" title="Release Notes" id="showReleaseNotes"><span class="icon-feather"></span> <span class="label">Release Notes</span> </a>
+			</div>
+
 		</div>
 
 	</div>
@@ -427,7 +431,7 @@
 	</div>
 
 	<div class="modal-background modal-dark">
-		<div class="modal" id="loadingMessage">
+		<div class="modal modal--small" id="loadingMessage">
 			<div class="title">Loading Project</div>
 			<div class="message">Loading <img src='/images/loader-lightback.gif' /></div>
 		</div>
@@ -731,6 +735,17 @@
 	</div> 
 
 	<div class="modal-background modal-close">
+		<div class="modal" id="releaseNotesModal">
+			<div class="modal-close modal-close-button">X</div>
+			<div class="title">Release Notes</div>
+			<div class="content" data-waitmessage="Loading">
+				<div id="releaseNoteDisplay"></div>
+				<div class="buttons"><a href="#" class="modal-close button button--cancel">Close</a></div>
+			</div>
+		</div>
+	</div> 
+
+	<div class="modal-background modal-close">
 		<div class="modal modal--small" id="showProcessing">
 			<div class="title">Processing</div>
 			<div class="message">Processing Request</div>
@@ -846,6 +861,14 @@
 		<li class="menu-float customColorSwatch">
 			<span class="colorSwatch {darkOrLight}" style="background-color: {color};" data-customcolor="{color}"></span>
 		</li>
+	</script>
+
+	<script type="text/template" id="release-note-template">
+		<div class="release-note">
+			<h1>Version: {version}</h1>
+			<h2>Release Date: {releaseDate}</h2>
+			<div class="notes">{notes}</div>
+		</div>
 	</script>
 
 
