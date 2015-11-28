@@ -1233,7 +1233,6 @@ function mainCtrl(srcImg) {
 				this.showFill = activeProject.showFill;
 				this.showCircles = activeProject.showCircles;
 				this.showStroke = activeProject.showStroke;
-				this.showAllStrokes = activeProject.showAllStrokes;
 				this.useSolidGradient = activeProject.useSolidGradient;
 				if (activeProject.solidGradients) {midGrads = activeProject.solidGradients;}
 				if (activeProject.transparentMidpoints) {transparentMids = activeProject.transparentMidpoints;}
@@ -1241,6 +1240,7 @@ function mainCtrl(srcImg) {
 				if (activeProject.customColors) {this.customPalette.setColors(activeProject.customColors);}
 				if (activeProject.colorPalette) {this.customPalette.setPalette(activeProject.colorPalette);}
 					
+				if (activeProject.showAllStrokes !== undefined) {this.showAllStrokes = activeProject.showAllStrokes; }
 				if (activeProject.strokeWidth !== undefined) {this.strokeWidth = activeProject.strokeWidth; }
 				if (activeProject.strokeOpacity !== undefined) {this.strokeOpacity = activeProject.strokeOpacity; }
 				if (activeProject.strokeColor !== undefined) {this.strokeColor = activeProject.strokeColor; }
