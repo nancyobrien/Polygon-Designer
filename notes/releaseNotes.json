@@ -1,5 +1,10 @@
 [
 	{
+		"version": "0.8a",
+		"releaseDate": "11/28/2015",
+		"notes":"<ul><li>Fixed saving error on previously saved images.</li></ul>"
+	},
+	{
 		"version": "0.8",
 		"releaseDate": "11/26/2015",
 		"notes":"<ul><li>Hide stroke on empty triangles</li> <li>Amazon S3 cloud storage</li> <li>improved performance</li><li>Release notes :)</li></ul>"

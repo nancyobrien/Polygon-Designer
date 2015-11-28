@@ -178,9 +178,15 @@ function initInterface() {
 		showPopupMenu(menuType, mousePos, menuPlacement, popClass);	
 	}
 
-	$('.show-popup[data-popuptrigger="hover"]').hover(getPopupMenu);
+	$('.show-popup[data-popuptrigger="hover"]').hover(getPopupMenu, function() {});
+	$('.context-menu li a').not('[data-popuptrigger="hover"]').hover(hidePopupMenu, function() {});
 
 	$('.show-popup').click(getPopupMenu);
+
+	function hidePopupMenu(e) {
+		console.log(' hiding menus');
+		$('.menu[data-popuptype="hover"]').addClass('hide');
+	}
 
 	function getPopupMenu(e) {
 		e.preventDefault();

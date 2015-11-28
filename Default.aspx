@@ -162,6 +162,22 @@
 			</div>
 			<div class="menu context-menu context-menu--zoom hide" id="zoomMenu">
 				<ul>
+					<li class="stat-display-randomizeColors">
+						<a href="#" class="resetCustomColors">Rerandomize Colors</a>
+					</li>
+					<li class="stat-display-regradiateSolid">
+						<a href="#" class="resetSolidGradient">Regradiate Image</a>
+					</li>
+					<li class="stat-display-randomizeColors">
+						<a href="#" class="pickCustomColor show-popup" data-popupmenu="#customColorsMenu" data-popuptrigger="hover" data-popuppositionv="top-offset" data-popuppositionh="right" data-popupclass="arrow-left">Select Custom Color <span class="icon-arrow-right2 right-align"></span></a>
+					</li>
+					<li>
+						<a href="#" class="toggleTriangleFill">Clear Triangle Fill</a>
+					</li>
+					<li class="spacer"></li>
+
+
+				
 					<li>
 						<a href="#" class="zoomIn">Zoom In</a>
 					</li>
@@ -181,22 +197,9 @@
 					<li>
 						<a href="#" class="toggleSolidGradient"><span class="show-hide solidgradient stat-solidgradient-state"></span></a>
 					</li>
-					<li class="spacer"></li>
 					<!-- <li>
 						<a href="#" class="toggleGradient"><span class="show-hide gradient stat-gradient-state"></span></a>
 					</li> -->
-					<li class="stat-display-randomizeColors">
-						<a href="#" class="resetCustomColors">Rerandomize Colors</a>
-					</li>
-					<li class="stat-display-regradiateSolid">
-						<a href="#" class="resetSolidGradient">Regradiate Image</a>
-					</li>
-					<li class="stat-display-randomizeColors">
-						<a href="#" class="pickCustomColor show-popup" data-popupmenu="#customColorsMenu" data-popuptrigger="hover" data-popuppositionv="top-offset" data-popuppositionh="right" data-popupclass="arrow-left">Select Custom Color <span class="icon-arrow-right2 right-align"></span></a>
-					</li>
-					<li>
-						<a href="#" class="toggleTriangleFill">Clear Triangle Fill</a>
-					</li>
 				</ul>
 			</div>
 
