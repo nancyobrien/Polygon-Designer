@@ -16,8 +16,8 @@ canvas {
 	//padding:10px;
 	text-align:center;
 	position: absolute;
-	top: 0;
 	bottom: $statusBarHeight;
+	top: $statusBarHeight;
 	left: 4rem;
 	right: $tabContentWidth;
 	display: block;

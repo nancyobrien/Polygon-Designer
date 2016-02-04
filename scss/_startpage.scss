@@ -514,8 +514,47 @@
 			}
 			.button {
 				margin: 1em .25em;
+				float: left;
 				&#cancel-image-load{
 					display:none;
+				}
+			}
+		}
+
+		.file-upload-button-container {
+			position: relative;
+			overflow: hidden; 
+			width: 14em;
+			margin-top: 1em;
+			float: left;
+
+			.file-uploader {
+				padding: .25em 1.5em;
+				margin-left: -8em;
+				color: transparent;
+				background: transparent;
+				position: relative;
+				cursor: pointer;
+				width: 23em;
+				border: 5px solid transparent;
+			}
+
+			#file-image-overlay {
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				pointer-events:none;
+				margin: 0;
+
+
+			}
+
+			&:hover {
+				#file-image-overlay {
+					color: #fdf4f4;
+					background-color: #bb2527;
+					border: 5px solid #c62729;
 				}
 			}
 		}

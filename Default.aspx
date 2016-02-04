@@ -48,9 +48,9 @@
 
 		</div>
 		<div class="display-content">
-			<div class="settings display-block display-static">
+			<!--<div class="settings display-block display-static">
 				<div class="display-section display-header">Settings <span class="display-trigger"></span></div>
-				<div class="display-section">
+				 <div class="display-section">
 					<span class="label">Show Vertices:</span> 
 					<div class="check-control squaredThree">
 						<input type="checkbox" value="None" id="showVertexCheck" name="showVertexCheck" checked="checked" class="toggleVerts stat-vertex-state"/>
@@ -64,23 +64,16 @@
 						<label for="showStrokeCheck"></label>
 					</div>
 				</div>
-
-
-
-				<!-- <div class="display-section">
-					<span class="label">Gradient Color:</span> 
-					<div class="check-control squaredThree">
-						<input type="checkbox" value="None" id="colorGradients" name="gradColorCheck" checked="checked"  class="toggleGradient stat-gradient-state" />
-						<label for="colorGradients"></label>
-					</div> 
-				</div> -->
+				
+				
+				
 				<div class="display-section">
 					<span class="label">Show Fill:</span> 
 					<div class="check-control squaredThree">
 						<input type="checkbox" value="None" id="vertsOnly" name="vertOnlyCheck" checked="checked"  class="toggleFill stat-fill-state" />
 						<label for="vertsOnly"></label>
 					</div> 
-				</div>
+				</div> 
 				<div class="display-section">
 					<span class="label">Solid Gradients:</span> 
 					<div class="check-control squaredThree">
@@ -107,7 +100,7 @@
 					<a href="#" title="Adjust Custom Colors" id="showCustomColorModal"><span class="tool-icon icon-palette"></span> <span class="label">Custom Colors</span></a>									
 				</div>
 
-			</div>
+			</div>-->
 			<div class="delete display-block display-static">
 				<div class="display-section display-header">Delete Vertices <span class="display-trigger"></span></div>
 				<div class="display-section toolbar-button">
@@ -137,7 +130,7 @@
 				</div> -->
 			</div>
 
-			<div class="upload display-block display-static">
+			<!-- <div class="upload display-block display-static">
 				<div class="display-section display-header">Save / Load <span class="display-trigger"></span></div>
 				<div class="display-section toolbar-button">
 					<a href="/" title="Load New Image" id="imageLoader"><span class="tool-icon icon-popup"></span> <span class="label">Load New Image</span></a>									
@@ -145,8 +138,8 @@
 				<div class="display-section toolbar-button">
 					<a href="#" title="Save to Server" id="saveServer"><span class="tool-icon icon-cloud-upload"></span> <span class="label">Save to Server</span></a>
 				</div>
-
-			</div>
+			
+			</div> -->
 
 		</div>
 	</div>	
@@ -177,7 +170,7 @@
 					<li class="spacer"></li>
 
 
-				
+
 					<li>
 						<a href="#" class="zoomIn">Zoom In</a>
 					</li>
@@ -233,14 +226,14 @@
 		<div id="shapeLayer" class="shapeLayer tool-layer canvas-layer overlay overlay--transparent" style="display:none;"></div> 
 	</div>    
 	<div id="statusBar" class="status-bar">
-			<span class="collapse-trigger"></span><div class="status-content">
+		<div class="status-content">
 			<div class="status-section">
 				<span class="label">Points:</span> <span class="stat stat-num-points"></span> 
 			</div>
 			<div class="status-section">
 				<span class="label">Mode:</span> <span class="stat stat-toolmode"></span> 
 			</div>
-			<div class="status-section">
+			<!-- <div class="status-section">
 				<span class="label">Opacity:</span> <span class="stat stat-opacity"></span> 
 			</div>
 			<div class="status-section show-popup" data-popupmenu="#fillOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
@@ -250,10 +243,10 @@
 			<div class="status-section show-popup" data-popupmenu="#zoomOptionsMenu" data-popuppositionv="top" data-popuppositionh="center" data-popupclass="arrow-down">
 				<span class="popup-indicator icon-arrow-up2"></span>
 				<span class="label">Zoom:</span> <span class="stat stat-zoom"></span> 
-			</div>
+			</div> 
 			<div class="status-section toolbar-button">
 				<a href="#" title="Export to SVG" id="svgSaver"><span class="tool-icon icon-cloud-download"></span> <span class="label">Export Image</span></a>
-			</div>
+			</div>-->
 			<div class="status-section download-button toolbar-button js-clear-onchange" id="SVGDownload">
 				
 			</div>
@@ -262,7 +255,7 @@
 				
 			</div>
 
-			<div class="status-section toolbar-button">
+			<!-- <div class="status-section toolbar-button">
 				<a href="#" title="Share" id="shareImage"><span class="icon-share"></span> <span class="label">Share this image</span> </a>
 			</div>
 
@@ -272,58 +265,147 @@
 
 			<div class="status-section toolbar-button">
 				<a href="#" title="Release Notes" id="showReleaseNotes"><span class="icon-feather"></span> <span class="label">Release Notes</span> </a>
+			</div> -->
+
+		</div>
+
+	</div>
+
+	<div id="menuBar" class="menu-bar">
+		<div class="status-content">
+			<div class="status-section show-popup" data-popupmenu="#fileMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left">
+				<span class="label">File</span>
+				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
+			</div>
+			<div class="status-section show-popup" data-popupmenu="#settingsMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left">
+				<span class="label">Settings</span>
+				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
+			</div>
+
+			<div class="status-section show-popup"  data-popupmenu="#opacityMenu" data-popuppositionv="bottom-tight" data-popuppositionh="center" >
+				<span class="label">Opacity:</span> <span class="stat stat-opacity"></span>  <!-- <span class="popup-indicator icon-arrow-down"></span> -->
+			</div>
+			<div class="status-section show-popup" data-popupmenu="#fillOptionsMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left" >
+				<span class="label">Fill Style:</span> <span class="stat stat-fillstyle-label"></span> 
+				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
+			</div>
+			<div class="status-section show-popup" data-popupmenu="#zoomOptionsMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left" >
+				<span class="label">Zoom:</span> <span class="stat stat-zoom"></span> 
+				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
+			</div>
+			<div class="status-section show-popup" data-popupmenu="#helpMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left">
+				<span class="label">Help</span>
+				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
 			</div>
 
 		</div>
 
 	</div>
+
 	
 	<div class="popup-menus">
 
-	<div class="menu popup-menu--shapeoptions hide menu-horizontal" id="shapeOptionsMenu">
-		<ul>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="line"><span class="check icon-line "></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="circle"><span class="check icon-radio-unchecked "></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="triangle"><span class="check icon-triangle"></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="square"><span class="check icon-square"></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="pentagon"><span class="check icon-pentagon"></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="hexagon"><span class="check icon-hexagon"></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="heptagon"><span class="check icon-heptagon"></span></a>
-			</li>
-			<li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="octagon"><span class="check icon-octagon"></span></a>
-			</li>
-			<!-- <li class="stat-shape-type show-selected show-compareValue">
-				<a href="#" class="selectShape" data-setvalue="star"><span class="check icon-five-pointed-star"></span></a>
-			</li> -->
-		</ul>
-	</div>
-
-		<div class="menu popup-menu--filloptions hide" id="fillOptionsMenu">
-			<!-- <ul>
-				<li class=" show-selected stat-gradient-state">
-					<a href="#" class="toggleGradient" data-setvalue="true"><span class="check show-selected stat-gradient-state"></span>Gradient Fill</a>
+		<div class="menu popup-menu--shapeoptions hide menu-horizontal" id="shapeOptionsMenu">
+			<ul>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="line"><span class="check icon-line "></span></a>
 				</li>
-				<li class=" show-selected stat-gradient-state stat-reverse">
-					<a href="#" class="toggleGradient" data-setvalue="false"><span class="check show-selected stat-gradient-state stat-reverse"></span>Solid Fill</a>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="circle"><span class="check icon-radio-unchecked "></span></a>
+				</li>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="triangle"><span class="check icon-triangle"></span></a>
+				</li>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="square"><span class="check icon-square"></span></a>
+				</li>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="pentagon"><span class="check icon-pentagon"></span></a>
+				</li>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="hexagon"><span class="check icon-hexagon"></span></a>
+				</li>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="heptagon"><span class="check icon-heptagon"></span></a>
+				</li>
+				<li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="octagon"><span class="check icon-octagon"></span></a>
+				</li>
+				<!-- <li class="stat-shape-type show-selected show-compareValue">
+					<a href="#" class="selectShape" data-setvalue="star"><span class="check icon-five-pointed-star"></span></a>
+				</li> -->
+			</ul>
+		</div>
+
+		<div class="menu popup-menu--settings hide" id="fileMenu">
+			<ul>
+				<li>
+					<a href="/" title="Load New Image" id="imageLoader" class="allowDefault">Load New Image </a>
 				</li>
 				<li>
-					<a href="#" class="toggleFill" data-setvalue="true"><span class="show-hide stat-fill-state"></span> Fill</span></a>
+					<a href="#" title="Save to Server" id="saveServer">Save to Server</a>
 				</li>
-			</ul> -->
+
+				<li>
+					<a href="#" title="Export to SVG" id="svgSaver">Export Image</a>				
+				</li>
+				<li>
+					<a href="#" title="Share" id="shareImage">Share this image</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="menu popup-menu--settings hide" id="helpMenu">
+			<ul>
+				<li>
+					<a href="#" title="Comments" id="showErrorReport">Comments </a>
+				</li>
+				<li>
+					<a href="#" title="Release Notes" id="showReleaseNotes">Release Notes </a>
+				</li>
+
+			</ul>
+		</div>
+		<div class="menu popup-menu--settings hide" id="settingsMenu">
+			<ul>
+				<li>
+					<a href="#" class="toggleVerts" data-setvalue="true"><span class="show-hide stat-vertex-state"></span> Vertices</a>
+				</li>
+				<li>
+					<a href="#" class="toggleStroke" data-setvalue="true"><span class="show-hide stat-stroke-state"></span> Strokes</a>
+				</li>
+
+				<li>
+					<a href="#" class="toggleFill" data-setvalue="true"><span class="show-hide stat-fill-state"></span> Fill</a>
+				</li>
+				<li>
+					<a href="#" class="toggleSolidGradient" data-setvalue="true"><span class="show-hide solidgradient stat-solidgradient-state"></span></a>
+				</li>
+				<li>
+					<a href="#" class="showAdvancedSettings show-popup" data-popupmenu="#advancedSettingsMenu" data-popuptrigger="hover" data-popuppositionv="top-offset" data-popuppositionh="right-tight">Advanced Settings <span class="icon-arrow-right2 right-align"></span></a>
+				</li>
+
+			</ul>
+		</div>
+		<div class="menu popup-menu--advancedSettings hide" id="advancedSettingsMenu" data-popuptype='hover'>
+			<ul >
+				<li>
+					<a href="#" title="Vertex Settings" id="showPointModal"><span class="label">Vertex Settings</span></a>
+				</li>
+				<li>
+					<a href="#" title="Stroke Settings" id="showStrokeModal"><span class="label">Stroke Settings</span></a>
+				</li>
+				<li>
+					<a href="#" title="Adjust Color" id="showColorAdjustModal"><span class="label">Adjust Color</span></a>
+				</li>
+				<li>
+					<a href="#" title="Adjust Custom Colors" id="showCustomColorModal"><span class="label">Custom Colors</span></a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="menu popup-menu--filloptions hide" id="fillOptionsMenu">
 			<ul>
 				<li class=" show-selected stat-fillstyle show-compareValue">
 					<a href="#" class="setFillStyle" data-setvalue="Gradient"><span class="check show-selected stat-fillstyle show-compareValue"></span>Gradient Fill</a>
@@ -342,6 +424,24 @@
 				</li>
 			</ul>
 		</div>
+
+
+
+
+
+
+		<div class="menu popup-menu--opacity hide" id="opacityMenu">
+			<ul>
+				<li class="padded">
+					
+					<input type="range" min="0" max="100" value="100" step="1" class="stat-globalOpacity" id="opacitySlider"/>
+
+				</li>
+			</ul>
+		</div>
+
+
+
 		<div class="menu popup-menu--zoomOptions hide" id="zoomOptionsMenu">
 			<ul>
 				<li>
@@ -409,6 +509,10 @@
 					<div class="image-drop">
 						<div id="holder"  class="normal image-dropzone"><span class="icon-image"></span> <span class="drop-text">Drop your image here</span></div>
 						<div>
+							<div class="file-upload-button-container">
+								<input type="file" id="file-image-load" class="file-uploader">
+								<a href="#" class="button" id="file-image-overlay">Load Image from Disk</a href="#">
+							</div>
 							<a href="#" class="button button--cancel cancel" id="cancel-image-load">Cancel</a>
 							<a href="#" class="button loadlibrary " id="server-image-load">Load from server</a>
 							<a href="#" class="button load " id="demo-image-load">Load Demo Image</a>
@@ -732,7 +836,7 @@
 			<div class="content" data-waitmessage="Sending">
 				<input id="bugLabel" class="input--text allowPaste required" type="text" placeholder="Comment (short description please)" />
 				<textarea id="bugSummary" placeholder="Please provide a detailed description of your request"></textarea>
-				<div class="buttons"><a href="#" id="sendErrorReport" class="button">Send Meesage</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
+				<div class="buttons"><a href="#" id="sendErrorReport" class="button">Send Message</a> <a href="#" class="modal-close button button--cancel">Cancel</a></div>
 			</div>
 		</div>
 	</div> 

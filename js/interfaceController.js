@@ -105,7 +105,9 @@ function initInterface() {
 	})
 
 	$('.menu a').click(function (e) {
-		e.preventDefault();
+		if(!$(this).hasClass('allowDefault')) {
+			e.preventDefault();
+		}
 		hideMenus();
 	})
 
@@ -150,15 +152,21 @@ function initInterface() {
 		mousePos.x = $(thisElement).offset().left ;
 		mousePos.y = $(thisElement).offset().top;
 		var menuPlacement = {'horizontal' : 'left', 'vertical': 'top'};
-		switch ($(thisElement).data('popuppositionh')) {
+		$(menuType).removeClass('left');
+
+		switch ($(this).data('popuppositionh')) {
 			case 'left':
-				mousePos.x -= objSize.width/2;
+				mousePos.x += 5; //objSize.width/2;
+				$(menuType).addClass('left');
 				break;
 			case 'center':
 				mousePos.x += (objSize.width - menuWidth)/2;
 				break;
 			case 'right':
 				mousePos.x += objSize.width + borderHeight/2;
+				break;
+			case 'right-tight':
+				mousePos.x += objSize.width;
 				break;
 
 		}
@@ -179,7 +187,27 @@ function initInterface() {
 	}
 
 	$('.show-popup[data-popuptrigger="hover"]').hover(getPopupMenu, function() {});
+	$('.menu[data-popuptype="hover"]').hover(function() {}, hidePopupMenu);
 	$('.context-menu li a').not('[data-popuptrigger="hover"]').hover(hidePopupMenu, function() {});
+
+
+	$('#file-image-load').change(function(e) {
+		$(this).removeClass('hover');
+		e.preventDefault();
+		hideSaveButton();
+
+		var file = $(this)[0].files[0],
+		reader = new FileReader();
+		uploadedImage = file;
+
+		reader.onload = function(event) {
+			hideLoadScreen();
+			loadImage(event.target.result);
+		};
+		reader.readAsDataURL(file);
+
+		return false;
+	})
 
 	$('.show-popup').click(getPopupMenu);
 
@@ -200,7 +228,12 @@ function initInterface() {
 			return;
 		}
 
-		//hideMenus();
+		if (!isHover){
+			hideMenus();
+		}
+		if ($(this).hasClass('status-section')) {
+			$(this).addClass('open');
+		}
 
 		//Have to show the menu to get the width;
 		$(menuType).removeClass('hide');
@@ -217,9 +250,12 @@ function initInterface() {
 		mousePos.x = $(this).offset().left ;
 		mousePos.y = $(this).offset().top;
 		var menuPlacement = {'horizontal' : 'left', 'vertical': 'top'};
+		$(menuType).removeClass('left');
+
 		switch ($(this).data('popuppositionh')) {
 			case 'left':
-				mousePos.x -= objSize.width/2;
+				mousePos.x += 0; //objSize.width/2;
+				$(menuType).addClass('left');
 				break;
 			case 'center':
 				mousePos.x += (objSize.width - menuWidth)/2;
@@ -227,12 +263,24 @@ function initInterface() {
 			case 'right':
 				mousePos.x += objSize.width + borderHeight/2;
 				break;
+			case 'right-tight':
+				mousePos.x += objSize.width;
+				break;
+
 
 		}
 		switch ($(this).data('popuppositionv')) {
 			case 'top':
 				menuPlacement.vertical = 'bottom';
 				mousePos.y = objSize.height + borderHeight;
+				break;
+			case 'bottom':
+				menuPlacement.vertical = 'top';
+				mousePos.y = objSize.height + borderHeight;
+				break;
+			case 'bottom-tight':
+				menuPlacement.vertical = 'top';
+				mousePos.y = objSize.height;
 				break;
 			case 'top-offset': 
 				mousePos.y +=  0;
@@ -1633,6 +1681,9 @@ function hideContextMenu() {
 function hideMenus() {
 	delayedPopupShown = false;
 	$('.menu').addClass('hide');
+	$('.status-section').removeClass('open');
+
+
 }
 
 $(document).bind("click", function(event) {
@@ -1649,8 +1700,17 @@ function showPopupMenu(menuType, menuPosition, menuPlacement, menuClass) {
 	}
 
 	var menuElement = $(menuType);
+	menuElement.removeClass('arrow-up');
+	menuElement.removeClass('arrow-down');
+
+
 	if (menuClass) {menuElement.addClass(menuClass);}
 	menuElement.removeClass('hide');  
+	menuElement.css('top',  'auto');
+	menuElement.css('bottom',  'auto');
+	menuElement.css('left',  'auto');
+	menuElement.css('right',  'auto');
+
 	menuElement.css(menuPlacement.vertical,  menuPosition.y);
 	menuElement.css(menuPlacement.horizontal,  menuPosition.x);
 }

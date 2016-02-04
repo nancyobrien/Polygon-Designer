@@ -144,6 +144,7 @@
 
 	.display-content {
 		width:$tabContentWidth;
+		margin-top: $statusBarHeight;
 	}
 	.display-block {
 		@extend %noselect;

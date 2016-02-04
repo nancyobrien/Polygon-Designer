@@ -1,8 +1,13 @@
 [
 	{
+		"version": "0.9",
+		"releaseDate": "02/03/2016",
+		"notes":"<ul><li>Revamp UI! Add menus and reduce sidebars.</li><li>Add File upload button</li></ul>"
+	},
+	{
 		"version": "0.8a",
 		"releaseDate": "11/28/2015",
-		"notes":"<ul><li>Fixed saving error on previously saved images.</li></ul>"
+		"notes":"<ul><li>Reorder context menu to move triangle specific controls to the top.</li><li>Hide color picker menu when you mouse off of that option.</li><li>Fixed saving error on previously saved images.</li></ul>"
 	},
 	{
 		"version": "0.8",

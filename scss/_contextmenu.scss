@@ -13,14 +13,37 @@
 	margin: 0;
 	list-style-type: none;
 	list-style: none;    
-	@include box-shadow(2px 2px 2px 0px rgba(238,238,238,0.5));
-	border: 1px solid $colorBorder2;
+
+	@include box-shadow(2px 3px 2px 3px rgba(220,44,46,0.25));
+	//border: 1px solid $colorBorder2;
 
 	&.hide {
 		display: none;
 	}
 
 
+	&.arrow-up {
+		background: $color3;
+		&:before {
+			bottom: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(255, 255, 255, 0);
+			border-bottom-color: $color3;
+			border-width: 1rem;
+			margin-left: -1rem;
+		}
+		&.left {
+			&:before {
+				left: 20%;
+			}
+		}
+	}
 	&.arrow-down {
 		background: $color3;
 		&:after {
@@ -57,6 +80,12 @@
 		}
 	}
 
+	input[type="range"] {
+		width: 12rem;
+	} 
+	.padded {
+		padding: 0.5rem;
+	} 
 	.check {
 		
 		margin-left: -1rem;
@@ -73,9 +102,15 @@
 		float: left;
 	}
 
+	&.popup-menu--advancedSettings {
+
+	}
+
 	&.popup-menu--customColors{
 		max-width: 6.2rem;
 		text-align: center;
+		border: 1px solid $colorBorder2;
+
 		&.arrow-left {
 			&:after {
 				top: 20%;
