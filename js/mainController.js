@@ -757,6 +757,8 @@ function mainCtrl(srcImg) {
 	this.addVertex = function(Vx,Vy, supressDraw) {
 		this.needToDrawTriangles = true;
 
+		var isTrans = this.isPointTransparent(Vx,Vy)
+
 		var v = false;
 		if (this.isVertexOutOfBounds(Vx,Vy)) {
 			return v;
@@ -871,12 +873,23 @@ function mainCtrl(srcImg) {
 		var totCnt = randCnt ? randCnt : this.randomCount;
 		this.recordVertices();
 
-		for (var i = 0; i < totCnt; i++) {
+		var ptsAdded = 0;
+		while(ptsAdded < totCnt) {
+			var randX = ~~ (this.originalSize.width * Math.random());
+			var randY = ~~ (this.originalSize.height * Math.random());
+
+			if (this.isPointTransparent(randX, randY) > 50) {
+				this.addVertex(randX, randY, true);
+				ptsAdded += 1;
+			}
+		}
+
+		/*for (var i = 0; i < totCnt; i++) {
 			var randX = this.originalSize.width * Math.random();
 			var randY = this.originalSize.height * Math.random();
 
 			this.addVertex(~~ (randX), ~~ (randY), true);
-		}
+		}*/
 		this.raiseEvent("verticesChanged", "Vertices Changed");
 		
 		this.initiateDraw();
@@ -1334,6 +1347,30 @@ function mainCtrl(srcImg) {
 			tempVerts.push(this.vertices[i].getClone());
 		}
 		return tempVerts;
+	}
+
+	this.isPointTransparent = function(xVal, yVal) {
+		var result = [0, 0, 0, 0];
+		var tempColor = this.getImageData(xVal, yVal);
+
+		for (var i = 0; i < tempColor.length;i+=4) {
+			result[0] += tempColor[i];
+			result[1] += tempColor[i + 1];
+			result[2] += tempColor[i + 2];
+			result[3] += tempColor[i + 3];
+		}
+		var ptCnt = tempColor.length/4;
+
+		var pointInfo = {};
+		pointInfo.red = ~~ (result[0] / ptCnt);
+		pointInfo.green = ~~ (result[1] / ptCnt);
+		pointInfo.blue = ~~ (result[2] / ptCnt);
+		pointInfo.alpha = ~~ (result[3] / ptCnt);
+
+		console.log(xVal + ' : ' + yVal + " : " + pointInfo.alpha);
+
+		return (pointInfo.alpha);
+
 	}
 
 	this.getImageData = function(xVal, yVal) {
