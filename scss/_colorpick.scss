@@ -206,7 +206,8 @@ colpick Color Picker / colpick.com
 	background: transparent;
 	border: none;
 	font-size: 12px;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: $defaultFont;
+	text-transform: uppercase;
 	color: #555;
 	text-align: right;
 	outline: none;

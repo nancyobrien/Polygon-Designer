@@ -15,6 +15,7 @@ var tempShapeConcentric = 0;
 var tempShapePointsPerSide = 0;
 var customPalette = false;
 var activeTriangle = false;
+var exporting = false;
 
 function initInterface() {
 	if (loadProjectID != '') {hideLoadScreen(); showModal('#loadingMessage');}
@@ -69,6 +70,9 @@ function initInterface() {
 
 
 	$('#svgSaver').click(function(e){
+		exporting = 0;
+		showModal('#exportingMessage');
+
 		saveSVG();
 		savePNG();
 	})
@@ -189,6 +193,7 @@ function initInterface() {
 	$('.show-popup[data-popuptrigger="hover"]').hover(getPopupMenu, function() {});
 	$('.menu[data-popuptype="hover"]').hover(function() {}, hidePopupMenu);
 	$('.context-menu li a').not('[data-popuptrigger="hover"]').hover(hidePopupMenu, function() {});
+	$('.menu').not('[data-popuptype="hover"]').find('li a').not('[data-popuptrigger="hover"]').hover( hidePopupMenu , function() {});
 
 
 	$('#file-image-load').change(function(e) {
@@ -212,7 +217,6 @@ function initInterface() {
 	$('.show-popup').click(getPopupMenu);
 
 	function hidePopupMenu(e) {
-		console.log(' hiding menus');
 		$('.menu[data-popuptype="hover"]').addClass('hide');
 	}
 
@@ -221,9 +225,8 @@ function initInterface() {
 		e.stopPropagation();
 		var isHover = ($(this).data('popuptrigger') === 'hover');
 		var menuType = $(this).data('popupmenu');
-		console.log(menuType + ' checking menus');
+
 		if (!$(menuType).hasClass('hide') && !isHover) {
-			console.log(menuType + ' hiding menus');
 			hideMenus();
 			return;
 		}
@@ -290,6 +293,7 @@ function initInterface() {
 				break; 
 
 		}
+		hidePopupMenu();
 		showPopupMenu(menuType, mousePos, menuPlacement, popClass);
 		var x  =1;
 	}
@@ -1469,6 +1473,7 @@ function loadProjectData() {
 
 function canvasChanged() {
 	$('.js-clear-onchange').empty();
+
 	mainController.clearSelection();
 }
 
@@ -1779,13 +1784,14 @@ function isContextMenuOpen() {
 
 
 function saveSVG() {
+	exporting += 1;
 	var svgData = mainController.generateSVG();
-	$('#SVGDownload').addClass('nohover');
-	$('#SVGDownload').empty();
+	$('.js-svgdownload').addClass('nohover');
+	$('.js-svgdownload').empty();
 	var a = document.createElement('a');
-
-	$(a).html("<img src='/images/loader.gif' />")
-	$('#SVGDownload').append(a);
+	var $a = $(a);
+	$a.html("<img src='/images/loader.gif' />")
+	$('.js-svgdownload').append(a);
 
 	setTimeout(function() {
 		var data = new FormData();
@@ -1798,16 +1804,21 @@ function saveSVG() {
 			processData: false,
 			data: data,
 			success: function (result) {	
-				$(a).attr("href", result);
-				$(a).attr("download", result);
+				exporting -= 1;
+				$a.attr("href", result);
+				$a.attr("download", result);
 				a.target="_blank";
 
-				$(a).html('<span class="tool-icon icon-in"></span> <span class="label">SVG</span>');
-				$('#SVGDownload').removeClass('nohover');
+				$a.html('<span class="tool-icon icon-in"></span> <span class="label">SVG</span>');
+				$('.js-svgdownload').removeClass('nohover');
+				a.click();
+				if (exporting === 0) {closeModal();}
 
 			},
 			error: function () {
-			  errorMessage("There was error creating the svg.");
+				exporting -= 1;
+				if (exporting === 0) {closeModal();}
+				errorMessage("There was error creating the svg.");
 			}
 		});	
 
@@ -1833,17 +1844,22 @@ function uploadPNG() {
 }
 
 function savePNG() {
-	$('#PNGDownload').empty();
+	exporting += 1;
+	$('.js-pngdownload').empty();
 	var a = document.createElement('a');
+	var $a = $(a);
 	a.target="_blank";
-	$(a).html("<img src='/images/loader.gif' />")
-	$('#PNGDownload').append(a);
+	$a.html("<img src='/images/loader.gif' />")
+	$('.js-pngdownload').append(a);
 
 	setTimeout(function() {
 		a.download = "image.png";
 		a.href = mainController.generatePNG();
+		exporting -= 1;
 
-		$(a).html('<span class="tool-icon icon-in"></span> <span class="label">PNG</span>');
+		$a.html('<span class="tool-icon icon-in"></span> <span class="label">PNG</span>');
+		a.click();
+		if (exporting === 0) {closeModal();}
 	}, 500);
 }
 

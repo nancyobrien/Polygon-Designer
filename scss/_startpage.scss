@@ -30,7 +30,7 @@
 }
 
 #wrapper {
-	background:$colorBackground;
+	background:$colorBackground2;
 	padding:0;
 	margin:0;
 	position:absolute;
@@ -52,26 +52,48 @@
 	#intro {
 		width:100%;
 		margin:0;
-		padding:1.5em ;
+		
 		height:100%;
+		
+
 
 		header {
 			width: 100%;
-			text-align:center;
-			margin-top: 3em;
-			h1{
-				color: $color2;
-				font-size:5em;
-				padding:0;
-				//text-shadow: 0px 1px 1px darken($color2, .3);
-				//color: #222;
-				text-shadow: 0px 1px 1px #222;
+			text-align: left;
+			margin: 0 auto;
+			//margin-top: 3em;
+			padding:1em 0;
+			background: $color2 url('/images/red-poly-swatch.jpg') repeat-x;
+
+			.header-content {
+				width: 75%;
+				margin: 0 auto;
+			
+				h1{
+					color: white;
+					font-size: 3em;
+					padding:0;
+					vertical-align: middle;
+					background: url("/images/pg-title.png") no-repeat;
+					text-indent: -9999px;
+
+					/* &:before {
+						content: "";
+						background: url("/images/crown-poly.png") no-repeat;
+						width: 2em;
+						height: 2em;
+						display: inline-block;
+						background-size: contain;
+						vertical-align: middle;
+						margin-right: .25em;
+					} */
+					//text-shadow: 0px 1px 1px #222;
+				}
 			}
 			h2{
-				color: $color2;
-				font-size:1.5em;
-				padding:0;
-				text-shadow: 0px 1px 1px #222;
+				color: white;
+				font-size: 1.0em;
+				//text-shadow: 0px 1px 1px #222;
 			}
 		}
 
@@ -451,19 +473,19 @@
 			}
 		}
 		&.library {
-			header {
+			/*header {
 				text-align: left;
 				margin-top: 0;
-				h1 {
+				 h1 {
 					color: white; 
 					font-size:2.5em;
 				}
 				h2{
 					color: $color2;
 					font-size:.75em;
-				}
+				} 
 				
-			}
+			}*/
 			.imageDropper {
 				display: none;
 			}
@@ -489,7 +511,6 @@
 				margin:0;
 				padding:85px 10px 110px;
 				text-align:center;
-				font-weight:bold;
 				font-size: 1.75em;
 				border:1px dashed #ccc;
 				color: $color3;
@@ -529,14 +550,14 @@
 			float: left;
 
 			.file-uploader {
-				padding: .25em 1.5em;
+				padding: .5em 1.5em;
 				margin-left: -8em;
 				color: transparent;
 				background: transparent;
 				position: relative;
 				cursor: pointer;
 				width: 23em;
-				border: 5px solid transparent;
+				border: 1px solid transparent;
 			}
 
 			#file-image-overlay {
@@ -546,6 +567,7 @@
 				right: 0;
 				pointer-events:none;
 				margin: 0;
+				white-space: nowrap;
 
 
 			}
@@ -554,7 +576,7 @@
 				#file-image-overlay {
 					color: #fdf4f4;
 					background-color: #bb2527;
-					border: 5px solid #c62729;
+					border: 1px solid #c62729;
 				}
 			}
 		}

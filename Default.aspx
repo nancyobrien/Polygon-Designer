@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head runat="server"> 
 	<meta charset="UTF-8" />      
-	<title>Poly-i-nator </title>
+	<title>Polygon Graphics </title>
 	<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
 	<script type="text/javascript">
@@ -24,13 +24,14 @@
 	<script type="text/javascript" src="/js/interfaceController.js"></script>
 	<script type="text/javascript" src="/js/colpick.js"></script>
 
-	<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow:700,400,400italic' rel='stylesheet' type='text/css'>
+	<!-- <link href='http://fonts.googleapis.com/css?family=Archivo+Narrow:700,400,400italic' rel='stylesheet' type='text/css'> -->
+	<link href='https://fonts.googleapis.com/css?family=Gudea:400,400italic,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/jquery-ui.min.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
 </head>
 <body class="loadImage">
 
-	<div class="display-pane open">
+	<div class="display-pane">
 
 		<div class="display-controls">
 			<div id="tool-addPoint2" class="tools display-toggle select-tool  selected tooltip tooltip--right" data-tooltip="Add points mode"  data-toolmode="Add Points"  data-activelayer="#clickLayer"><span class="icon-cursor"></span></div>
@@ -101,34 +102,32 @@
 				</div>
 
 			</div>-->
-			<div class="delete display-block display-static">
-				<div class="display-section display-header">Delete Vertices <span class="display-trigger"></span></div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Delete all vertices"   id="recycler"><span class="tool-icon icon-bin"></span> <span class="label">All Vertices</span></a>									
-				</div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Delete edge vertices" id="recycleEdges"><span class="tool-icon icon-frame"></span> <span class="label">Edge Vertices</span></a> 
-				</div>
-				<div class="display-section toolbar-button">
-					<a href="#" title="Delete grid vertices" id="recycleGrid"><span class="tool-icon icon-ungroup"></span> <span class="label">Grid Vertices</span></a>
-				</div>
+<!-- 			<div class="delete display-block display-static">
+	<div class="display-section display-header">Delete Vertices <span class="display-trigger"></span></div>
+	<div class="display-section toolbar-button">
+		<a href="#" title="Delete all vertices"   id="recycler"><span class="tool-icon icon-bin"></span> <span class="label">All Vertices</span></a>									
+	</div>
+	<div class="display-section toolbar-button">
+		<a href="#" title="Delete edge vertices" id="recycleEdges"><span class="tool-icon icon-frame"></span> <span class="label">Edge Vertices</span></a> 
+	</div>
+	<div class="display-section toolbar-button">
+		<a href="#" title="Delete grid vertices" id="recycleGrid"><span class="tool-icon icon-ungroup"></span> <span class="label">Grid Vertices</span></a>
+	</div>
 
-			</div>
-			<div class="add display-block display-static">
-				<div class="display-section display-header">Add Vertices <span class="display-trigger"></span></div>
-				<div class="display-section">
-					<span class="label">Random:</span><span class="editable-input" contenteditable id="randomVertCount">0</span><a id="randomGenerator" href="#" class="icon-plus-square inline-button icon-button"></a>								
-				</div>
-				<div class="display-section">
-					<span class="label">Grid:</span><span class="editable-input" contenteditable id="gridVertHozCount">0</span>x<span class="editable-input" contenteditable id="gridVertVertCount">0</span><a id="gridVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
-				</div>
-				<div class="display-section">
-					<span class="label">Edge:</span><span class="editable-input" contenteditable id="edgeVertCount">0</span><a id="edgeVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
-				</div>
-				<!-- <div class="display-section">
-					<span class="label">Spiral</span><a id="spiralVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
-				</div> -->
-			</div>
+</div>
+<div class="add display-block display-static">
+	<div class="display-section display-header">Add Vertices <span class="display-trigger"></span></div>
+	<div class="display-section">
+		<span class="label">Random:</span><span class="editable-input" contenteditable id="randomVertCount">0</span><a id="randomGenerator" href="#" class="icon-plus-square inline-button icon-button"></a>								
+	</div>
+	<div class="display-section">
+		<span class="label">Grid:</span><span class="editable-input" contenteditable id="gridVertHozCount">0</span>x<span class="editable-input" contenteditable id="gridVertVertCount">0</span><a id="gridVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
+	</div>
+	<div class="display-section">
+		<span class="label">Edge:</span><span class="editable-input" contenteditable id="edgeVertCount">0</span><a id="edgeVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
+	</div>
+
+</div> -->
 
 			<!-- <div class="upload display-block display-static">
 				<div class="display-section display-header">Save / Load <span class="display-trigger"></span></div>
@@ -143,7 +142,7 @@
 
 		</div>
 	</div>	
-	<div id="canvasContainer" class="open">
+	<div id="canvasContainer">
 
 		<div class="menus">
 			<div class="menu context-menu context-menu--vertex hide" id="vertexMenu">
@@ -247,13 +246,13 @@
 			<div class="status-section toolbar-button">
 				<a href="#" title="Export to SVG" id="svgSaver"><span class="tool-icon icon-cloud-download"></span> <span class="label">Export Image</span></a>
 			</div>-->
-			<div class="status-section download-button toolbar-button js-clear-onchange" id="SVGDownload">
+			<!-- <div class="status-section download-button toolbar-button js-clear-onchange js-svgdownload" id="SVGDownload">
 				
 			</div>
-
-			<div class="status-section download-button toolbar-button js-clear-onchange" id="PNGDownload">
+			
+			<div class="status-section download-button toolbar-button js-clear-onchange js-pngdownload" id="PNGDownload">
 				
-			</div>
+			</div> -->
 
 			<!-- <div class="status-section toolbar-button">
 				<a href="#" title="Share" id="shareImage"><span class="icon-share"></span> <span class="label">Share this image</span> </a>
@@ -272,6 +271,7 @@
 	</div>
 
 	<div id="menuBar" class="menu-bar">
+
 		<div class="status-content">
 			<div class="status-section show-popup" data-popupmenu="#fileMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left">
 				<span class="label">File</span>
@@ -279,6 +279,10 @@
 			</div>
 			<div class="status-section show-popup" data-popupmenu="#settingsMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left">
 				<span class="label">Settings</span>
+				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
+			</div>
+			<div class="status-section show-popup" data-popupmenu="#addDeleteMenu" data-popuppositionv="bottom-tight" data-popuppositionh="left">
+				<span class="label">Add/Delete</span>
 				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
 			</div>
 
@@ -297,8 +301,34 @@
 				<span class="label">Help</span>
 				<!-- <span class="popup-indicator icon-arrow-down"></span> -->
 			</div>
+			<div class="status-section download-button toolbar-button js-clear-onchange js-svgdownload" id="SVGDownloadx">
+				<span class="label">SVG</span>
+			</div>
+
+			<div class="status-section download-button toolbar-button js-clear-onchange js-pngdownload" id="PNGDownloadx">
+				<span class="label">PNG</span>
+			</div>
+
+
 
 		</div>
+
+		<div class="login-status">
+			<a class="button login-button" href="#">Signed In</a>
+			<div class="info--user-container">
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+				<div class="info---user">
+					<span id="userProfileImage" class="user-info"><img src="https://lh4.googleusercontent.com/-uT4MOYY99LA/AAAAAAAAAAI/AAAAAAAAAAw/lbpGtOWcz6A/s96-c/photo.jpg"></span>
+					<span class="user-info-container">
+						<div id="userName" class="user-info">Polygon SoMuch</div>
+						<div id="userEmail" class="user-info">somuchpolygons@gmail.com</div>
+						<div id="signout"><a id="signout-button" href="#">Sign out</a></div>
+					</span>
+
+				</div>
+			</div>		
+		</div>
+
 
 	</div>
 
@@ -367,6 +397,48 @@
 
 			</ul>
 		</div>
+		<div class="menu popup-menu--settings hide" id="addDeleteMenu">
+			<ul>
+				<li>
+					<a href="#" class="showAdvancedSettings show-popup" data-popupmenu="#addOptionsMenu" data-popuptrigger="hover" data-popuppositionv="top-offset" data-popuppositionh="right-tight">Add Vertices <span class="icon-arrow-right2 right-align"></span></a>
+				</li>
+				<li>
+					<a href="#" class="showAdvancedSettings show-popup" data-popupmenu="#deleteOptionsMenu" data-popuptrigger="hover" data-popuppositionv="top-offset" data-popuppositionh="right-tight">Delete Vertices <span class="icon-arrow-right2 right-align"></span></a>
+				</li>
+
+
+			</ul>
+		</div>
+		<div class="menu popup-menu--addOptions hide" id="addOptionsMenu" data-popuptype='hover'>
+			<ul >
+				<li>
+					<span class="label">Random:</span><span class="editable-input" contenteditable id="randomVertCount">0</span><a id="randomGenerator" href="#" class="icon-plus-square inline-button icon-button"></a>								
+				</li>
+				<li>
+					<span class="label">Grid:</span><span class="editable-input" contenteditable id="gridVertHozCount">0</span>x<span class="editable-input" contenteditable id="gridVertVertCount">0</span><a id="gridVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
+				</li>
+				<li>
+					<span class="label">Edge:</span><span class="editable-input" contenteditable id="edgeVertCount">0</span><a id="edgeVertices" href="#" class="icon-plus-square inline-button icon-button"></a>								
+				</li>
+
+			</ul>
+		</div>
+		<div class="menu popup-menu--deleteOptions hide" id="deleteOptionsMenu" data-popuptype='hover'>
+			<ul >
+				<li>
+					<a href="#" title="Delete all vertices"   id="recycler"><span class="tool-icon icon-bin"></span> <span class="label">All Vertices</span></a>									
+				</li>
+				<li>
+					<a href="#" title="Delete edge vertices" id="recycleEdges"><span class="tool-icon icon-frame"></span> <span class="label">Edge Vertices</span></a> 
+				</li>
+				<li>
+					<a href="#" title="Delete grid vertices" id="recycleGrid"><span class="tool-icon icon-ungroup"></span> <span class="label">Grid Vertices</span></a>
+				</li>
+
+			</ul>
+		</div>
+
+
 		<div class="menu popup-menu--settings hide" id="settingsMenu">
 			<ul>
 				<li>
@@ -497,8 +569,9 @@
 	<div id="wrapper">
 		<div id="intro"> 
 			<header>
-				<h1>Poly-i-nator</h1>
-				<h2>Create works of geo-art</h2>
+				<div class="header-content">
+					<h1>Polygon.Graphics</h1>
+				</div>
 			</header>
 			<div class="container imageDropper">
 				<div class="container-content">
@@ -541,6 +614,13 @@
 		<div class="modal modal--small" id="loadingMessage">
 			<div class="title">Loading Project</div>
 			<div class="message">Loading <img src='/images/loader-lightback.gif' /></div>
+		</div>
+	</div>
+
+	<div class="modal-background modal-dark">
+		<div class="modal modal--small" id="exportingMessage">
+			<div class="title">Exporting Images</div>
+			<div class="message">Exporting <img src='/images/loader-lightback.gif' /></div>
 		</div>
 	</div>
 
@@ -958,7 +1038,7 @@
 	<script type="text/template" id="color-swatch-template">
 		<div class="modal-control customColorSwatch" >
 			<span class="colorSwatch colorSwatchTrigger" style="background-color:{color}"></span>
-			<input type="text" maxlength="6"  class="colorCode colorSwatchTrigger" value="{color}"/>
+			<input type="text" maxlength="7"  class="colorCode colorSwatchTrigger" spellcheck=false value="{color}"/>
 			<input type="number" min="0" max="1"   step=".1" class="colorWeighting" value="{weighting}"/>
 			
 		</div>

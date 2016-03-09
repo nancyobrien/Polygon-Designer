@@ -1,7 +1,7 @@
 .tooltip {
 	display: inline;
 	position: relative;
-	font-family: 'Archivo Narrow', sans-serif;
+	font-family: $defaultFont;
 
 	&:hover {
 		&:after {
@@ -16,8 +16,8 @@
 			position: absolute;
 			z-index: 998;
 			width: auto;
-			font-family: 'Archivo Narrow', sans-serif;
-			font-size: 80%;
+			font-family: $defaultFont;
+			font-size: 70%;
 			min-width: 50px;
 			@include box-shadow(1px 1px 1px 0px rgba(204,204,204,0.5));
 			white-space: nowrap;

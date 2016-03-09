@@ -6,13 +6,18 @@
 	width: 100%;
 	top: 0;
 	padding: 0;
-	background: #ccc;
+	background: #ddd;
 
 	.status-section {
 		display: inline-block; 
 		padding: 0.5rem 1rem;
 		border-right: 1px dotted #eee;
 		height: $statusBarHeight;
+
+		&:hover {
+			background:#eee; 
+			border-right: 1px solid $color2;
+		}
 
 		&.open {
 			background:#ffffff;
@@ -39,7 +44,7 @@
 
 		.stat-num-points {
 			display: inline-block;
-			min-width: 2.3em;
+			min-width: 2.3em; 
 			text-align: right;
 		}
 
@@ -48,18 +53,119 @@
 		}
 
 		&.download-button {
-			border: none;
-			padding: 0;
+			//border: none;
+			//padding: 0;
 			text-align: center;
+			height: auto;
+			max-height: $statusBarHeight;
+	
+			&:empty {
+				display: none;
+			}
+
 			a {
 				display: inline-block;
 				
 				width: 100px;
-				padding: 1rem;
-				border-right: 1px dotted #eee;
+				//padding: 1rem;
+				//border-right: 1px dotted #eee;
+			}
+		}
+	}
+
+	.login-status {
+		position: absolute;
+		right: 0.5em;
+		top: -3px;
+		z-index: 100;
+		.login-button {
+			margin: 0;
+			border-width: 1px;
+			font-size: 1em;
+			padding-top: 0.5em;
+			line-height: 1em;
+			vertical-align: middle;
+		}
+
+		&:hover {
+			.info--user-container {
+				display: block;
 			}
 		}
 	}
 
 
+	.info--user-container {
+		display: none; 
+		.info---user {
+			display: block;
+		}
+		.g-signin2 {
+			display: none;
+			margin: 0px auto;
+			width: 120px;
+			vertical-align: middle;
+			margin-top: 1.5em;
+		}
+
+		min-width: 320px;
+		min-height: 125px;
+
+		position: absolute;
+		right: 0;
+		top: 2em;
+		background: #fcfcfc;
+		padding: 1em 1.5em;
+		border: 4px solid $color2;
+		border-radius: 10px 0 10px 10px;
+		z-index: 10;
+
+
+		#userProfileImage {
+			background: white;
+			border: 1px solid $color2;
+			border-radius: 9em;
+			display: inline-block;
+			vertical-align: middle;
+			text-align: center;
+			padding: 1em;
+			margin-right: .75em;
+			img {
+				width: 4em;
+				height: 4em;
+				display: block;
+
+			}		
+		} 
+
+		.user-info-container {
+			display: inline-block;
+			vertical-align: middle;
+			width: 170px;
+
+			#userEmail {
+				font-style: italic;
+				font-size: 1em;
+				word-wrap: break-word;
+			}
+
+			#signout  {
+				margin-top: .5em;
+				a {
+					text-decoration: none;
+					padding: .25em 1em;
+					background-color: $color2;
+					color: white;
+					margin-top: .25em;
+					border-radius: 20px;
+					border: 1px solid $color2;
+					font-size: 0.8em;
+					line-height: 1.5em;
+					display: inline-block;
+				}
+			}
+		}
+
+
+	}
 }

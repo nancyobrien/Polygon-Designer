@@ -49,6 +49,7 @@
 	    margin-top: 10%;
 	    position: relative;
 	    z-index: 1010;
+	    border-radius: 0 0 10px 10px;
 	    /* max-height: 70%; */ 
 
 
@@ -155,8 +156,10 @@
 	    			border: 1px solid $colorBackground2;
 	    			color: $colorBackground2;
 	    			text-align: center;
+	    			font-family: $defaultFont;
 	    			&.colorCode {
 	    				width:60%;
+	    				text-transform: uppercase;
 	    			}
 	    			&.colorWeighting{
 	    				width:34%;

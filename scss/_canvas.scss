@@ -19,13 +19,14 @@ canvas {
 	bottom: $statusBarHeight;
 	top: $statusBarHeight;
 	left: 4rem;
-	right: $tabContentWidth;
+	right: 0; 
 	display: block;
 	overflow: auto;
 	@include transition(transform 250ms ease-out);
 
 	&.open {
 		@include translateX($tabContentWidth);
+		right: $tabContentWidth;
 	}
 
 	canvas {

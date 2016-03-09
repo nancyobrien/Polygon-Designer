@@ -12,7 +12,8 @@
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
-	list-style: none;    
+	list-style: none;  
+	border-radius: 0 0 5px 5px;  
 
 	@include box-shadow(2px 3px 2px 3px rgba(220,44,46,0.25));
 	//border: 1px solid $colorBorder2;
@@ -103,7 +104,26 @@
 	}
 
 	&.popup-menu--advancedSettings {
+		border-radius: 0 5px 5px 5px;  
 
+		li {
+			&:first-of-type {
+				a{
+					border-radius: 0 5px 0 0;
+				}
+			}
+		}
+	}
+
+	&.popup-menu--addOptions {
+		li {
+		    padding: .5em .5em;
+		    display: block;
+
+		    a {
+		    	display: inline;
+		    }
+		}
 	}
 
 	&.popup-menu--customColors{
@@ -209,6 +229,7 @@
 		&:last-of-type {
 			a{
 				border-bottom: none;
+				border-radius: 0 0 5px 5px;
 			}
 		}
 	}

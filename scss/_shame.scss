@@ -52,12 +52,11 @@ body {
     overflow: hidden;
     color:#000;
     font-weight:normal;
-    font-family: 'Archivo Narrow', sans-serif;
+    font-family: $defaultFont;
     font-size:14px;
     padding:0;
     margin:0;
     background:$colorBackground3;
-    font-family: 'Archivo Narrow', sans-serif;
     position:absolute;
     top: 0;
     bottom: 0;
@@ -81,7 +80,7 @@ h1 {
 }
 
 em {
-    font-family: 'Archivo Narrow', sans-serif;
+    font-family: $defaultFont;
     font-style: italic;
 }
 footer {
